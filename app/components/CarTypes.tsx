@@ -1,29 +1,34 @@
-'use client'
+"use client";
 
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Autoplay } from 'swiper/modules'
-import Image from 'next/image'
-import Link from 'next/link'
+import Image from "next/image";
+import Link from "next/link";
+import { Autoplay } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
-import 'swiper/css'
+import "swiper/css";
 
 const carTypes = [
-  { name: 'luxury', label: 'لوکس', image: '/images/gallery/luxury-car.png' },
-  { name: 'sedan', label: 'سدان', image: '/images/gallery/sedan-car.png' },
-  { name: 'truck', label: 'کامیون', image: '/images/gallery/truck.png' },
-  { name: 'convertible', label: 'کابریولت', image: '/images/gallery/convertiibel-car.png' },
-  { name: 'hybrid', label: 'هایبرید', image: '/images/gallery/hybrid-car.png' },
-  { name: 'suv', label: 'شاسی بلند', image: '/images/gallery/suv-car.png' },
-]
+  { name: "luxury", label: "luxury", image: "/images/gallery/luxury-car.png" },
+  { name: "sedan", label: "sedan", image: "/images/gallery/sedan-car.png" },
+  { name: "truck", label: "truck", image: "/images/gallery/truck.png" },
+  {
+    name: "convertible",
+    label: "convertible",
+    image: "/images/gallery/convertiibel-car.png",
+  },
+  { name: "hybrid", label: "hybrid", image: "/images/gallery/hybrid-car.png" },
+  { name: "suv", label: "suv", image: "/images/gallery/suv-car.png" },
+];
 
 export default function CarTypes() {
   return (
-    <div className="mb-16 typeCar_wrap bg-cover bg-center py-12" 
-         style={{ backgroundImage: "url('/images/gallery/bg00.png')" }}>
-      <div className="container mx-auto px-4">
+    <div className="mb-16  bg-cover bg-center">
+      <div className=" mx-auto px-4 typeCar_wrap">
         <div className="section_title mb-10">
           <div className="titleBox pink_Highlight">
-            <h3 className="text-2xl font-bold">انتخاب نوع خودرو</h3>
+            <h3 className="!text-[#292929] inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ffd6db]">
+              انتخاب نوع خودرو
+            </h3>
           </div>
         </div>
 
@@ -43,27 +48,26 @@ export default function CarTypes() {
           {carTypes.map((car) => (
             <SwiperSlide key={car.name}>
               <div className="type_box text-center group">
-                <Link href="#" className="block">
-                  <div className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 group-hover:scale-105">
-                    <div className="mb-4">
-                      <Image
+                <Link href="#" className="flex flex-col items-center">
+                  <div className=" p-2 duration-300">
+                    <div className="">
+                      <img
                         src={car.image}
                         alt={car.label}
-                        width={80}
-                        height={80}
-                        className="mx-auto group-hover:scale-110 transition-transform"
+                        
+                        className="mx-auto object-contain"
                       />
                     </div>
-                    <h4 className="text-gray-800 font-semibold group-hover:text-red-600 transition-colors">
-                      {car.label}
-                    </h4>
                   </div>
                 </Link>
+                  <div className="text-gray-800 font-semibold group-hover:text-red-600">
+                    {car.label}
+                  </div>
               </div>
             </SwiperSlide>
           ))}
         </Swiper>
       </div>
     </div>
-  )
+  );
 }

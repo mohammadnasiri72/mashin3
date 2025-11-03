@@ -17,7 +17,7 @@ const slides = [
   },
   {
     id: 2,
-    image: "/images/gallery/main-slider-1.jpg",
+    image: "/images/gallery/auto-2.jpg",
     title: "واردات غول ژاپنی به ایران",
     buttonText: "نمایش بیشتر",
   },
@@ -32,7 +32,7 @@ const slides = [
 export default function HeroSlider() {
   return (
     <div className="mb-8">
-      <div className="container mx-auto px-4">
+      <div className="mx-auto px-4">
         <div className="main-slider rounded-2xl overflow-hidden relative">
           <Swiper
             modules={[Autoplay, Navigation]}
@@ -43,28 +43,28 @@ export default function HeroSlider() {
               disableOnInteraction: false,
             }}
             loop={true}
-            className="h-[400px] md:h-[400px] rounded-2xl"
+            className="h-[400px] rounded-2xl"
           >
             {slides.map((slide) => (
               <SwiperSlide key={slide.id}>
-                <div className="relative w-full h-full bg-amber-700">
+                <div className="relative w-full h-full">
                   <img
-                    src="/images/gallery/main-slider-1.jpg"
+                    src={slide.image}
                     alt={slide.title}
-                    className="object-cover h-full"
+                    className="object-cover w-full h-full"
                   />
 
                   {/* Content Overlay */}
                   <div className="absolute sm:right-8 right-2 top-1/2 transform -translate-y-1/2 z-10">
-                    <div className="bg-[#e72b3bd3] !bg-opacity-50 p-6  rounded-2xl max-w-56 !backdrop-blur-sm">
-                      <div className="inner-content">
-                        <h2 className="!text-white text-2xl md:text-3xl font-bold mb-4 leading-tight">
+                    <div className="bg-[#e72b3bd3] !bg-opacity-50 p-6  rounded-2xl max-w-[21rem] !backdrop-blur-sm">
+                      <div className="">
+                        <h2 className="!text-white !text-[2.5rem] md:text-3xl font-bold mb-4 leading-tight">
                           {slide.title}
                         </h2>
                         <Button
-                          type="primary"
-                          size="middle"
-                          className="!bg-white !text-red-600 border-none font-semibold h-12 px-6 mt-2 hover:!bg-yellow-600 hover:!text-white"
+                          type="link"
+                          size="large"
+                          className="bg-transparent !text-white border-none font-semibold h-12 px-6 mt-2 hover:!bg-yellow-600"
                         >
                           {slide.buttonText}
                         </Button>

@@ -1,7 +1,7 @@
-import { CalendarOutlined, MessageOutlined } from "@ant-design/icons";
-import { Card, Col, Row, Tag } from "antd";
+import { Card } from "antd";
 import Image from "next/image";
 import Link from "next/link";
+import { FaCalendar } from "react-icons/fa";
 
 const newsItems = [
   {
@@ -39,140 +39,115 @@ const specialSales = [
 export default function NewsSection() {
   return (
     <div className="mb-12">
-      <div className="container mx-auto px-4">
-        <Row gutter={[24, 24]}>
-          {/* Latest News */}
-          <Col xs={24} lg={16}>
-            <Row gutter={[16, 16]}>
-              <Col xs={24} md={16}>
-                <div className="section_title mb-6">
-                  <div className="titleBox pink_Highlight">
-                    <h3 className="text-xl font-bold">آخرین اخبار</h3>
-                  </div>
-                </div>
-
-                <Row gutter={[16, 16]}>
-                  {newsItems.map((item) => (
-                    <Col xs={24} md={12} key={item.id}>
-                      <Card
-                        hoverable
-                        className="news-card rounded-2xl overflow-hidden border-none shadow-sm hover:shadow-md transition-shadow"
-                        cover={
-                          <div className="relative h-48 overflow-hidden">
-                            <Image
-                              src={item.image}
-                              alt={item.title}
-                              fill
-                              className="object-cover transition-transform hover:scale-105"
-                            />
-                            <div className="absolute bottom-0 right-0 left-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                              <Tag
-                                color="red"
-                                className="border-none font-semibold"
-                              >
-                                <Link href="#" className="text-white">
-                                  {item.title}
-                                </Link>
-                              </Tag>
-                            </div>
-                          </div>
-                        }
-                        bodyStyle={{ padding: "1rem" }}
-                      >
-                        <div className="flex justify-between items-center text-gray-500 text-sm">
-                          <span>
-                            <CalendarOutlined className="ml-1" />
-                            {item.date}
-                          </span>
-                          <span>
-                            <MessageOutlined className="ml-1" />
-                            بدون دیدگاه
-                          </span>
-                        </div>
-                      </Card>
-                    </Col>
-                  ))}
-                </Row>
-              </Col>
-
-              {/* Latest Comparison */}
-              <Col xs={24} md={8}>
-                <div className="section_title mb-6">
-                  <div className="titleBox pink_Highlight">
-                    <h3 className="text-xl font-bold">آخرین مقایسه</h3>
-                  </div>
-                </div>
-
-                {comparisonItems.map((item) => (
+      <div className="mx-auto px-4">
+        <div className="flex flex-wrap">
+          <div className="lg:w-1/2 w-full">
+            <div className="section_title mb-6">
+              <div className="!text-[#292929] inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ffd6db]">
+                <h3 className="text-[22px] font-bold after:bg-[#ffd6db]">
+                  آخرین اخبار
+                </h3>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center">
+              {newsItems.map((item) => (
+                <div key={item.id} className="sm:w-1/2 w-full sm:px-2 pb-2">
                   <Card
-                    key={item.id}
                     hoverable
-                    className="rounded-2xl overflow-hidden border-none shadow-sm hover:shadow-md transition-shadow mb-4"
+                    className=" !rounded-3xl h-64 overflow-hidden border-none shadow-sm group"
                     cover={
-                      <div className="relative h-48 overflow-hidden">
+                      <div className="relative h-64 overflow-hidden">
                         <Image
                           src={item.image}
                           alt={item.title}
                           fill
-                          className="object-cover transition-transform hover:scale-105"
+                          className="object-cover h-full group-hover:brightness-75 duration-300"
                         />
-                        <div className="absolute bottom-0 right-0 left-0 bg-gradient-to-t from-black/70 to-transparent p-4">
-                          <Tag
-                            color="red"
-                            className="border-none font-semibold"
-                          >
-                            <Link href="#" className="text-white">
-                              {item.title}
-                            </Link>
-                          </Tag>
+                        <div className="absolute !font-bold bottom-0 right-0 left-0 bg-gradient-to-t from-black/70 to-transparent p-4">
+                          <span className="!text-white inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#292929]">
+                            {item.title}
+                          </span>
+                        </div>
+                        <div className="absolute top-3 left-3">
+                          <div className="!text-white flex items-center gap-1 text-[10px]">
+                            <FaCalendar className="" />
+                            {item.date}
+                          </div>
                         </div>
                       </div>
                     }
-                    bodyStyle={{ padding: "1rem" }}
-                  >
-                    <div className="flex justify-between items-center text-gray-500 text-sm">
-                      <span>
-                        <CalendarOutlined className="ml-1" />
-                        {item.date}
-                      </span>
-                    </div>
-                  </Card>
-                ))}
-              </Col>
-            </Row>
-          </Col>
-
-          {/* Special Sales */}
-          <Col xs={24} lg={8}>
+                  ></Card>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="lg:w-1/4 w-full">
             <div className="section_title mb-6">
-              <div className="titleBox pink_Highlight">
+              <div className="!text-[#292929] inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ffd6db]">
+                <h3 className="text-[22px] font-bold after:bg-[#ffd6db]">
+                  آخرین مقایسه
+                </h3>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center">
+              {comparisonItems.map((item) => (
+                <div key={item.id} className="w-full pb-2">
+                  <Card
+                    hoverable
+                    className=" !rounded-3xl h-64 overflow-hidden border-none shadow-sm group"
+                    cover={
+                      <div className="relative h-64 overflow-hidden">
+                        <Image
+                          src={item.image}
+                          alt={item.title}
+                          fill
+                          className="object-cover h-full group-hover:brightness-75 duration-300"
+                        />
+                        <div className="absolute bottom-0 right-0 left-0 bg-gradient-to-t from-black/70 to-transparent p-4 !font-bold">
+                          <span className="!text-white inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ce1a2a]">
+                            {item.title}
+                          </span>
+                        </div>
+                        <div className="absolute top-3 left-3">
+                          <div className="!text-white flex items-center gap-1 text-[10px]">
+                            <FaCalendar className="" />
+                            {item.date}
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  ></Card>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="lg:w-1/4 w-full">
+            <div className="section_title mb-6">
+              <div className="!text-[#292929] inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ffd6db]">
                 <h3 className="text-xl font-bold">فروش ویژه</h3>
               </div>
             </div>
-
-            <Card className="rounded-2xl border-none shadow-sm">
+            <div className="h-64 px-2">
               <div className="space-y-3">
                 {specialSales.map((sale, index) => (
                   <div
                     key={index}
-                    className={`p-4 rounded-lg transition-all cursor-pointer hover:bg-red-50 border-r-2 ${
-                      index === 0
-                        ? "bg-red-50 border-red-600"
-                        : "bg-gray-50 border-transparent hover:border-red-600"
+                    className={`p-4 rounded-sm group transition-all cursor-pointer bg-white hover:bg-[#ce1a2a] hover:!text-white border-r-2 duration-300 ${
+                      index === 0 ? " border-[#ce1a2a]" : " border-transparent "
                     }`}
                   >
                     <Link
                       href="#"
-                      className="text-gray-700 hover:text-red-600 font-medium block"
+                      className="!text-[#292929] duration-300 group-hover:!text-white font-medium block"
                     >
                       {sale}
                     </Link>
                   </div>
                 ))}
               </div>
-            </Card>
-          </Col>
-        </Row>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

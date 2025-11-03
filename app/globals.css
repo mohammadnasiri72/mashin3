@@ -48,7 +48,6 @@
     url("../public/fonts/woff2/Ravi-Black.woff2") format("woff2");
 }
 
-
 body {
   direction: rtl !important;
   font-family: Ravi !important;
@@ -102,4 +101,80 @@ h6 {
   margin: 0;
   background: none;
   line-height: 1.4em;
+}
+.typeCar_wrap {
+  background-image: url("./../public/images/gallery/bg00.png");
+  background-repeat: repeat-x;
+  background-position: center 20px;
+}
+
+
+
+
+.holographic-effect {
+  position: relative;
+  overflow: hidden;
+}
+.holographic-effect::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 45%,
+    rgba(255, 255, 255, 0.5) 50%,
+    rgba(255, 255, 255, 0.1) 55%,
+    transparent 100%
+  );
+  transform: rotate(45deg);
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+.newsBox:hover .holographic-effect::before {
+  opacity: 1;
+  animation: holographic 2s linear infinite;
+}
+@keyframes holographic {
+  0% {
+    transform: rotate(45deg) translateY(-100%);
+  }
+  100% {
+    transform: rotate(45deg) translateY(100%);
+  }
+}
+
+
+.button-wave-1 {
+  position: relative;
+  overflow: hidden;
+}
+.button-wave-1::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: var(--color-1);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+.button-wave-1:hover::after {
+  animation: wave-1 0.6s ease-out;
+}
+@keyframes wave-1 {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(20, 20);
+    opacity: 0;
+  }
 }
