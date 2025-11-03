@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+:root {
+  --color-1: #ce1a2a;
+  --color-1-light: #ff808c;
+  --color-2: #18d1be;
+  --color-3: #b6ede8;
+  --color-4: #40768c;
+  --form-control-color: red;
+}
+@font-face {
+  font-family: Ravi;
+  font-style: normal;
+  font-weight: normal;
+  src: url("../public/fonts/woff/Ravi-Regular.woff") format("woff"),
+    url("../public/fonts/woff2/Ravi-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: Ravi;
+  font-style: normal;
+  font-weight: 500;
+  src: url("../public/fonts/woff/Ravi-Medium.woff") format("woff"),
+    url("../public/fonts/woff2/Ravi-Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: Ravi;
+  font-style: normal;
+  font-weight: 600;
+  src: url("../public/fonts/woff/Ravi-SemiBold.woff") format("woff"),
+    url("../public/fonts/woff2/Ravi-SemiBold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: Ravi;
+  font-style: normal;
+  font-weight: bold;
+  src: url("../public/fonts/woff/Ravi-Bold.woff") format("woff"),
+    url("../public/fonts/woff2/Ravi-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: Ravi;
+  font-style: normal;
+  font-weight: 900;
+  src: url("../public/fonts/woff/Ravi-Black.woff") format("woff"),
+    url("../public/fonts/woff2/Ravi-Black.woff2") format("woff2");
+}
+
+
+body {
+  direction: rtl !important;
+  font-family: Ravi !important;
+  color: #656565;
+  background-color: #f4f4f4;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 23px;
+  overflow-x: hidden;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+textarea {
+  font-family: Ravi !important;
+  color: #000000;
+}
+h1 {
+  font-weight: bold;
+}
+p {
+  margin-bottom: 0 !important;
+}
+a {
+  color: #132447;
+  text-decoration: none;
+  cursor: pointer;
+}
+.persian_number {
+  font-family: "YekanPersianNum";
+}
+a:hover,
+a:focus,
+a:visited {
+  text-decoration: none;
+  outline: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  position: relative;
+  font-weight: bold;
+  margin: 0;
+  background: none;
+  line-height: 1.4em;
+}
