@@ -1,6 +1,5 @@
 "use client";
 
-import { Button } from "antd";
 import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -17,7 +16,7 @@ const slides = [
   },
   {
     id: 2,
-    image: "/images/gallery/auto-2.jpg",
+    image: "/images/gallery/main-slider-1.jpg",
     title: "واردات غول ژاپنی به ایران",
     buttonText: "نمایش بیشتر",
   },
@@ -43,7 +42,7 @@ export default function HeroSlider() {
               disableOnInteraction: false,
             }}
             loop={true}
-            className="h-[400px] rounded-2xl"
+            className="rounded-2xl"
           >
             {slides.map((slide) => (
               <SwiperSlide key={slide.id}>
@@ -51,23 +50,23 @@ export default function HeroSlider() {
                   <img
                     src={slide.image}
                     alt={slide.title}
-                    className="object-cover w-full h-full"
+                    className="object-contain w-full h-auto"
                   />
 
                   {/* Content Overlay */}
                   <div className="absolute sm:right-8 right-2 top-1/2 transform -translate-y-1/2 z-10">
-                    <div className="bg-[#e72b3bd3] !bg-opacity-50 p-6  rounded-2xl max-w-[21rem] !backdrop-blur-sm">
+                    <div className="bg-[#e72b3bd3] !bg-opacity-50 md:p-6 p-2  rounded-2xl max-w-[21rem] !backdrop-blur-sm">
                       <div className="">
-                        <h2 className="!text-white !text-[2.5rem] md:text-3xl font-bold mb-4 leading-tight">
+                        <h2 className="!text-white md:!text-[2.5rem] font-bold mb-4 leading-tight">
                           {slide.title}
                         </h2>
-                        <Button
-                          type="link"
-                          size="large"
-                          className="bg-transparent !text-white border-none font-semibold h-12 px-6 mt-2 hover:!bg-yellow-600"
-                        >
-                          {slide.buttonText}
-                        </Button>
+                        <button className="!text-white px-3 py-1 relative cursor-pointer group md:!text-xl !text-xs">
+                          <span className="z-10 relative">
+                            {" "}
+                            {slide.buttonText}
+                          </span>
+                          <div className="absolute left-0 right-0 top-0 bottom-full bg-[#f0b542] group-hover:bottom-0 duration-300"></div>
+                        </button>
                       </div>
                     </div>
                   </div>

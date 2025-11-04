@@ -76,19 +76,11 @@ const PopularCarsSection = ({
       <div className="mx-auto px-4">
         {/* هدر بخش */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
-          <div className="relative">
-            {/* <div className="relative z-10 bg-transparent pr-3">
-              <h3 className="text-2xl text-gray-900 font-bold">پربازدید ترین خودرو ها</h3>
-            </div> */}
-            <div className="titleBox pink_Highlight">
-              <h3 className="!text-[#292929] inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ffd6db]">
-                پربازدید ترین خودرو ها
-              </h3>
-            </div>
-            <div
-              className="absolute right-0 left-0 bottom-0 h-1/2 bg-pink-200 z-0"
-              aria-hidden="true"
-            />
+          
+           <div className="titleBox pink_Highlight">
+            <h3 className="!text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ffd6db]">
+               پربازدید ترین خودرو ها
+            </h3>
           </div>
 
           <Link
@@ -104,19 +96,24 @@ const PopularCarsSection = ({
         <Swiper
           modules={[Autoplay]}
           spaceBetween={16}
-          slidesPerView={2}
+          slidesPerView={1.5}
+          centeredSlides={true}
           breakpoints={{
             640: {
               slidesPerView: 3,
+              centeredSlides: true,
             },
             768: {
               slidesPerView: 4,
+              centeredSlides: false,
             },
             1024: {
               slidesPerView: 5,
+              centeredSlides: false,
             },
             1280: {
               slidesPerView: 6,
+              centeredSlides: false,
             },
           }}
           autoplay={{

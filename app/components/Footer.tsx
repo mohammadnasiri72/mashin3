@@ -1,145 +1,249 @@
-import { Row, Col, Space } from 'antd'
-import Image from 'next/image'
-import Link from 'next/link'
+import Image from "next/image";
+import Link from "next/link";
 
-const quickLinks = {
-  'دسترسی سریع': [
-    'درباره ما',
-    'تماس با ما',
-    'خودرویاب',
-    'بهترین انتخاب',
-    'کدومو بخرم',
-    'راهنمای خرید'
-  ],
-  'برندها': [
-    'تویوتا',
-    'هوندا',
-    'رنو',
-    'هیوندای',
-    'کیا',
-    'جک'
-  ],
-  'برندهای خارجی': [
-    'بنز',
-    'ب ام و',
-    'ام جی MG',
-    'ام وی ام MVM',
-    'جیلی',
-    'لکسوس'
-  ]
+interface FooterLink {
+  href: string;
+  text: string;
 }
 
-const socialMedias = [
-  { name: 'telegram', icon: '/images/icons/telegram.png' },
-  { name: 'instagram', icon: '/images/icons/Instagram.png' },
-  { name: 'youtube', icon: '/images/icons/YouTube.png' },
-  { name: 'twitter', icon: '/images/icons/x-social-media.png' },
-  { name: 'google-plus', icon: '/images/icons/Google_Plus.png' },
-  { name: 'aparat', icon: '/images/icons/Aparat.png' },
-  { name: 'facebook', icon: '/images/icons/Facebook.png' }
-]
+interface SocialMedia {
+  href: string;
+  icon: string;
+  alt: string;
+}
 
-export default function Footer() {
+interface FooterProps {
+  quickLinks?: {
+    column1: FooterLink[];
+    column2: FooterLink[];
+    column3: FooterLink[];
+  };
+  socialMedias?: SocialMedia[];
+}
+
+const Footer = ({
+  quickLinks = {
+    column1: [
+      { href: "#", text: "درباره ما" },
+      { href: "#", text: "تماس با ما" },
+      { href: "#", text: "خودرویاب" },
+      { href: "#", text: "بهترین انتخاب" },
+      { href: "#", text: "کدومو بخرم" },
+      { href: "#", text: "راهنمای خرید" },
+      { href: "#", text: "نکات آموزشی خودرو" },
+      { href: "#", text: "فیلم تست و بررسی خودرو" },
+    ],
+    column2: [
+      { href: "#", text: "واژگان فنی" },
+      { href: "#", text: "نمایندگی ها" },
+      { href: "#", text: "نظر سنجی" },
+      { href: "#", text: "تویوتا" },
+      { href: "#", text: "هوندا" },
+      { href: "#", text: "رنو" },
+      { href: "#", text: "هیوندای" },
+      { href: "#", text: "قیمت موتور سیکلت" },
+    ],
+    column3: [
+      { href: "#", text: "کیا" },
+      { href: "#", text: "جک" },
+      { href: "#", text: "جیلی" },
+      { href: "#", text: "بنز" },
+      { href: "#", text: "ب ام و" },
+      { href: "#", text: "ام جی MG" },
+      { href: "#", text: "ام وی ام MVM" },
+    ],
+  },
+  socialMedias = [
+    { href: "#", icon: "/images/icons/telegram.png", alt: "Telegram" },
+    { href: "#", icon: "/images/icons/Instagram.png", alt: "Instagram" },
+    { href: "#", icon: "/images/icons/YouTube.png", alt: "YouTube" },
+    { href: "#", icon: "/images/icons/x-social-media.png", alt: "X" },
+    { href: "#", icon: "/images/icons/Google_Plus.png", alt: "Google Plus" },
+    { href: "#", icon: "/images/icons/Aparat.png", alt: "Aparat" },
+    { href: "#", icon: "/images/icons/Facebook.png", alt: "Facebook" },
+  ],
+}: FooterProps) => {
   return (
-    <footer className="bg-white mt-20 border-t border-gray-200">
-      {/* Main Footer Content */}
-      <div className="py-12">
-        <div className="container mx-auto px-4">
-          <Row gutter={[32, 32]}>
-            {/* Logo and Info */}
-            <Col xs={24} lg={6}>
-              <div className="logo-footer mb-6">
-                <Link href="/">
-                  <Image 
-                    src="/images/logo.png" 
-                    alt="ماشین 3" 
-                    width={110}
-                    height={44}
-                    className="max-w-[110px]"
-                  />
-                </Link>
-              </div>
-              <p className="text-gray-600 text-sm leading-7 mb-6">
-                © کلیه حقوق این وب سایت متعلق به ماشین 3 مي باشد. 
-                پروانه تاسیس واحد نشر دیجیتال : 1724112
-                کد شامد : 1-4-65-704068-1-1
-              </p>
-              
-              {/* Award Section */}
-              <div className="rewards">
-                <div className="rw_item text-center">
-                  <Image 
-                    src="/images/gallery/award.png" 
-                    alt="جایزه" 
-                    width={80}
-                    height={80}
-                    className="mx-auto"
-                  />
-                  <p className="text-gray-700 text-sm mt-2 font-semibold">
-                    برنده جشواره وب و موبایل
-                    <br />
-                    به انتخاب مردم
-                  </p>
+    <div className="footer-wrap">
+      {/* Main Footer */}
+      <footer className="main-footer bg-white">
+        {/* Widgets Section */}
+        <div className="widgets-section py-8">
+          <div className="mx-auto px-4 footer-wrapper">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 footer-inner">
+              {/* Footer Column - Logo and Info */}
+              <div className="footer-column col-span-12 sm:col-span-6 lg:col-span-4">
+                <div className="logo-footer mb-4 !h-7 ">
+                  <Link href="#" className="!h-7 bg-amber-500">
+                    <img
+                      src="/images/logo.png"
+                      alt="ماشین3"
+                      className="!h-7 w-auto"
+                    />
+                  </Link>
+                </div>
+                <p className="text-gray-600 text-sm leading-7 mb-6 text-justify">
+                  ©کلیه حقوق این وب سایت متعلق به ماشین 3 مي باشد. پروانه تاسیس
+                  واحد نشر دیجیتال : 1724112کد شامد : 1-4-65-704068-1-1 طراحی
+                  سایت و بهینه سازی :
+                  <Link
+                    href="#"
+                    className="!text-[#639700] hover:!text-[#0a58ca] duration-300 font-bold mr-1 inline-flex items-center"
+                  >
+                    ایده پویا
+                    <Image
+                      src="/images/icons/activeidea.png"
+                      alt="ایده پویا"
+                      width={16}
+                      height={16}
+                      className="mr-1"
+                    />
+                  </Link>
+                </p>
+
+                <div className="rewards sm:flex p-5">
+                  <div className="rw-item flex flex-col items-center text-center">
+                    <Image
+                      src="/images/gallery/award.png"
+                      alt="جایزه"
+                      width={80}
+                      height={80}
+                      className="mb-2"
+                    />
+                    <p className="text-black font-semibold text-sm mt-2">
+                      برنده جشواره وب و موبایل <br />
+                      به انتخاب مردم
+                    </p>
+                  </div>
                 </div>
               </div>
-            </Col>
 
-            {/* Quick Links */}
-            <Col xs={24} lg={12}>
-              <Row gutter={[16, 16]}>
-                {Object.entries(quickLinks).map(([title, links]) => (
-                  <Col xs={24} sm={8} key={title}>
-                    <h4 className="text-lg font-bold mb-4 text-gray-800">{title}</h4>
-                    <ul className="space-y-2">
-                      {links.map((link) => (
-                        <li key={link}>
-                          <Link 
-                            href="#" 
-                            className="text-gray-600 hover:text-red-600 text-sm transition-colors block py-1"
+               {/* Footer Column - Social Media */}
+              <div className="footer-column col-span-12 sm:col-span-6 lg:hidden block ">
+                <h4 className="!text-black text-lg !font-bold mb-4 sm:text-start text-center">
+                  شبکه های اجتماعی
+                </h4>
+
+                <div>
+                  <ul className="social-medias grid grid-cols-2 gap-2">
+                    {socialMedias.map((social, index) => (
+                      <li key={index}>
+                        <Link
+                          href={social.href}
+                          className="bg-gray-100 rounded-lg p-2 flex items-center justify-center hover:bg-gray-200 transition-colors"
+                        >
+                          <img
+                            src={social.icon}
+                            alt={social.alt}
+                            className="object-contain w-10 h-10"
+                          />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* Footer Column - Quick Links */}
+              <div className="footer-column col-span-12 lg:col-span-6 ft-lists-wrap">
+                <h4 className="text-black text-[16px] !font-bold !mb-4 sm:text-start text-center">
+                  دسترسی سریع
+                </h4>
+
+                <div className="grid grid-cols-3 sm:grid-cols-3 gap-4">
+                  {/* Column 1 */}
+                  <div className="col-span-1 sm:text-start text-center">
+                    <ul className="space-y-5">
+                      {quickLinks.column1.map((link, index) => (
+                        <li key={index}>
+                          <Link
+                            href={link.href}
+                            className="!text-[#292929] hover:!text-[#ce1a2a] transition-colors text-sm !font-semibold"
                           >
-                            {link}
+                            {link.text}
                           </Link>
                         </li>
                       ))}
                     </ul>
-                  </Col>
-                ))}
-              </Row>
-            </Col>
+                  </div>
 
-            {/* Social Media */}
-            <Col xs={24} lg={6}>
-              <h4 className="text-lg font-bold mb-6 text-gray-800">شبکه های اجتماعی</h4>
-              <div className="grid grid-cols-4 gap-3">
-                {socialMedias.map((social) => (
-                  <a 
-                    key={social.name}
-                    href="#" 
-                    className="bg-gray-100 rounded-lg p-3 flex items-center justify-center hover:bg-red-50 transition-colors group"
-                  >
-                    <Image 
-                      src={social.icon}
-                      alt={social.name}
-                      width={24}
-                      height={24}
-                      className="group-hover:scale-110 transition-transform"
-                    />
-                  </a>
-                ))}
+                  {/* Column 2 */}
+                  <div className="col-span-1 sm:text-start text-center">
+                    <ul className="space-y-5">
+                      {quickLinks.column2.map((link, index) => (
+                        <li key={index}>
+                          <Link
+                            href={link.href}
+                            className="!text-[#292929] hover:!text-[#ce1a2a] transition-colors text-sm !font-semibold"
+                          >
+                            {link.text}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Column 3 */}
+                  <div className="col-span-1 sm:text-start text-center">
+                    <ul className="space-y-5">
+                      {quickLinks.column3.map((link, index) => (
+                        <li key={index}>
+                          <Link
+                            href={link.href}
+                            className="!text-[#292929] hover:!text-[#ce1a2a] transition-colors text-sm !font-semibold"
+                          >
+                            {link.text}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
-            </Col>
-          </Row>
-        </div>
-      </div>
 
-      {/* Copyright */}
-      <div className="bg-red-600 py-4">
-        <div className="container mx-auto px-4">
-          <div className="text-center text-white text-sm">
-            طبق ماده ۱۲ فصل سوم قانون جرائم رایانه هرگونه کپی برداری بدون ذکر منبع ممنوع بوده و پیگرد قانونی دارد.
+              {/* Footer Column - Social Media */}
+              <div className="footer-column col-span-12 md:col-span-2 lg:col-span-2 lg:block hidden">
+                <h4 className="text-gray-900 text-lg font-bold mb-4">
+                  شبکه های اجتماعی
+                </h4>
+
+                <div>
+                  <ul className="social-medias grid grid-cols-2 gap-2">
+                    {socialMedias.map((social, index) => (
+                      <li key={index}>
+                        <Link
+                          href={social.href}
+                          className="bg-gray-100 rounded-lg w-20 h-20 flex items-center justify-center hover:bg-gray-200 transition-colors"
+                        >
+                          <img
+                            src={social.icon}
+                            alt={social.alt}
+                            className="object-contain"
+                          />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </footer>
-  )
-}
+
+        {/* Footer Bottom */}
+        <div className="footer-bottom bg-[#ce1a2a] text-white !py-3">
+          <div className="mx-auto px-4">
+            <div className="row">
+              <div className="copyright text-center text-xs">
+                طبق ماده ۱۲ فصل سوم قانون جرائم رایانه هرگونه کپی برداری بدون
+                ذکر منبع ممنوع بوده و پیگرد قانونی دارد.
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default Footer;

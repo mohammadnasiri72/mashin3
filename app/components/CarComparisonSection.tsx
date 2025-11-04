@@ -1,10 +1,13 @@
 "use client";
 
+import { Select } from "antd";
 import Link from "next/link";
 import { useState } from "react";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+
+const { Option } = Select;
 
 interface ComparisonItem {
   id: number;
@@ -76,7 +79,7 @@ const CarComparisonSection = ({
     <div className="py-3">
       <div className="mx-auto">
         {/* عنوان اصلی */}
-        <h3 className="text-center text-2xl text-gray-900 font-bold !mb-4">
+        <h3 className="text-center text-xl !text-[#292929] !font-bold !mb-4">
           مقایسه خودروهای بازار
         </h3>
 
@@ -90,86 +93,69 @@ const CarComparisonSection = ({
               </h4>
 
               <div className="grid grid-cols-2 gap-4">
-                <select
+                <Select
                   value={firstCarType}
-                  onChange={(e) => setFirstCarType(e.target.value)}
-                  className="w-full p-3 bg-transparent border border-gray-300 rounded-xl text-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white"
+                  onChange={(value) => setFirstCarType(value)}
+                  className="w-full custom-ant-select"
+                  size="large"
                 >
-                  <option value="type_option-0" className="text-gray-900">
-                    همه انواع خودرو
-                  </option>
-                  <option value="type_option-1" className="text-gray-900">
-                    تست یک
-                  </option>
-                  <option value="type_option-2" className="text-gray-900">
-                    تست دو
-                  </option>
-                </select>
+                  <Option value="type_option-0">همه انواع خودرو</Option>
+                  <Option value="type_option-1">تست یک</Option>
+                  <Option value="type_option-2">تست دو</Option>
+                </Select>
 
-                <select
+                <Select
                   value={firstCarModel}
-                  onChange={(e) => setFirstCarModel(e.target.value)}
-                  className="w-full p-3 bg-transparent border border-gray-300 rounded-xl text-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white"
+                  onChange={(value) => setFirstCarModel(value)}
+                  className="w-full custom-ant-select"
+                  size="large"
                 >
-                  <option value="type_option-0" className="text-gray-900">
-                    همه انواع خودرو
-                  </option>
-                  <option value="type_option-1" className="text-gray-900">
-                    تست یک
-                  </option>
-                  <option value="type_option-2" className="text-gray-900">
-                    تست دو
-                  </option>
-                </select>
+                  <Option value="type_option-0">همه انواع خودرو</Option>
+                  <Option value="type_option-1">تست یک</Option>
+                  <Option value="type_option-2">تست دو</Option>
+                </Select>
               </div>
             </div>
 
             {/* خودرو دوم */}
-            <div className="w-full lg:w-2/5">
+            <div className="w-full lg:w-2/5 ">
               <h4 className="!text-white text-sm font-medium pb-4 w-full">
                 خودرو دوم
               </h4>
 
               <div className="grid grid-cols-2 gap-4">
-                <select
+                <Select
                   value={secondCarType}
-                  onChange={(e) => setSecondCarType(e.target.value)}
-                  className="w-full p-3 bg-transparent border border-gray-300 rounded-xl text-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white"
+                  onChange={(value) => setSecondCarType(value)}
+                  className="w-full custom-ant-select"
+                  size="large"
                 >
-                  <option value="type_option-0" className="text-gray-900">
-                    همه انواع خودرو
-                  </option>
-                  <option value="type_option-1" className="text-gray-900">
-                    تست یک
-                  </option>
-                  <option value="type_option-2" className="text-gray-900">
-                    تست دو
-                  </option>
-                </select>
+                  <Option value="type_option-0">همه انواع خودرو</Option>
+                  <Option value="type_option-1">تست یک</Option>
+                  <Option value="type_option-2">تست دو</Option>
+                </Select>
 
-                <select
+                <Select
                   value={secondCarModel}
-                  onChange={(e) => setSecondCarModel(e.target.value)}
-                  className="w-full p-3 bg-transparent border border-gray-300 rounded-xl text-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-white"
+                  onChange={(value) => setSecondCarModel(value)}
+                  className="w-full custom-ant-select"
+                  size="large"
                 >
-                  <option value="type_option-0" className="text-gray-900">
-                    همه انواع خودرو
-                  </option>
-                  <option value="type_option-1" className="text-gray-900">
-                    تست یک
-                  </option>
-                  <option value="type_option-2" className="text-gray-900">
-                    تست دو
-                  </option>
-                </select>
+                  <Option value="type_option-0">همه انواع خودرو</Option>
+                  <Option value="type_option-1">تست یک</Option>
+                  <Option value="type_option-2">تست دو</Option>
+                </Select>
               </div>
             </div>
 
             {/* دکمه مقایسه */}
-            <div className="w-full lg:w-1/5 flex items-end">
+            <div className="w-full lg:w-1/6">
+             <h4 className="!text-white invisible opacity-0 cursor-default select-none text-sm font-medium pb-4 w-full">
+                 مقایسه
+              </h4>
               <button
                 onClick={handleCompare}
-                className="w-full bg-white cursor-pointer button-wave-1 text-red-600 text-sm font-semibold py-3 rounded-xl transition-colors duration-300 relative overflow-hidden"
+                className="w-full bg-white cursor-pointer button-wave-1 !text-[#ce1a2a]  font-semibold py-3 rounded-xl transition-colors duration-300 relative overflow-hidden"
               >
                 مقایسه
               </button>
@@ -212,7 +198,7 @@ const CarComparisonSection = ({
                       <img
                         src={item.image}
                         alt={item.alt}
-                        className="object-cover"
+                        className="object-contain w-full"
                       />
                     </div>
                   </Link>
@@ -222,7 +208,7 @@ const CarComparisonSection = ({
                   <h3 className="text-sm !text-[#202020] font-medium">
                     <Link
                       href={item.link}
-                      className="hover:!text-[#ce1a2a] !text-[#202020] transition-colors duration-200"
+                      className="hover:!text-[#ce1a2a] !text-[#000] !font-semibold transition-colors duration-200"
                     >
                       {item.title}
                     </Link>
@@ -252,6 +238,60 @@ const CarComparisonSection = ({
         select option {
           background-color: white;
           color: #374151;
+        }
+
+        .custom-ant-select .ant-select-selector {
+          background-color: transparent !important;
+          border: 1px solid #d1d5db !important;
+          border-radius: 12px !important;
+          height: 48px !important;
+          color: white !important;
+          font-size: 14px !important;
+          font-weight: 500 !important;
+          padding: 12px !important;
+        }
+
+        .custom-ant-select .ant-select-selection-item {
+          color: white !important;
+          font-size: 14px !important;
+          font-weight: 500 !important;
+          display: flex !important;
+          align-items: center !important;
+        }
+
+        .custom-ant-select .ant-select-arrow {
+          color: white !important;
+          padding-top: 12px !important;
+          padding-bottom: 12px !important;
+        }
+
+        /* برای حالت focus */
+        .custom-ant-select.ant-select-focused .ant-select-selector {
+          border-color: white !important;
+          box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2) !important;
+          outline: none !important;
+        }
+
+        /* برای dropdown */
+        .ant-select-dropdown {
+          background-color: white !important;
+          border-radius: 8px !important;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .ant-select-item {
+          color: #374151 !important;
+          font-size: 14px !important;
+          font-weight: 500 !important;
+          padding: 8px 12px !important;
+        }
+
+        .ant-select-item-option-selected {
+          background-color: #f3f4f6 !important;
+        }
+
+        .ant-select-item-option-active {
+          background-color: #e5e7eb !important;
         }
       `}</style>
     </div>

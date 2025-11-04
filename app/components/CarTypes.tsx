@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -24,12 +23,11 @@ export default function CarTypes() {
   return (
     <div className="mb-16  bg-cover bg-center">
       <div className=" mx-auto px-4 typeCar_wrap">
-        <div className="section_title mb-10">
-          <div className="titleBox pink_Highlight">
-            <h3 className="!text-[#292929] inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ffd6db]">
-              انتخاب نوع خودرو
-            </h3>
-          </div>
+      
+        <div className="titleBox pink_Highlight pr-3 lg:mt-0 mt-8 mb-8">
+          <h3 className="!text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ffd6db]">
+            انتخاب نوع خودرو
+          </h3>
         </div>
 
         <Swiper
@@ -54,15 +52,14 @@ export default function CarTypes() {
                       <img
                         src={car.image}
                         alt={car.label}
-                        
                         className="mx-auto object-contain"
                       />
                     </div>
                   </div>
                 </Link>
-                  <div className="text-gray-800 font-semibold group-hover:text-red-600">
-                    {car.label}
-                  </div>
+                <div className="text-gray-800 font-semibold group-hover:text-red-600">
+                  {car.label}
+                </div>
               </div>
             </SwiperSlide>
           ))}

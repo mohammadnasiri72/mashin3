@@ -210,7 +210,7 @@ const CarSpecsSection = ({
               </div>
             </div>
 
-            <div className="mt-24 lg:mt-32 text-center lg:text-center w-full">
+            <div className="sm:mt-0 lg:mt-32 mt-32 text-center lg:text-center w-full">
               <h3 className="text-gray-900 text-lg">
                 ماشین
                 <br />

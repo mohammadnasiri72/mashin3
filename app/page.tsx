@@ -1,13 +1,17 @@
+import CarAdsSection from "./components/CarAdsSection";
 import CarBrandPricesSection from "./components/CarBrandPricesSection";
 import CarComparisonSection from "./components/CarComparisonSection";
+import CarFinderSection from "./components/CarFinderSection";
 import CarSpecsSection from "./components/CarSpecsSection";
 import CarTypes from "./components/CarTypes";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import HeroSlider from "./components/HeroSlider";
+import MotorcycleBrandsSection from "./components/MotorcycleBrandsSection";
 import NewsListSection from "./components/NewsListSection";
 import NewsSection from "./components/NewsSection";
 import PopularCarsSection from "./components/PopularCarsSection";
+import ServicesSection from "./components/ServicesSection";
 import VideoBannerSection from "./components/VideoBannerSection";
 
 export default function Home() {
@@ -68,6 +72,18 @@ export default function Home() {
 
         {/* Car BrandPrices Section */}
         <CarBrandPricesSection />
+
+        {/* Motorcycle Brands Section */}
+        <MotorcycleBrandsSection />
+
+        {/* Car Finder Section */}
+        <CarFinderSection />
+
+        {/* Car Ads Section */}
+        <CarAdsSection />
+
+        {/* Services Section */}
+        <ServicesSection />
       </main>
 
       <Footer />

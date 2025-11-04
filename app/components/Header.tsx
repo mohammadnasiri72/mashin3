@@ -5,8 +5,9 @@ import Drawer from "@mui/material/Drawer";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { FiMenu, FiX } from "react-icons/fi";
+import { FiX } from "react-icons/fi";
 import { IoChevronDown, IoSearch } from "react-icons/io5";
+import { TiThMenu } from "react-icons/ti";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -285,7 +286,7 @@ export default function Header() {
               className="!text-white cursor-pointer p-2 text-2xl hover:bg-[#d1182b] rounded-lg transition-all duration-300"
               onClick={() => setIsMenuOpen((e) => !e)}
             >
-              <FiMenu />
+              <TiThMenu className="text-3xl" />
             </button>
             <Drawer
               open={isMenuOpen}

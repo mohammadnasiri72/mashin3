@@ -13,12 +13,17 @@ const VideoBannerSection = () => {
                 className="object-cover h-full w-full"
               />
             </div>
-            <div className="absolute bottom-4 right-4">
-              <div className="!text-white inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ce1a2a]">
+            <div className="absolute bottom-0 right-0">
+              {/* <div className="!text-white inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ce1a2a]">
                 <h3 className="text-3xl font-bold !text-white">
                   مقایسه تخصصی خودرو
                 </h3>
-              </div>
+              </div> */}
+              <div className="titleBox pink_Highlight pr-3">
+          <h3 className="!text-white !font-bold inline-block relative text-3xl z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ce1a2a]">
+              مقایسه تخصصی خودرو
+          </h3>
+        </div>
             </div>
           </div>
         </div>

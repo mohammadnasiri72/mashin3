@@ -154,6 +154,14 @@ const CarBrandPricesSection = ({
       date: "۱۴۰۳/۰۳/۲۲",
       brandId: 4,
     },
+    {
+      id: 10,
+      brand: "پورشه",
+      model: "ماکان",
+      price: "۱۸,۰۰۰,۰۰۰,۰۰۰",
+      date: "۱۴۰۳/۰۳/۲۲",
+      brandId: 4,
+    },
   ],
 }: CarBrandPricesSectionProps) => {
   const [activeTab, setActiveTab] = useState<"tab-1" | "tab-2" | "tab-3">(
@@ -174,28 +182,22 @@ const CarBrandPricesSection = ({
   );
 
   return (
-    <div className="mb-5 mt-10">
-      <div className="max-w-7xl mx-auto px-4">
+    <div className="mb-5 mt-20">
+      <div className="mx-auto px-4">
         {/* هدر بخش */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-5 gap-4 h-14">
-          <div className="relative">
-            <div className="relative z-10 bg-transparent pr-3">
-              <h3 className="text-2xl text-gray-900 font-bold">
-                قیمت برند خودرویی
-              </h3>
-            </div>
-            <div
-              className="absolute right-0 left-0 bottom-0 h-1/2 bg-pink-200 z-0"
-              aria-hidden="true"
-            />
+        <div className="flex flex-col sm:flex-row sm:justify-between justify-center items-center mb-5 gap-4 h-14">
+          <div className="titleBox pink_Highlight">
+            <h3 className="!text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ffd6db]">
+              قیمت برند خودرویی
+            </h3>
           </div>
 
           {/* تب‌ها */}
           <div className="flex gap-4">
             <button
-              className={`px-4 py-2 text-gray-600 font-medium text-sm cursor-pointer ${
+              className={`px-4 py-2 text-gray-600 font-medium text-sm cursor-pointer whitespace-nowrap ${
                 activeTab === "tab-1"
-                  ? "!text-[#ce1a2a] !font-bold !text-lg"
+                  ? "!text-[#ce1a2a] !font-extrabold !text-[20px]"
                   : "text-gray-600 text-sm"
               } transition-all duration-200`}
               onClick={() => handleTabChange("tab-1")}
@@ -203,9 +205,9 @@ const CarBrandPricesSection = ({
               برند داخلی
             </button>
             <button
-              className={`px-4 py-2 text-gray-600 font-medium text-sm cursor-pointer ${
+              className={`px-4 py-2 text-gray-600 font-medium text-sm cursor-pointer whitespace-nowrap ${
                 activeTab === "tab-2"
-                  ? "!text-[#ce1a2a] !font-bold !text-lg"
+                  ? "!text-[#ce1a2a] !font-extrabold !text-[20px]"
                   : "text-gray-600 text-sm"
               } transition-all duration-200`}
               onClick={() => handleTabChange("tab-2")}
@@ -213,9 +215,9 @@ const CarBrandPricesSection = ({
               برند چینی
             </button>
             <button
-              className={`px-4 py-2 font-medium cursor-pointer ${
+              className={`px-4 py-2 font-medium cursor-pointer whitespace-nowrap ${
                 activeTab === "tab-3"
-                  ? "!text-[#ce1a2a] !font-bold !text-lg"
+                  ? "!text-[#ce1a2a] !font-extrabold !text-[20px]"
                   : "text-gray-600 text-sm"
               } transition-all duration-200`}
               onClick={() => handleTabChange("tab-3")}
@@ -243,19 +245,19 @@ const CarBrandPricesSection = ({
             <Swiper
               modules={[Autoplay]}
               spaceBetween={16}
-              slidesPerView={2.2}
+              slidesPerView={2}
               breakpoints={{
                 640: {
-                  slidesPerView: 3.2,
+                  slidesPerView: 2,
                 },
                 768: {
-                  slidesPerView: 4.2,
+                  slidesPerView: 4,
                 },
                 1024: {
-                  slidesPerView: 5.2,
+                  slidesPerView: 6,
                 },
                 1280: {
-                  slidesPerView: 6.2,
+                  slidesPerView: 7,
                 },
               }}
               autoplay={{
@@ -271,7 +273,7 @@ const CarBrandPricesSection = ({
                   <div
                     className={`brand-box flex flex-col items-center text-center p-5 h-44 border border-gray-200 rounded-2xl relative bg-white cursor-pointer transition-all duration-300 ${
                       activeBrand === brand.id
-                        ? "bg-gradient-to-b from-red-500 to-red-600 text-white shadow-lg"
+                        ? "bg-linear-to-b from-red-500 to-[#ce1a2a] text-white shadow-lg"
                         : "hover:shadow-md"
                     }`}
                     onClick={() => handleBrandClick(brand.id)}
@@ -302,46 +304,42 @@ const CarBrandPricesSection = ({
             {/* محتوای مرتبط با برند انتخاب شده */}
             <div className="related-content ">
               <div className="flex flex-wrap -mx-2">
-                {filteredPriceItems.map((item, index) => (
+                {filteredPriceItems.slice(0, 9).map((item, index) => (
                   <div
                     key={item.id}
-                    className="w-full md:w-1/2 px-2 mb-4 "
-                    data-aos="fade-down"
+                    className="w-full md:w-1/2 px-2 mb-4 !transition-all !duration-500"
+                    data-aos="custom-fade-down"
                   >
-                    {index < 9 ? (
-                      <div className="bg-white rounded-2xl shadow-sm p-5 flex items-center gap-5 text-base font-bold text-gray-900">
-                        <div className="flex-1 text-right">
-                          {item.brand}، {item.model}
-                        </div>
-                        <div className="flex-1 text-center flex items-center justify-center gap-2">
-                          <Image
-                            src="/images/icons/toman.png"
-                            alt="تومان"
-                            width={12}
-                            height={8}
-                            className="w-3 h-2"
-                          />
-                          {item.price}
-                        </div>
-                        <div className="flex-1 text-left text-sm font-medium text-gray-500">
-                          {item.date}
-                        </div>
+                    <div className="bg-white rounded-2xl shadow-sm p-5 flex sm:flex-nowrap flex-wrap items-center gap-5 text-base font-bold text-gray-900">
+                      <div className="text-center sm:text-right w-full">
+                        {item.brand}، {item.model}
                       </div>
-                    ) : (
-                      index === 9 && (
-                        <div className="bg-white rounded-2xl shadow-sm p-5 flex items-center justify-center hover:bg-gradient-to-b hover:from-red-500 hover:to-red-600 transition-all duration-300">
-                          <Link
-                            href="#"
-                            className="text-red-600 text-sm font-bold hover:text-white transition-colors duration-300 flex items-center gap-2"
-                          >
-                            نمایش بیشتر
-                            <i className="fa-solid fa-arrow-left text-xs" />
-                          </Link>
-                        </div>
-                      )
-                    )}
+                      <div className="text-center flex items-center justify-center gap-2 w-full">
+                        <Image
+                          src="/images/icons/toman.png"
+                          alt="تومان"
+                          width={12}
+                          height={8}
+                          className="w-3 h-2"
+                        />
+                        {item.price}
+                      </div>
+                      <div className="text-center sm:text-left text-sm font-medium text-gray-500 w-full">
+                        {item.date}
+                      </div>
+                    </div>
                   </div>
                 ))}
+                {filteredPriceItems.length > 9 && (
+                  <Link
+                    href="#"
+                    data-aos="custom-fade-down"
+                    className="!text-[#ce1a2a] bg-white w-full md:w-1/2 px-2 mb-4 rounded-2xl shadow-sm p-5 flex items-center justify-center hover:bg-linear-to-b hover:from-red-400 hover:to-[#ce1a2a] !transition-all !duration-500 text-sm font-bold hover:!text-white gap-2"
+                  >
+                    نمایش بیشتر
+                    <i className="fa-solid fa-arrow-left text-xs" />
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -364,6 +362,16 @@ const CarBrandPricesSection = ({
         .brand-box:hover {
           transform: translateY(-2px);
         }
+           [data-aos="custom-fade-down"] {
+    opacity: 0;
+    transform: translateY(-20px); /* حرکت کمتر از 120px به 20px */
+    transition-property: opacity, transform;
+  }
+  
+  [data-aos="custom-fade-down"].aos-animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
       `}</style>
     </div>
   );

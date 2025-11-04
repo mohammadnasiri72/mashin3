@@ -78,7 +78,7 @@ const NewsListSection = () => {
         {/* هدر */}
         <div className="flex justify-between items-center mb-4">
           <div className="titleBox pink_Highlight">
-            <h3 className="!text-[#292929] inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ffd6db]">
+            <h3 className="!text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ffd6db]">
               لیست اخبار
             </h3>
           </div>
@@ -96,7 +96,7 @@ const NewsListSection = () => {
         <div className="flex flex-wrap -mx-2">
           {news.map((item) => (
             <div key={item.id} className="w-full md:w-1/2 px-2 mb-4">
-              <div className="bg-white newsBox relative duration-300 cursor-pointer group hover:bg-linear-to-b hover:from-[#ff5363] hover:to-[#ce1a2a] rounded-2xl shadow-sm p-4 flex gap-4 hover:shadow-md transition-shadow">
+              <div className="bg-white newsBox relative duration-300 cursor-pointer group hover:bg-linear-to-b hover:from-[#ff5363] hover:to-[#ce1a2a] rounded-2xl shadow-sm p-4 flex sm:flex-row flex-col items-center gap-4 hover:shadow-md transition-shadow">
                 {/* تصویر */}
                 <div className="w-36 flex-shrink-0 holographic-effect">
                   <div className="rounded-xl overflow-hidden">
@@ -114,7 +114,7 @@ const NewsListSection = () => {
                 <div className="flex-1">
                   <div className="flex flex-col justify-between items-start w-full h-full">
                     <div>
-                      <h4 className="font-bold text-gray-900 mb-2 line-clamp-2 text-xl group-hover:!text-white duration-300">
+                      <h4 className="!font-bold !text-[#222] mb-2 line-clamp-2 text-lg group-hover:!text-white duration-300">
                         {item.title}
                       </h4>
 
@@ -122,7 +122,7 @@ const NewsListSection = () => {
                         {item.description}
                       </p>
                     </div>
-                    <div className="flex justify-between text-xs text-gray-500  w-full group-hover:!text-white duration-300">
+                    <div className="flex justify-between text-xs text-gray-500  w-full group-hover:!text-white duration-300 sm:mt-0 mt-3">
                       <span>{item.date}</span>
                       <span>{item.commentCount}</span>
                     </div>
