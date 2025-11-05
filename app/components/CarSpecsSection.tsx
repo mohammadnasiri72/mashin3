@@ -223,13 +223,13 @@ const CarSpecsSection = ({
               <div className="flex gap-2 justify-center lg:justify-center mt-6">
                 <button
                   onClick={handleNext}
-                  className="w-10 h-10 cursor-pointer bg-gray-400 rounded-full flex items-center justify-center hover:bg-[#ce1a2a] !text-white transition-colors"
+                  className="w-10 h-10 cursor-pointer bg-[#c2c2c2] rounded-full flex items-center justify-center hover:bg-[#ce1a2a] !text-white transition-colors"
                 >
                   <FaArrowRightLong />
                 </button>
                 <button
                   onClick={handlePrev}
-                  className="w-10 h-10 cursor-pointer bg-gray-400 rounded-full flex items-center justify-center hover:bg-[#ce1a2a] !text-white transition-colors"
+                  className="w-10 h-10 cursor-pointer bg-[#c2c2c2] rounded-full flex items-center justify-center hover:bg-[#ce1a2a] !text-white transition-colors"
                 >
                   <FaArrowLeftLong />
                 </button>

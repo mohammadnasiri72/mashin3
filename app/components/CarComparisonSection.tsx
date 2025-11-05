@@ -84,81 +84,83 @@ const CarComparisonSection = ({
         </h3>
 
         {/* بخش انتخاب خودروها */}
-        <div className="w-full md:w-10/12 bg-[#ce1a2a] px-6 pt-6 pb-[350px] mx-auto rounded-2xl mb-8">
-          <div className="flex flex-col lg:flex-row gap-6">
-            {/* خودرو اول */}
-            <div className="w-full lg:w-2/5">
-              <h4 className="!text-white text-sm font-medium pb-4 w-full">
-                خودرو اول
-              </h4>
+        <div className="sm:px-0 px-5">
+          <div className="w-full md:w-10/12 bg-[#ce1a2a] px-6 pt-6 pb-[350px] mx-auto rounded-2xl mb-8">
+            <div className="flex flex-col lg:flex-row gap-6">
+              {/* خودرو اول */}
+              <div className="w-full lg:w-2/5">
+                <h4 className="!text-white text-sm font-medium pb-4 w-full">
+                  خودرو اول
+                </h4>
 
-              <div className="grid grid-cols-2 gap-4">
-                <Select
-                  value={firstCarType}
-                  onChange={(value) => setFirstCarType(value)}
-                  className="w-full custom-ant-select"
-                  size="large"
-                >
-                  <Option value="type_option-0">همه انواع خودرو</Option>
-                  <Option value="type_option-1">تست یک</Option>
-                  <Option value="type_option-2">تست دو</Option>
-                </Select>
+                <div className="grid sm:grid-cols-2 grid-cols-1 gap-8">
+                  <Select
+                    value={firstCarType}
+                    onChange={(value) => setFirstCarType(value)}
+                    className="w-full custom-ant-select"
+                    size="large"
+                  >
+                    <Option value="type_option-0">همه انواع خودرو</Option>
+                    <Option value="type_option-1">تست یک</Option>
+                    <Option value="type_option-2">تست دو</Option>
+                  </Select>
 
-                <Select
-                  value={firstCarModel}
-                  onChange={(value) => setFirstCarModel(value)}
-                  className="w-full custom-ant-select"
-                  size="large"
-                >
-                  <Option value="type_option-0">همه انواع خودرو</Option>
-                  <Option value="type_option-1">تست یک</Option>
-                  <Option value="type_option-2">تست دو</Option>
-                </Select>
+                  <Select
+                    value={firstCarModel}
+                    onChange={(value) => setFirstCarModel(value)}
+                    className="w-full custom-ant-select"
+                    size="large"
+                  >
+                    <Option value="type_option-0">همه انواع خودرو</Option>
+                    <Option value="type_option-1">تست یک</Option>
+                    <Option value="type_option-2">تست دو</Option>
+                  </Select>
+                </div>
               </div>
-            </div>
 
-            {/* خودرو دوم */}
-            <div className="w-full lg:w-2/5 ">
-              <h4 className="!text-white text-sm font-medium pb-4 w-full">
-                خودرو دوم
-              </h4>
+              {/* خودرو دوم */}
+              <div className="w-full lg:w-2/5 ">
+                <h4 className="!text-white text-sm font-medium pb-4 w-full">
+                  خودرو دوم
+                </h4>
 
-              <div className="grid grid-cols-2 gap-4">
-                <Select
-                  value={secondCarType}
-                  onChange={(value) => setSecondCarType(value)}
-                  className="w-full custom-ant-select"
-                  size="large"
-                >
-                  <Option value="type_option-0">همه انواع خودرو</Option>
-                  <Option value="type_option-1">تست یک</Option>
-                  <Option value="type_option-2">تست دو</Option>
-                </Select>
+                <div className="grid sm:grid-cols-2 grid-cols-1 gap-8">
+                  <Select
+                    value={secondCarType}
+                    onChange={(value) => setSecondCarType(value)}
+                    className="w-full custom-ant-select"
+                    size="large"
+                  >
+                    <Option value="type_option-0">همه انواع خودرو</Option>
+                    <Option value="type_option-1">تست یک</Option>
+                    <Option value="type_option-2">تست دو</Option>
+                  </Select>
 
-                <Select
-                  value={secondCarModel}
-                  onChange={(value) => setSecondCarModel(value)}
-                  className="w-full custom-ant-select"
-                  size="large"
-                >
-                  <Option value="type_option-0">همه انواع خودرو</Option>
-                  <Option value="type_option-1">تست یک</Option>
-                  <Option value="type_option-2">تست دو</Option>
-                </Select>
+                  <Select
+                    value={secondCarModel}
+                    onChange={(value) => setSecondCarModel(value)}
+                    className="w-full custom-ant-select"
+                    size="large"
+                  >
+                    <Option value="type_option-0">همه انواع خودرو</Option>
+                    <Option value="type_option-1">تست یک</Option>
+                    <Option value="type_option-2">تست دو</Option>
+                  </Select>
+                </div>
               </div>
-            </div>
 
-            {/* دکمه مقایسه */}
-            <div className="w-full lg:w-1/6">
-             <h4 className="!text-white invisible opacity-0 cursor-default select-none text-sm font-medium pb-4 w-full">
-                 مقایسه
-              </h4>
-              <button
-                onClick={handleCompare}
-                className="w-full bg-white cursor-pointer button-wave-1 !text-[#ce1a2a]  font-semibold py-3 rounded-xl transition-colors duration-300 relative overflow-hidden"
-              >
-                مقایسه
-              </button>
+              {/* دکمه مقایسه */}
+              <div className="w-full lg:w-1/6">
+                <h4 className="!text-white invisible opacity-0 cursor-default select-none text-sm font-medium pb-4 w-full">
+                  مقایسه
+                </h4>
+                <button
+                  onClick={handleCompare}
+                  className="w-full bg-white cursor-pointer button-wave-1 !text-[#ce1a2a]  font-semibold py-3 rounded-xl transition-colors duration-300 relative overflow-hidden"
+                >
+                  مقایسه
+                </button>
+              </div>
             </div>
           </div>
         </div>

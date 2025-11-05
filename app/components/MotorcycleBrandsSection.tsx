@@ -70,10 +70,18 @@ const MotorcycleBrandsSection = ({
   const [activeBrand, setActiveBrand] = useState<number>(2);
   const [currentGroup, setCurrentGroup] = useState<number>(0);
   const [currentSlidesPerView, setCurrentSlidesPerView] = useState<number>(5);
+  const [totalGroups, setTotalGroups] = useState<number>(0);
   const swiperRef = useRef<any>(null);
 
-  // محاسبه تعداد گروه‌ها بر اساس تعداد برندها و اسلایدهای نمایش داده شده
-  const totalGroups = Math.ceil(brands.length / currentSlidesPerView);
+  // محاسبه totalGroups بر اساس slidesPerView فعلی
+  useEffect(() => {
+    if (brands.length > 0 && currentSlidesPerView > 0) {
+      // در حالت loop، از طول اصلی برندها استفاده می‌کنیم
+      const actualBrandsCount = brands.length;
+      const groups = Math.ceil(actualBrandsCount / currentSlidesPerView);
+      setTotalGroups(groups);
+    }
+  }, [brands.length, currentSlidesPerView]);
 
   const handleBrandClick = (brandId: number) => {
     setActiveBrand(brandId);
@@ -88,55 +96,69 @@ const MotorcycleBrandsSection = ({
   };
 
   const handleSlideChange = (swiper: any) => {
-    const realIndex = swiper.realIndex || swiper.activeIndex;
-    const newGroup = Math.floor(realIndex / currentSlidesPerView);
-    setCurrentGroup(newGroup);
+    // استفاده از realIndex برای حالت loop
+    const realIndex = swiper.realIndex ?? swiper.activeIndex;
+    
+    if (currentSlidesPerView > 0 && totalGroups > 0) {
+      const newGroup = Math.floor(realIndex / currentSlidesPerView);
+      setCurrentGroup(newGroup % totalGroups); // برای اطمینان از محدوده معتبر
+    }
   };
 
   const handleBreakpointChange = (swiper: any) => {
-    // به‌روزرسانی تعداد اسلایدهای نمایش داده شده هنگام تغییر breakpoint
     const slidesPerView = swiper.params.slidesPerView;
     setCurrentSlidesPerView(slidesPerView);
 
-    // محاسبه مجدد گروه فعلی
-    const realIndex = swiper.realIndex || swiper.activeIndex;
-    const newGroup = Math.floor(realIndex / slidesPerView);
-    setCurrentGroup(newGroup);
+    // محاسبه مجدد گروه فعلی پس از تغییر breakpoint
+    const realIndex = swiper.realIndex ?? swiper.activeIndex;
+    const actualBrandsCount = brands.length;
+    const newTotalGroups = Math.ceil(actualBrandsCount / slidesPerView);
+    
+    if (newTotalGroups > 0) {
+      const newGroup = Math.floor(realIndex / slidesPerView) % newTotalGroups;
+      setCurrentGroup(newGroup);
+      setTotalGroups(newTotalGroups);
+    }
   };
 
-  // مقداردهی اولیه slidesPerView
+  // مقداردهی اولیه
   useEffect(() => {
     if (swiperRef.current && swiperRef.current.swiper) {
-      const initialSlidesPerView =
-        swiperRef.current.swiper.params.slidesPerView;
+      const initialSlidesPerView = swiperRef.current.swiper.params.slidesPerView;
       setCurrentSlidesPerView(initialSlidesPerView);
+      
+      const actualBrandsCount = brands.length;
+      const initialTotalGroups = Math.ceil(actualBrandsCount / initialSlidesPerView);
+      setTotalGroups(initialTotalGroups);
     }
-  }, []);
+  }, [brands.length]);
 
   return (
     <div>
       <div className="mx-auto px-4 pb-5">
         {/* هدر بخش */}
         <div className="flex justify-between items-center">
-          <div className="titleBox pink_Highlight">
-            <h3 className="!text-[#292929] inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ffd6db]">
+          <div className="!mb-2 sm:w-auto w-full p-3 sm:bg-transparent bg-[#f6eced] rounded-xl flex sm:justify-start justify-center items-center">
+            <h3 className="!pb-0 !mb-0 !text-[#292929] inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ffd6db]">
               موتورسیکلت
             </h3>
           </div>
 
-          {/* Pagination گروهی پویا */}
-          <div className="sm:flex hidden justify-end gap-1">
-            {Array.from({ length: totalGroups }, (_, index) => (
-              <button
-                key={index}
-                className={`custom-group-bullet ${
-                  currentGroup === index ? "custom-group-bullet-active" : ""
-                }`}
-                onClick={() => handleGroupClick(index)}
-                aria-label={`گروه ${index + 1}`}
-              />
-            ))}
-          </div>
+          {/* Pagination گروهی پویا - فقط زمانی نمایش داده شود که بیش از یک گروه وجود دارد */}
+          {totalGroups > 1 && (
+            <div className="lg:flex hidden justify-end gap-1">
+              {Array.from({ length: totalGroups }, (_, index) => (
+                <button
+                  key={index}
+                  className={`custom-group-bullet ${
+                    currentGroup === index ? "custom-group-bullet-active" : ""
+                  }`}
+                  onClick={() => handleGroupClick(index)}
+                  aria-label={`گروه ${index + 1}`}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col lg:flex-row items-center ">
@@ -150,24 +172,26 @@ const MotorcycleBrandsSection = ({
           <div className="w-full lg:w-2/3">
             {/* اسلایدر برندهای موتورسیکلت */}
             <div className="relative">
-               {/* Pagination گروهی پویا */}
-          <div className="sm:hidden flex justify-end gap-1 pb-4">
-            {Array.from({ length: totalGroups }, (_, index) => (
-              <button
-                key={index}
-                className={`custom-group-bullet ${
-                  currentGroup === index ? "custom-group-bullet-active" : ""
-                }`}
-                onClick={() => handleGroupClick(index)}
-                aria-label={`گروه ${index + 1}`}
-              />
-            ))}
-          </div>
+              {/* Pagination گروهی پویا برای موبایل - فقط زمانی نمایش داده شود که بیش از یک گروه وجود دارد */}
+              {totalGroups > 1 && (
+                <div className="lg:hidden flex justify-end gap-1 pb-4">
+                  {Array.from({ length: totalGroups }, (_, index) => (
+                    <button
+                      key={index}
+                      className={`custom-group-bullet ${
+                        currentGroup === index ? "custom-group-bullet-active" : ""
+                      }`}
+                      onClick={() => handleGroupClick(index)}
+                      aria-label={`گروه ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
               <Swiper
                 ref={swiperRef}
                 modules={[Autoplay]}
-                spaceBetween={28}
-                slidesPerView={5}
+                spaceBetween={16}
+                slidesPerView={2}
                 breakpoints={{
                   320: {
                     slidesPerView: 2,

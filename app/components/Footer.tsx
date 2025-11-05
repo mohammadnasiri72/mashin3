@@ -70,7 +70,7 @@ const Footer = ({
         {/* Widgets Section */}
         <div className="widgets-section py-8">
           <div className="mx-auto px-4 footer-wrapper">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 footer-inner">
+            <div className="grid grid-cols-12 sm:gap-8 gap-2">
               {/* Footer Column - Logo and Info */}
               <div className="footer-column col-span-12 sm:col-span-6 lg:col-span-4">
                 <div className="logo-footer mb-4 !h-7 ">

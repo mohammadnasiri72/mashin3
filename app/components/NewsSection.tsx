@@ -42,16 +42,16 @@ export default function NewsSection() {
       <div className="mx-auto px-4">
         <div className="flex flex-wrap">
           <div className="lg:w-1/2 w-full">
-            <div className="section_title mb-2">
-              <div className="titleBox pink_Highlight pr-3">
-                <h3 className="!text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ffd6db]">
+            <div className="!mb-2 p-3 sm:bg-transparent bg-[#f6eced] rounded-xl flex sm:justify-start justify-center items-center">
+              <div className="pr-3">
+                <h3 className="!pb-0 !mb-0 !text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ffd6db]">
                   آخرین اخبار
                 </h3>
               </div>
             </div>
-            <div className="flex flex-wrap items-center pl-2">
+            <div className="flex flex-wrap items-center lg:pl-2">
               {newsItems.map((item) => (
-                <div key={item.id} className="sm:w-1/2 w-full px-2 sm:mt-0 mt-3">
+                <div key={item.id} className="sm:w-1/2 w-full sm:px-2 sm:mt-0 mt-3">
                   <Card
                     hoverable
                     className=" !rounded-3xl h-64 overflow-hidden border-none shadow-sm group"
@@ -82,16 +82,16 @@ export default function NewsSection() {
             </div>
           </div>
           <div className="lg:w-1/4 w-full">
-            <div className="section_title mb-2">
-              <div className="titleBox pink_Highlight pr-3 lg:mt-0 mt-8">
-                <h3 className="!text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ffd6db]">
+            <div className="!mb-2 lg:mt-0 mt-8 p-3 sm:bg-transparent bg-[#f6eced] rounded-xl flex sm:justify-start justify-center items-center">
+              <div className=" pr-3 ">
+                <h3 className="!pb-0 !mb-0 !text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ffd6db]">
                   آخرین مقایسه
                 </h3>
               </div>
             </div>
             <div className="flex flex-wrap items-center">
               {comparisonItems.map((item) => (
-                <div key={item.id} className="w-full pb-2 lg:px-0 px-2">
+                <div key={item.id} className="w-full pb-2">
                   <Card
                     hoverable
                     className=" !rounded-3xl h-64 overflow-hidden border-none shadow-sm group"
@@ -122,8 +122,8 @@ export default function NewsSection() {
             </div>
           </div>
           <div className="lg:w-1/4 w-full">
-            <div className="titleBox pink_Highlight !mb-6">
-              <h3 className="!text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ffd6db]">
+            <div className="!mb-2 p-3 sm:bg-transparent bg-[#f6eced] rounded-xl flex sm:justify-start justify-center items-center">
+              <h3 className="!pb-0 !mb-0 !text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ffd6db]">
                 فروش ویژه
               </h3>
             </div>

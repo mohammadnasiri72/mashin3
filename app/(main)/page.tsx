@@ -1,25 +1,21 @@
-import CarAdsSection from "./components/CarAdsSection";
-import CarBrandPricesSection from "./components/CarBrandPricesSection";
-import CarComparisonSection from "./components/CarComparisonSection";
-import CarFinderSection from "./components/CarFinderSection";
-import CarSpecsSection from "./components/CarSpecsSection";
-import CarTypes from "./components/CarTypes";
-import Footer from "./components/Footer";
-import Header from "./components/Header";
-import HeroSlider from "./components/HeroSlider";
-import MotorcycleBrandsSection from "./components/MotorcycleBrandsSection";
-import NewsListSection from "./components/NewsListSection";
-import NewsSection from "./components/NewsSection";
-import PopularCarsSection from "./components/PopularCarsSection";
-import ServicesSection from "./components/ServicesSection";
-import VideoBannerSection from "./components/VideoBannerSection";
+import CarAdsSection from "../components/CarAdsSection";
+import CarBrandPricesSection from "../components/CarBrandPricesSection";
+import CarComparisonSection from "../components/CarComparisonSection";
+import CarFinderSection from "../components/CarFinderSection";
+import CarSpecsSection from "../components/CarSpecsSection";
+import CarTypes from "../components/CarTypes";
+import HeroSlider from "../components/HeroSlider";
+import MotorcycleBrandsSection from "../components/MotorcycleBrandsSection";
+import NewsListSection from "../components/NewsListSection";
+import NewsSection from "../components/NewsSection";
+import PopularCarsSection from "../components/PopularCarsSection";
+import ServicesSection from "../components/ServicesSection";
+import VideoBannerSection from "../components/VideoBannerSection";
 
 export default function Home() {
   return (
     <div className="page-wrapper min-h-screen bg-[#f4f4f4]">
-      <Header />
-
-      <main className="content-box pt-4">
+      <div className="content-box pt-4">
         {/* Banner Top */}
         <div className="bannerTop_wrap mb-8">
           <div className="mx-auto px-4">
@@ -84,9 +80,7 @@ export default function Home() {
 
         {/* Services Section */}
         <ServicesSection />
-      </main>
-
-      <Footer />
+      </div>
     </div>
   );
 }

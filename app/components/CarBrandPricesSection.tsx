@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { FaArrowLeftLong } from "react-icons/fa6";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -185,9 +186,9 @@ const CarBrandPricesSection = ({
     <div className="mb-5 mt-20">
       <div className="mx-auto px-4">
         {/* هدر بخش */}
-        <div className="flex flex-col sm:flex-row sm:justify-between justify-center items-center mb-5 gap-4 h-14">
-          <div className="titleBox pink_Highlight">
-            <h3 className="!text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ffd6db]">
+        <div className="flex flex-col sm:flex-row sm:justify-between justify-center items-center sm:!mb-0 !mb-10 gap-4 h-14">
+          <div className="!mb-2 sm:w-auto w-full p-3 sm:bg-transparent bg-[#f6eced] rounded-xl flex sm:justify-start justify-center items-center">
+            <h3 className="!pb-0 !mb-0 !text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ffd6db]">
               قیمت برند خودرویی
             </h3>
           </div>
@@ -303,7 +304,7 @@ const CarBrandPricesSection = ({
 
             {/* محتوای مرتبط با برند انتخاب شده */}
             <div className="related-content ">
-              <div className="flex flex-wrap -mx-2">
+              <div className="flex flex-wrap -mx-2 !-mt-5">
                 {filteredPriceItems.slice(0, 9).map((item, index) => (
                   <div
                     key={item.id}
@@ -337,7 +338,7 @@ const CarBrandPricesSection = ({
                     className="!text-[#ce1a2a] bg-white w-full md:w-1/2 px-2 mb-4 rounded-2xl shadow-sm p-5 flex items-center justify-center hover:bg-linear-to-b hover:from-red-400 hover:to-[#ce1a2a] !transition-all !duration-500 text-sm font-bold hover:!text-white gap-2"
                   >
                     نمایش بیشتر
-                    <i className="fa-solid fa-arrow-left text-xs" />
+                    <FaArrowLeftLong />
                   </Link>
                 )}
               </div>
@@ -362,16 +363,16 @@ const CarBrandPricesSection = ({
         .brand-box:hover {
           transform: translateY(-2px);
         }
-           [data-aos="custom-fade-down"] {
-    opacity: 0;
-    transform: translateY(-20px); /* حرکت کمتر از 120px به 20px */
-    transition-property: opacity, transform;
-  }
-  
-  [data-aos="custom-fade-down"].aos-animate {
-    opacity: 1;
-    transform: translateY(0);
-  }
+        [data-aos="custom-fade-down"] {
+          opacity: 0;
+          transform: translateY(-20px); /* حرکت کمتر از 120px به 20px */
+          transition-property: opacity, transform;
+        }
+
+        [data-aos="custom-fade-down"].aos-animate {
+          opacity: 1;
+          transform: translateY(0);
+        }
       `}</style>
     </div>
   );

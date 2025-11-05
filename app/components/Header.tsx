@@ -4,14 +4,28 @@ import { Collapse } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FiX } from "react-icons/fi";
 import { IoChevronDown, IoSearch } from "react-icons/io5";
+import { MdLogin } from "react-icons/md";
 import { TiThMenu } from "react-icons/ti";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
+  const [isSticky, setIsSticky] = useState(false);
+
+  // هندل کردن اسکرول برای sticky header
+  useEffect(() => {
+    const handleScroll = () => {
+      // بعد از 200 پیکسل اسکرول، هدر sticky شود
+      const scrollThreshold = 200;
+      setIsSticky(window.scrollY > scrollThreshold);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const menuItems = [
     {
@@ -127,7 +141,7 @@ export default function Header() {
   };
 
   const menuItemMobileDrawer = (
-    <div className="w-80 h-full bg-white flex flex-col">
+    <div className="w-80 h-full bg-white flex flex-col pr-3">
       {/* Header با لوگو */}
       <div className="p-4 border-b border-gray-200 flex items-center justify-between">
         <Link
@@ -166,9 +180,9 @@ export default function Header() {
   );
 
   return (
-    <div>
+    <div className={`sticky-header !z-[1001] ${isSticky ? "sticky-active" : ""}`}>
       {/* Main Header */}
-      <header className="relative z-30 bg-white shadow-sm">
+      <header className={`header-main ${isSticky ? "sticky" : ""}`}>
         <div className="max-w-[1360px] mx-auto px-4 py-3">
           <div className="flex items-center">
             {/* Logo and Menu Section */}
@@ -251,8 +265,10 @@ export default function Header() {
                     href="#"
                     className="font-bold whitespace-nowrap !text-[#ce1a2a] text-[13px] px-5 py-2.5 rounded transition-all duration-300 hover:shadow-[0_0_0_5px_rgba(206,26,42)]"
                   >
-                    <i className="fa-solid fa-arrow-right-to-bracket ml-2 text-xs"></i>
-                    ورود
+                    <div className="flex items-center gap-0.5">
+                      <MdLogin className="text-lg"/>
+                      <span>ورود</span>
+                    </div>
                   </Link>
 
                   <Link
@@ -269,7 +285,7 @@ export default function Header() {
 
         {/* Mobile Header */}
         <div className={`lg:hidden bg-[#ce1a2a] transition-all duration-300`}>
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between">
             {/* Search Box */}
             <div className="grow bg-[#d1182b] rounded-lg p-4 flex items-center mr-4">
               <IoSearch className="!text-white text-lg" />
@@ -300,6 +316,61 @@ export default function Header() {
           </div>
         </div>
       </header>
+
+      <style jsx global>{`
+        .sticky-header {
+          position: relative;
+          z-index: 1000;
+        }
+
+        .header-main {
+          background: white;
+          transition: all 0.3s ease;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-main.sticky {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          width: 100%;
+          z-index: 1000;
+          animation: slideDown 0.3s ease;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ایجاد فضای خالی برای زمانی که هدر sticky میشود */
+        .sticky-active::before {
+          content: '';
+          display: block;
+          height: 80px; /* ارتفاع هدر */
+        }
+
+        @keyframes slideDown {
+          from {
+            transform: translateY(-100%);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+
+        /* برای موبایل ارتفاع کمتر در نظر بگیریم */
+        @media (max-width: 1024px) {
+          .sticky-active::before {
+            height: 120px; /* ارتفاع هدر در موبایل */
+          }
+        }
+
+        /* بهبود استایل در حالت sticky */
+        .header-main.sticky .header-main {
+          padding-top: 0.5rem;
+          padding-bottom: 0.5rem;
+        }
+      `}</style>
     </div>
   );
 }

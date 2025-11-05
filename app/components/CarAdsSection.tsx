@@ -91,10 +91,18 @@ const CarAdsSection = ({
 }: CarAdsSectionProps) => {
   const [currentGroup, setCurrentGroup] = useState<number>(0);
   const [currentSlidesPerView, setCurrentSlidesPerView] = useState<number>(4);
+  const [totalGroups, setTotalGroups] = useState<number>(0);
   const swiperRef = useRef<any>(null);
 
-  // محاسبه تعداد گروه‌ها بر اساس تعداد آگهی‌ها و اسلایدهای نمایش داده شده
-  const totalGroups = Math.ceil(ads.length / currentSlidesPerView);
+  // محاسبه totalGroups بر اساس slidesPerView فعلی
+  useEffect(() => {
+    if (ads.length > 0 && currentSlidesPerView > 0) {
+      // در حالت loop، از طول اصلی آگهی‌ها استفاده می‌کنیم
+      const actualAdsCount = ads.length;
+      const groups = Math.ceil(actualAdsCount / currentSlidesPerView);
+      setTotalGroups(groups);
+    }
+  }, [ads.length, currentSlidesPerView]);
 
   const handleGroupClick = (groupIndex: number) => {
     if (swiperRef.current && swiperRef.current.swiper) {
@@ -105,45 +113,57 @@ const CarAdsSection = ({
   };
 
   const handleSlideChange = (swiper: any) => {
-    const realIndex = swiper.realIndex || swiper.activeIndex;
-    const newGroup = Math.floor(realIndex / currentSlidesPerView);
-    setCurrentGroup(newGroup);
+    // استفاده از realIndex برای حالت loop
+    const realIndex = swiper.realIndex ?? swiper.activeIndex;
+    
+    if (currentSlidesPerView > 0 && totalGroups > 0) {
+      const newGroup = Math.floor(realIndex / currentSlidesPerView);
+      setCurrentGroup(newGroup % totalGroups); // برای اطمینان از محدوده معتبر
+    }
   };
 
   const handleBreakpointChange = (swiper: any) => {
-    // به‌روزرسانی تعداد اسلایدهای نمایش داده شده هنگام تغییر breakpoint
     const slidesPerView = swiper.params.slidesPerView;
     setCurrentSlidesPerView(slidesPerView);
 
-    // محاسبه مجدد گروه فعلی
-    const realIndex = swiper.realIndex || swiper.activeIndex;
-    const newGroup = Math.floor(realIndex / slidesPerView);
-    setCurrentGroup(newGroup);
+    // محاسبه مجدد گروه فعلی پس از تغییر breakpoint
+    const realIndex = swiper.realIndex ?? swiper.activeIndex;
+    const actualAdsCount = ads.length;
+    const newTotalGroups = Math.ceil(actualAdsCount / slidesPerView);
+    
+    if (newTotalGroups > 0) {
+      const newGroup = Math.floor(realIndex / slidesPerView) % newTotalGroups;
+      setCurrentGroup(newGroup);
+      setTotalGroups(newTotalGroups);
+    }
   };
 
-  // مقداردهی اولیه slidesPerView
+  // مقداردهی اولیه
   useEffect(() => {
     if (swiperRef.current && swiperRef.current.swiper) {
-      const initialSlidesPerView =
-        swiperRef.current.swiper.params.slidesPerView;
+      const initialSlidesPerView = swiperRef.current.swiper.params.slidesPerView;
       setCurrentSlidesPerView(initialSlidesPerView);
+      
+      const actualAdsCount = ads.length;
+      const initialTotalGroups = Math.ceil(actualAdsCount / initialSlidesPerView);
+      setTotalGroups(initialTotalGroups);
     }
-  }, []);
+  }, [ads.length]);
 
   return (
     <div className="mb-5 bg-white pt-5 pb-5">
       <div className="mx-auto px-4">
         {/* هدر بخش */}
         <div className="flex flex-col sm:flex-row justify-between items-center mb-5 gap-4">
-          <div className="titleBox pink_Highlight">
-            <h3 className="!text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ffd6db]">
+          <div className="sm:w-auto w-full p-3 sm:bg-transparent bg-[#f6eced] rounded-xl flex sm:justify-start justify-center items-center">
+            <h3 className="!pb-0 !mb-0 !text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ffd6db]">
               آگهی فروش خودرو
             </h3>
           </div>
 
           <Link
             href="#"
-            className="!text-[#ce1a2a] text-sm font-medium flex items-center gap-2 hover:!text-[#a0151e] transition-colors"
+            className="!text-[#ce1a2a] text-sm font-medium flex items-center gap-2"
           >
             نمایش بیشتر
             <FaArrowLeft className="text-xs" />
@@ -257,19 +277,21 @@ const CarAdsSection = ({
           ))}
         </Swiper>
 
-        {/* Pagination زیر اسلایدر */}
-        <div className="flex justify-center mt-6 gap-2">
-          {Array.from({ length: totalGroups }, (_, index) => (
-            <button
-              key={index}
-              className={`custom-pagination-bullet ${
-                currentGroup === index ? "custom-pagination-bullet-active" : ""
-              }`}
-              onClick={() => handleGroupClick(index)}
-              aria-label={`صفحه ${index + 1}`}
-            />
-          ))}
-        </div>
+        {/* Pagination زیر اسلایدر - فقط زمانی نمایش داده شود که بیش از یک گروه وجود دارد */}
+        {totalGroups > 1 && (
+          <div className="flex justify-center mt-6 gap-2">
+            {Array.from({ length: totalGroups }, (_, index) => (
+              <button
+                key={index}
+                className={`custom-pagination-bullet ${
+                  currentGroup === index ? "custom-pagination-bullet-active" : ""
+                }`}
+                onClick={() => handleGroupClick(index)}
+                aria-label={`صفحه ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <style jsx global>{`

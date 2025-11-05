@@ -59,10 +59,18 @@ const ServicesSection = ({
 }: ServicesSectionProps) => {
   const [currentGroup, setCurrentGroup] = useState<number>(0);
   const [currentSlidesPerView, setCurrentSlidesPerView] = useState<number>(4);
+  const [totalGroups, setTotalGroups] = useState<number>(0);
   const swiperRef = useRef<any>(null);
 
-  // محاسبه تعداد گروه‌ها بر اساس تعداد خدمات و اسلایدهای نمایش داده شده
-  const totalGroups = Math.ceil(services.length / currentSlidesPerView);
+  // محاسبه totalGroups بر اساس slidesPerView فعلی
+  useEffect(() => {
+    if (services.length > 0 && currentSlidesPerView > 0) {
+      // در حالت loop، Swiper اسلایدها را duplicate می‌کند، بنابراین از طول اصلی استفاده می‌کنیم
+      const actualSlidesCount = services.length;
+      const groups = Math.ceil(actualSlidesCount / currentSlidesPerView);
+      setTotalGroups(groups);
+    }
+  }, [services.length, currentSlidesPerView]);
 
   const handleGroupClick = (groupIndex: number) => {
     if (swiperRef.current && swiperRef.current.swiper) {
@@ -73,54 +81,70 @@ const ServicesSection = ({
   };
 
   const handleSlideChange = (swiper: any) => {
-    const realIndex = swiper.realIndex || swiper.activeIndex;
-    const newGroup = Math.floor(realIndex / currentSlidesPerView);
-    setCurrentGroup(newGroup);
+    // استفاده از realIndex برای حالت loop
+    const realIndex = swiper.realIndex ?? swiper.activeIndex;
+    
+    if (currentSlidesPerView > 0) {
+      const newGroup = Math.floor(realIndex / currentSlidesPerView);
+      setCurrentGroup(newGroup % totalGroups); // برای اطمینان از محدوده معتبر
+    }
   };
 
   const handleBreakpointChange = (swiper: any) => {
     const slidesPerView = swiper.params.slidesPerView;
     setCurrentSlidesPerView(slidesPerView);
 
-    const realIndex = swiper.realIndex || swiper.activeIndex;
-    const newGroup = Math.floor(realIndex / slidesPerView);
-    setCurrentGroup(newGroup);
+    // محاسبه مجدد گروه فعلی پس از تغییر breakpoint
+    const realIndex = swiper.realIndex ?? swiper.activeIndex;
+    const actualSlidesCount = services.length;
+    const newTotalGroups = Math.ceil(actualSlidesCount / slidesPerView);
+    
+    if (newTotalGroups > 0) {
+      const newGroup = Math.floor(realIndex / slidesPerView) % newTotalGroups;
+      setCurrentGroup(newGroup);
+    }
   };
 
+  // مقداردهی اولیه
   useEffect(() => {
     if (swiperRef.current && swiperRef.current.swiper) {
-      const initialSlidesPerView =
-        swiperRef.current.swiper.params.slidesPerView;
+      const initialSlidesPerView = swiperRef.current.swiper.params.slidesPerView;
       setCurrentSlidesPerView(initialSlidesPerView);
+      
+      const actualSlidesCount = services.length;
+      const initialTotalGroups = Math.ceil(actualSlidesCount / initialSlidesPerView);
+      setTotalGroups(initialTotalGroups);
     }
-  }, []);
+  }, [services.length]);
 
   return (
     <div className="mb-5 pt-3 pb-3">
       <div className="mx-auto px-4">
         {/* هدر بخش */}
-        <div className="flex flex-wrap justify-between items-center mb-5 gap-4">
-          <div className="titleBox pink_Highlight">
-            <h3 className="!text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10">
-              خدمات
-              <span className="text-[#ce1a2a]"> ماشین3 </span>
-              <div className="absolute right-0 left-0 bottom-0 h-1/2 bg-[#ffd6db] -z-10" />
+        <div className="flex sm:flex-row flex-col justify-between items-center mb-5 gap-4">
+          <div className="sm:w-auto w-full p-3 sm:bg-transparent bg-[#f6eced] rounded-xl flex sm:justify-start justify-center items-center">
+            <h3 className="!pb-0 !mb-0 !text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ffd6db]">
+              خدمات  <span className="text-[#ce1a2a]"> ماشین3 </span>
             </h3>
           </div>
-          <div className="flex justify-center mt-6 gap-2">
-            {Array.from({ length: totalGroups }, (_, index) => (
-              <button
-                key={index}
-                className={`custom-pagination-bullet ${
-                  currentGroup === index
-                    ? "custom-pagination-bullet-active"
-                    : ""
-                }`}
-                onClick={() => handleGroupClick(index)}
-                aria-label={`صفحه ${index + 1}`}
-              />
-            ))}
-          </div>
+          
+          {/* Pagination - فقط زمانی نمایش داده شود که بیش از یک گروه وجود دارد */}
+          {totalGroups > 1 && (
+            <div className="flex justify-end gap-2 w-full sm:w-auto">
+              {Array.from({ length: totalGroups }, (_, index) => (
+                <button
+                  key={index}
+                  className={`custom-pagination-bullet ${
+                    currentGroup === index
+                      ? "custom-pagination-bullet-active"
+                      : ""
+                  }`}
+                  onClick={() => handleGroupClick(index)}
+                  aria-label={`صفحه ${index + 1}`}
+                />
+              ))}
+            </div>
+          )}
         </div>
 
         {/* اسلایدر خدمات */}
@@ -130,18 +154,10 @@ const ServicesSection = ({
           spaceBetween={16}
           slidesPerView={1}
           breakpoints={{
-            480: {
-              slidesPerView: 2,
-            },
-            768: {
-              slidesPerView: 3,
-            },
-            1024: {
-              slidesPerView: 4,
-            },
-            1280: {
-              slidesPerView: 4,
-            },
+            480: { slidesPerView: 1 },
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 4 },
+            1280: { slidesPerView: 4 },
           }}
           autoplay={{
             delay: 3500,
@@ -169,13 +185,13 @@ const ServicesSection = ({
                 </div>
 
                 {/* عنوان خدمت */}
-                <h3 className="absolute bottom-10 right-14 !text-white text-xl font-black z-10">
+                <h3 className="absolute !bottom-10 !right-16 !text-white text-xl font-black z-10">
                   {service.title}
                 </h3>
 
                 {/* شماره مرحله */}
-                <div className="step-level absolute bottom-0 right-0 bg-gray-100 p-3 rounded-tl-2xl">
-                  <span className="w-8 h-8 bg-[#ce1a2a] !text-white rounded-full flex items-center justify-center text-sm font-semibold">
+                <div className="!absolute !bottom-0 !right-0 bg-gray-100 p-3 rounded-tl-2xl">
+                  <span className="!w-8 !h-8 bg-[#ce1a2a] !text-white rounded-full !flex !items-center !justify-center text-sm font-semibold">
                     {service.step}
                   </span>
                 </div>
@@ -226,26 +242,6 @@ const ServicesSection = ({
           opacity: 0.7;
         }
 
-        /* انیمیشن hover برای سایه */
-        .img-box::after {
-          content: "";
-          position: absolute;
-          width: 100%;
-          height: 0;
-          background: linear-gradient(
-            0deg,
-            rgba(0, 0, 0, 0.8) 0%,
-            rgba(0, 0, 0, 0) 100%
-          );
-          bottom: 0;
-          right: 0;
-          transition: all 0.3s ease;
-        }
-
-        .service-box:hover .img-box::after {
-          height: 100%;
-        }
-
         /* Responsive adjustments */
         @media (max-width: 640px) {
           .services-swiper {
@@ -260,22 +256,6 @@ const ServicesSection = ({
           .custom-pagination-bullet-active {
             width: 18px;
           }
-
-          .service-box h3 {
-            font-size: 18px;
-            right: 12px;
-            bottom: 12px;
-          }
-
-          .step-level {
-            padding: 2px;
-          }
-
-          .step-level span {
-            width: 6px;
-            height: 6px;
-            font-size: 12px;
-          }
         }
 
         @media (max-width: 480px) {
@@ -286,12 +266,6 @@ const ServicesSection = ({
 
           .custom-pagination-bullet-active {
             width: 12px;
-          }
-
-          .service-box h3 {
-            font-size: 16px;
-            right: 10px;
-            bottom: 10px;
           }
         }
       `}</style>

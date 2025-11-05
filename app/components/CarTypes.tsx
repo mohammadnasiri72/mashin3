@@ -21,11 +21,11 @@ const carTypes = [
 
 export default function CarTypes() {
   return (
-    <div className="mb-16  bg-cover bg-center">
-      <div className=" mx-auto px-4 typeCar_wrap">
+    <div className="mb-16 bg-cover bg-center">
+      <div className=" mx-auto px-4 bg-position-[center_10px] typeCar_wrap ">
       
-        <div className="titleBox pink_Highlight pr-3 lg:mt-0 mt-8 mb-8">
-          <h3 className="!text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ffd6db]">
+        <div className="!mb-2 p-3 sm:bg-transparent bg-[#f6eced] rounded-xl flex sm:justify-start justify-center items-center">
+          <h3 className="!pb-0 !mb-0 !text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ffd6db]">
             انتخاب نوع خودرو
           </h3>
         </div>

@@ -98,29 +98,32 @@ const CarFinderSection: React.FC = () => {
     <ThemeProvider theme={theme}>
       <Box
         component="section"
-        className="findCar_wrap pt-4 pb-4"
+        className="findCar_wrap pb-4"
         sx={{
           backgroundColor: "background.paper",
-          py: 4,
+          py: 2,
         }}
       >
         {/* Header Section */}
-        <Box
-          className="section_title mb-4 mt-3 sm:px-5 px-2"
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            my: 2,
-          }}
-        >
-          <div className="!text-white inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-2 after:h-1/3 after:-z-10 after:bg-[#ce1a2a]">
-            <h3 className="text-xl !font-bold !text-white">خودرو یاب</h3>
+        <div className="mb-4 mt-3 sm:px-5 px-2 flex sm:flex-row flex-col justify-between items-center">
+          {/* <div className="!mb-2 sm:w-auto w-full p-3 sm:bg-transparent bg-[#ffd6db33] rounded-xl flex sm:justify-start justify-center items-center">
+            <div className=" !text-white inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-2 after:h-1/3 after:-z-10 sm:after:bg-[#ce1a2a]">
+              <h3 className="!pb-0 !mb-0 text-xl !font-bold !text-white">
+                خودرو یاب
+              </h3>
+            </div>
+          </div> */}
+          <div className="sm:!mb-0 !mb-5 sm:w-auto w-full p-3 sm:bg-transparent bg-[#ffd6db33] rounded-xl flex sm:justify-start justify-center items-center">
+            <div className=" pr-3 ">
+              <h3 className="!pb-0 !mb-0 !text-white !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ce1a2a]">
+                خودرو یاب
+              </h3>
+            </div>
           </div>
 
           <Button
             variant="contained"
-            className="searchCar_bt button button-wave-1"
+            className="searchCar_bt button button-wave-1 sm:w-auto w-full"
             onClick={handleSearch}
             sx={{
               backgroundColor: "#fff",
@@ -162,7 +165,7 @@ const CarFinderSection: React.FC = () => {
             <IoSearch />
             <span className="pr-2">جستجو خودرو</span>
           </Button>
-        </Box>
+        </div>
 
         {/* Search Form */}
         <div className="flex items-center flex-wrap sm:px-4 px-1">
@@ -256,7 +259,7 @@ const CarFinderSection: React.FC = () => {
                 },
                 "& .Mui-disabled": {
                   "& .MuiInputBase-input": {
-                    "WebkitTextFillColor": "#ce1a2a !important", 
+                    WebkitTextFillColor: "#ce1a2a !important",
                   },
                 },
               }}
@@ -307,7 +310,7 @@ const CarFinderSection: React.FC = () => {
                 },
                 "& .Mui-disabled": {
                   "& .MuiInputBase-input": {
-                    "WebkitTextFillColor": "#ce1a2a !important", 
+                    WebkitTextFillColor: "#ce1a2a !important",
                   },
                 },
               }}
