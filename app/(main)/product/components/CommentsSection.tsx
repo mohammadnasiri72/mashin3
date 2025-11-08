@@ -4,6 +4,15 @@ import { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
 import { FaFlag, FaReply, FaThumbsUp, FaThumbsDown } from 'react-icons/fa6';
 
+// تابع تبدیل اعداد به فارسی
+const toPersianNumber = (number: number): string => {
+  const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+  return number
+    .toString()
+    .replace(/\d/g, (digit) => persianDigits[parseInt(digit)]);
+};
+
+
 const { TextArea } = Input;
 
 const CommentsSection = () => {
@@ -137,42 +146,43 @@ const CommentsSection = () => {
               <div
                 key={comment.id}
                 className={`comment-box bg-gray-50 rounded-xl p-4 ${
-                  comment.isReply ? 'mr-8 border-r-2 border-red-200' : ''
+                  comment.isReply ? 'mr-20 border-r-2 border-red-200' : ''
                 }`}
               >
-                <div className="cm_tp flex justify-between items-center mb-3">
+                <div className="cm_tp flex gap-3 items-center mb-3">
                   <div className="author_name font-bold text-gray-800">
                     {comment.author}
                   </div>
-                  <div className="cm_date text-sm text-gray-500 relative pr-4">
+                  <div className="text-xs font-semibold relative pr-3">
                     {comment.date}
-                    <span className="absolute right-0 top-1/2 transform -translate-y-1/2 w-1.5 h-1.5 bg-purple-300 rounded-full"></span>
+                    <span className="absolute right-0 top-1/2 transform -translate-y-1/2 w-1.5 h-1.5 bg-purple-200 rounded-full"></span>
                   </div>
                 </div>
 
-                <div className="text_area text-gray-700 leading-7 mb-3">
+                <div className="text-justify text-gray-700 leading-7 mb-3">
                   {comment.content}
                 </div>
 
                 <div className="cm_btm flex justify-between items-center">
                   <a href="#" className="cm_report flex items-center text-xs text-gray-500 bg-white px-3 py-1 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors">
-                    <FaFlag className="ml-1 text-red-500" />
+                    <FaFlag className="ml-1 text-red-500 text-lg" />
                     گزارش مشکل
                   </a>
 
                   <div className="cm_buttons flex items-center gap-2">
-                    <div className="replyTo flex items-center text-xs text-gray-500 bg-white px-3 py-1 rounded-lg">
-                      <span>{comment.replies}</span>
-                      <FaReply className="mr-1 text-purple-500" />
-                    </div>
-                    
-                    <button className="dislike_cm flex items-center text-xs text-gray-500 bg-white px-3 py-1 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors">
-                      <span>{comment.dislikes}</span>
-                      <FaThumbsDown className="mr-1 text-red-500" />
+                    <button className="cursor-pointer group flex items-center text-xs text-gray-500 bg-white p-3 rounded-lg">
+                      <span>{toPersianNumber(comment.replies)}</span>
+                      <FaReply className="mr-1 text-purple-500 text-lg group-hover:-rotate-360 duration-500" />
                     </button>
                     
-                    <button className="like_cm flex items-center text-xs text-gray-500 bg-white px-3 py-1 rounded-lg hover:bg-green-50 hover:text-green-600 transition-colors">
-                      <FaThumbsUp className="mr-1 text-green-500" />
+                    <button className="cursor-pointer group flex items-center text-xs text-gray-500 bg-white p-3 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors">
+                      <span>{toPersianNumber(comment.dislikes)}</span>
+                      <FaThumbsDown className="mr-1 group-hover:animate-pulse text-red-500 text-lg" />
+                    </button>
+                    
+                    <button className="cursor-pointer group flex items-center text-xs text-gray-500 bg-white p-3 rounded-lg hover:bg-green-50 hover:text-green-600 transition-colors">
+                     <span>{toPersianNumber(comment.likes)}</span>
+                      <FaThumbsUp className="mr-1 group-hover:animate-pulse text-green-500 text-lg" />
                     </button>
                   </div>
                 </div>

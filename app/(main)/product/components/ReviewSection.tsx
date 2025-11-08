@@ -6,7 +6,7 @@ const ReviewSection = () => {
         کارشناسی ماشین شاهین اتوماتیک
       </h3>
       
-      <div className="text_area text-gray-700 leading-8 text-justify space-y-4">
+      <div className="text_area text-gray-700 leading-8 text-justify space-y-4 mt-3">
         <p>
           شاهین سدان کلاس C گروه خودروسازی سایپا بوده و از پلتفرم SP100 در آن 
           استفاده شده است. شاهین در ابتدا با نسخه های دنده ای تیپ G و اتوماتیک 

@@ -25,14 +25,14 @@ const FeaturesSection = ({
   ],
 }: FeaturesSectionProps) => {
   return (
-    <div className="advg_wrap detailsBox bg-white rounded-xl p-6 mb-6">
-      <h2 className="dt_title text-2xl font-bold text-gray-900 mb-6">
-        <strong>مزایا و معایب شاهین اتوماتیک</strong>
+    <div className="advg_wrap detailsBox bg-white rounded-xl p-6 !mb-6">
+      <h2 className="dt_title text-2xl font-bold text-gray-900 !mb-6">
+        <strong><span className="text-green-700">مزایا</span> و <span className="text-red-700">معایب</span> شاهین اتوماتیک</strong>
       </h2>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Advantages Column */}
-        <div className="advg_box bg-green-50 rounded-xl p-6">
+        <div className="bg-green-50 rounded-xl p-6">
           <div className="advg_title advg_plus flex items-center text-green-700 text-lg font-bold mb-4">
             <FaSquarePlus className="ml-2 text-green-600" />
             مزایا
@@ -51,7 +51,7 @@ const FeaturesSection = ({
         </div>
 
         {/* Disadvantages Column */}
-        <div className="advg_box bg-red-50 rounded-xl p-6">
+        <div className="bg-red-50 rounded-xl p-6">
           <div className="advg_title advg_minus flex items-center text-red-700 text-lg font-bold mb-4">
             <FaSquareMinus className="ml-2 text-red-600" />
             معایب

@@ -28,6 +28,8 @@ const ContentTabs = () => {
   const faqRef = useRef<HTMLDivElement>(null);
   const commentsRef = useRef<HTMLDivElement>(null);
 
+ 
+
   // هندل کردن اسکرول و sticky navbar
   useEffect(() => {
     const handleScroll = () => {
@@ -48,7 +50,6 @@ const ContentTabs = () => {
 
       // پیدا کردن بخش فعال با استفاده از getBoundingClientRect
       let currentActiveKey = "";
-      const viewportHeight = window.innerHeight;
 
       for (let i = 0; i < sections.length; i++) {
         const section = sections[i];
@@ -58,7 +59,7 @@ const ContentTabs = () => {
           const sectionBottom = rect.bottom;
 
           // اگر بخش در viewport قرار دارد
-          if (sectionTop <= 150 && sectionBottom >= 150) {
+          if (sectionTop <= 200 && sectionBottom >= 200) {
             currentActiveKey = section.key;
             break;
           }
@@ -68,7 +69,7 @@ const ContentTabs = () => {
             const nextSection = sections[i + 1];
             if (nextSection.ref.current) {
               const nextRect = nextSection.ref.current.getBoundingClientRect();
-              if (sectionBottom < 150 && nextRect.top > 150) {
+              if (sectionBottom < 200 && nextRect.top > 200) {
                 currentActiveKey = section.key;
                 break;
               }
@@ -80,14 +81,14 @@ const ContentTabs = () => {
       // اگر به انتهای صفحه رسیده‌ایم، آخرین تب را فعال کن
       if (
         window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 50
+        document.body.offsetHeight - 200
       ) {
         currentActiveKey = "comments";
       }
 
       if (currentActiveKey !== "") {
-  setActiveKey(currentActiveKey);
-}
+        setActiveKey(currentActiveKey);
+      }
     };
 
     // استفاده از throttle برای بهینه‌سازی performance
@@ -112,7 +113,7 @@ const ContentTabs = () => {
 
   // هندل کلیک روی تب - اسکرول به بخش مربوطه
   const handleTabClick = (key: string) => {
-    setActiveKey(key);
+    // setActiveKey(key);
 
     const sectionRefs: SectionRefs = {
       review: reviewRef,
@@ -134,7 +135,7 @@ const ContentTabs = () => {
           currentElement = currentElement.offsetParent as HTMLElement;
         }
 
-        return offsetTop;
+        return offsetTop - 50;
       };
 
       const navbarHeight = isSticky
@@ -176,6 +177,9 @@ const ContentTabs = () => {
 
   return (
     <div className="content-tabs-container">
+      <div className="lg:w-1/4 w-full lg:hidden block ">
+          <Sidebar />
+        </div>
       {/* Navigation Tabs */}
       <div
         ref={navbarRef}
@@ -189,10 +193,12 @@ const ContentTabs = () => {
         />
       </div>
 
+       
+
       {/* Content Area */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6">
+      <div className="flex items-start gap-6 lg:flex-nowrap flex-wrap-reverse mt-6">
         {/* Main Content */}
-        <div className="lg:col-span-9">
+        <div className="lg:w-3/4 w-full">
           <div className="space-y-6">
             <div id="review" className="section-anchor" ref={reviewRef}>
               <ReviewSection />
@@ -210,17 +216,18 @@ const ContentTabs = () => {
               <FAQSection />
             </div>
 
-            <div id="comments" className="section-anchor" ref={commentsRef}>
-              <CommentsSection />
-            </div>
+            
           </div>
         </div>
 
         {/* Sidebar */}
-        <div className="lg:col-span-3">
+        <div className="lg:w-1/4 w-full lg:block hidden">
           <Sidebar />
         </div>
       </div>
+      <div id="comments" className="section-anchor py-5" ref={commentsRef}>
+              <CommentsSection />
+            </div>
 
       <style jsx global>{`
         .content-tabs-container {
@@ -269,7 +276,11 @@ const ContentTabs = () => {
         }
 
         .custom-tabs .ant-tabs-tab-active {
-          color: #ce1a2a;
+          color: #fff !important;
+          background: #ce1a2a;
+        }
+        .custom-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+          color: #fff !important;
         }
 
         .custom-tabs .ant-tabs-ink-bar {

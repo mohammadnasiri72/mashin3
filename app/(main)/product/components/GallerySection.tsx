@@ -1,25 +1,73 @@
 "use client";
 
-import { useState } from 'react';
-import Image from 'next/image';
-import { Modal, Row, Col } from 'antd';
+import Image from "next/image";
+import { useEffect } from "react";
+
+// Fancybox
+import { Fancybox } from "@fancyapps/ui";
+import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
 const GallerySection = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState('');
-
   const images = [
-    '/images/gallery/auto-11.jpg',
-    '/images/gallery/auto-12.jpg',
-    '/images/gallery/auto-11.jpg',
-    '/images/gallery/auto-12.jpg',
-    '/images/gallery/auto-11.jpg',
+    "/images/gallery/auto-11.jpg",
+    "/images/gallery/auto-12.jpg",
+    "/images/gallery/auto-11.jpg",
+    "/images/gallery/auto-12.jpg",
+    "/images/gallery/auto-11.jpg",
+    "/images/gallery/auto-12.jpg",
+    "/images/gallery/auto-11.jpg",
+    "/images/gallery/auto-12.jpg",
+    "/images/gallery/auto-11.jpg",
+    "/images/gallery/auto-12.jpg",
+    "/images/gallery/auto-11.jpg",
+    "/images/gallery/auto-12.jpg",
+    "/images/gallery/auto-11.jpg",
+    "/images/gallery/auto-12.jpg",
+    "/images/gallery/auto-11.jpg",
   ];
 
-  const handleImageClick = (image: string) => {
-    setSelectedImage(image);
-    setIsModalOpen(true);
-  };
+  // Initialize Fancybox
+  useEffect(() => {
+    Fancybox.bind("[data-fancybox='gallery']", {
+      Toolbar: {
+        display: {
+          left: [],
+          middle: [],
+          right: ["close"],
+        },
+      },
+      Thumbs: {
+        type: "classic",
+      },
+      Images: {
+        zoom: true,
+      },
+      Carousel: {
+        infinite: true,
+      },
+    });
+
+    return () => {
+      Fancybox.destroy();
+    };
+  }, []);
+
+  // Increase z-index for fancybox
+  useEffect(() => {
+    const style = document.createElement("style");
+    style.innerHTML = `
+      .fancybox__container { 
+        z-index: 999999 !important; 
+      }
+      .fancybox__backdrop {
+        background: rgba(0, 0, 0, 0.8);
+      }
+    `;
+    document.head.appendChild(style);
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
 
   return (
     <div className="detailsBox bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
@@ -28,49 +76,34 @@ const GallerySection = () => {
         ماشین شاهین اتوماتیک
       </h3>
 
-      <div className="space-y-4">
+      <div className="space-y-4 mt-3">
         {/* ردیف‌های تصاویر */}
-        {[0, 1, 2, 3].map((rowIndex) => (
-          <Row key={rowIndex} gutter={[8, 8]} className="mb-2">
+        
+        
+          <div className="flex flex-wrap items-center">
             {images.map((image, colIndex) => (
-              <Col key={colIndex} xs={12} sm={8} md={6} lg={4}>
-                <div 
-                  className="inn_gl_item border-2 border-transparent rounded-lg overflow-hidden cursor-pointer transition-all duration-300 hover:border-red-400"
-                  onClick={() => handleImageClick(image)}
-                >
-                  <Image
-                    src={image}
-                    alt={`شاهین اتوماتیک ${rowIndex * 5 + colIndex + 1}`}
-                    width={200}
-                    height={150}
-                    className="w-full h-32 object-cover"
-                  />
+              <div key={colIndex} className="lg:w-1/5 sm:w-1/4 w-1/2 p-1">
+                <div className="inn_gl_item border-2 border-transparent rounded-lg overflow-hidden cursor-pointer transition-all duration-300 hover:border-red-400">
+                  <a
+                    href={image}
+                    data-fancybox="gallery"
+                    data-caption={`شاهین اتوماتیک`}
+                    aria-label="لینک گالری تصاویر"
+                  >
+                    <Image
+                      src={image}
+                      alt={`شاهین اتوماتیک `}
+                      width={200}
+                      height={150}
+                      className="w-full h-32 object-cover"
+                    />
+                  </a>
                 </div>
-              </Col>
+              </div>
             ))}
-          </Row>
-        ))}
+          </div>
+      
       </div>
-
-      {/* Modal برای نمایش تصویر بزرگ */}
-      <Modal
-        open={isModalOpen}
-        onCancel={() => setIsModalOpen(false)}
-        footer={null}
-        centered
-        width="80%"
-        style={{ maxWidth: '800px' }}
-      >
-        {selectedImage && (
-          <Image
-            src={selectedImage}
-            alt="تصویر بزرگ"
-            width={800}
-            height={600}
-            className="w-full h-auto"
-          />
-        )}
-      </Modal>
 
       <style jsx global>{`
         .inn_gl_item {
@@ -79,7 +112,7 @@ const GallerySection = () => {
         }
 
         .inn_gl_item::before {
-          content: '';
+          content: "";
           position: absolute;
           top: 0;
           left: 0;
@@ -89,14 +122,31 @@ const GallerySection = () => {
           opacity: 0;
           transition: opacity 0.3s ease;
           z-index: 1;
+          pointer-events: none;
         }
 
         .inn_gl_item:hover::before {
           opacity: 1;
         }
 
-        .ant-modal-body {
-          padding: 0 !important;
+        .inn_gl_item a {
+          display: block;
+          width: 100%;
+          height: 100%;
+        }
+
+        /* Fancybox custom styles */
+        .fancybox__toolbar {
+          background: rgba(0, 0, 0, 0.5);
+        }
+
+        .fancybox__nav {
+          --f-button-color: #fff;
+          --f-button-hover-color: #ce1a2a;
+        }
+
+        .fancybox__thumbs {
+          background: rgba(0, 0, 0, 0.8);
         }
       `}</style>
     </div>
