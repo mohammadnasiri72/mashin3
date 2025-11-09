@@ -81,7 +81,7 @@ const CarDetails = () => {
   useEffect(() => {
     // Import fancybox CSS dynamically
 
-    Fancybox.bind("[data-fancybox='gallery']", {
+    Fancybox.bind("[data-fancybox='main-gallery']", {
       // استفاده از تنظیمات معتبر Fancybox
       Toolbar: {
         display: {
@@ -225,7 +225,7 @@ const CarDetails = () => {
                       <a
                         className="h-full block cursor-pointer"
                         href={image}
-                        data-fancybox="gallery"
+                        data-fancybox="main-gallery"
                         data-caption={`شاهین اتوماتیک ${index + 1}`}
                         aria-label="لینک گالری تصاویر"
                       >

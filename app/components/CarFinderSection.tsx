@@ -86,8 +86,7 @@ const CarFinderSection: React.FC = () => {
   };
 
   const handleSearch = () => {
-    console.log("Search data:", searchData);
-    // Add your search logic here
+  
   };
 
   const formatPrice = (value: number) => {

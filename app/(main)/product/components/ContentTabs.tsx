@@ -28,8 +28,6 @@ const ContentTabs = () => {
   const faqRef = useRef<HTMLDivElement>(null);
   const commentsRef = useRef<HTMLDivElement>(null);
 
- 
-
   // هندل کردن اسکرول و sticky navbar
   useEffect(() => {
     const handleScroll = () => {
@@ -176,58 +174,56 @@ const ContentTabs = () => {
   ];
 
   return (
-    <div className="content-tabs-container">
-      <div className="lg:w-1/4 w-full lg:hidden block ">
-          <Sidebar />
-        </div>
-      {/* Navigation Tabs */}
-      <div
-        ref={navbarRef}
-        className={`navbar-tabs !p-0 !m-0 ${isSticky ? "sticky" : ""}`}
-      >
-        <Tabs
-          activeKey={activeKey}
-          onChange={handleTabClick}
-          items={tabItems}
-          className="custom-tabs "
-        />
+    <div className="content-tabs-container flex lg:flex-row-reverse gap-3 lg:flex-nowrap flex-wrap">
+      <div className="lg:w-1/4 w-full">
+        <Sidebar />
       </div>
+      <div className="lg:w-3/4 w-full">
+        {/* Navigation Tabs */}
+        <div
+          ref={navbarRef}
+          className={`navbar-tabs  !p-0 !m-0 ${isSticky ? "sticky" : ""}`}
+        >
+          <Tabs
+            activeKey={activeKey}
+            onChange={handleTabClick}
+            items={tabItems}
+            className="custom-tabs "
+          />
+        </div>
 
-       
+        {/* Content Area */}
+        <div className="flex items-start gap-6 lg:flex-nowrap flex-wrap-reverse mt-6">
+          {/* Main Content */}
+          <div className="w-full">
+            <div className="space-y-6">
+              <div id="review" className="section-anchor" ref={reviewRef}>
+                <ReviewSection />
+              </div>
 
-      {/* Content Area */}
-      <div className="flex items-start gap-6 lg:flex-nowrap flex-wrap-reverse mt-6">
-        {/* Main Content */}
-        <div className="lg:w-3/4 w-full">
-          <div className="space-y-6">
-            <div id="review" className="section-anchor" ref={reviewRef}>
-              <ReviewSection />
+              <div id="technical" className="section-anchor" ref={technicalRef}>
+                <TechnicalSection />
+              </div>
+
+              <div id="images" className="section-anchor" ref={imagesRef}>
+                <GallerySection />
+              </div>
+
+              <div id="faq" className="section-anchor" ref={faqRef}>
+                <FAQSection />
+              </div>
             </div>
-
-            <div id="technical" className="section-anchor" ref={technicalRef}>
-              <TechnicalSection />
-            </div>
-
-            <div id="images" className="section-anchor" ref={imagesRef}>
-              <GallerySection />
-            </div>
-
-            <div id="faq" className="section-anchor" ref={faqRef}>
-              <FAQSection />
-            </div>
-
-            
           </div>
-        </div>
 
-        {/* Sidebar */}
-        <div className="lg:w-1/4 w-full lg:block hidden">
+          {/* Sidebar */}
+          {/* <div className="lg:w-1/4 w-full lg:block hidden">
           <Sidebar />
+        </div> */}
+        </div>
+        <div id="comments" className="section-anchor py-5" ref={commentsRef}>
+          <CommentsSection />
         </div>
       </div>
-      <div id="comments" className="section-anchor py-5" ref={commentsRef}>
-              <CommentsSection />
-            </div>
 
       <style jsx global>{`
         .content-tabs-container {

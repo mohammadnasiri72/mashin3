@@ -30,18 +30,18 @@ const FeaturesSection = ({
         <strong><span className="text-green-700">مزایا</span> و <span className="text-red-700">معایب</span> شاهین اتوماتیک</strong>
       </h2>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {/* Advantages Column */}
         <div className="bg-green-50 rounded-xl p-6">
           <div className="advg_title advg_plus flex items-center text-green-700 text-lg font-bold mb-4">
             <FaSquarePlus className="ml-2 text-green-600" />
             مزایا
           </div>
-          <ul className="advg_list space-y-3">
+          <ul className="flex flex-wrap space-y-3">
             {advantages.map((advantage, index) => (
               <li
                 key={index}
-                className="text-gray-800 font-medium flex items-start"
+                className="text-gray-800 font-medium flex items-start lg:w-1/2 w-full"
               >
                 <span className="text-green-500 ml-2 mt-1">•</span>
                 {advantage}
@@ -56,11 +56,11 @@ const FeaturesSection = ({
             <FaSquareMinus className="ml-2 text-red-600" />
             معایب
           </div>
-          <ul className="advg_list space-y-3">
+          <ul className="flex flex-wrap space-y-3">
             {disadvantages.map((disadvantage, index) => (
               <li
                 key={index}
-                className="text-gray-800 font-medium flex items-start"
+                className="text-gray-800 font-medium flex items-start lg:w-1/2 w-full"
               >
                 <span className="text-red-500 ml-2 mt-1">•</span>
                 {disadvantage}

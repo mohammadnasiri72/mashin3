@@ -1,7 +1,12 @@
 "use client";
 
+import {
+  MenuItem as ApiMenuItem,
+  type MenuResponse,
+} from "@/services/Menu/Menu";
 import { Collapse } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
+import { Skeleton } from "antd";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -9,16 +14,78 @@ import { FiX } from "react-icons/fi";
 import { IoChevronDown, IoSearch } from "react-icons/io5";
 import { MdLogin } from "react-icons/md";
 import { TiThMenu } from "react-icons/ti";
+import ModalLogin from "./ModalLogin";
 
-export default function Header() {
+export default function Header({ menu }: { menu: MenuResponse }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
   const [isSticky, setIsSticky] = useState(false);
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+
+  // تایپ برای menuItems نهایی
+  interface MenuItem {
+    title: string;
+    url: string;
+    children?: MenuItem[];
+  }
+
+  // تابع تبدیل ApiMenuItem به MenuItem با ساختار سلسله‌مراتبی
+  const convertApiMenuToHierarchical = (
+    apiItems: ApiMenuItem[]
+  ): MenuItem[] => {
+    // ایجاد یک مپ برای دسترسی سریع به آیتم‌ها بر اساس id
+    const itemsMap = new Map<number, ApiMenuItem>();
+    const hierarchicalItems: MenuItem[] = [];
+
+    // اول همه آیتم‌ها را در مپ قرار می‌دهیم
+    apiItems.forEach((item) => {
+      itemsMap.set(item.id, item);
+    });
+
+    // تابع بازگشتی برای ایجاد ساختار سلسله‌مراتبی
+    const buildHierarchy = (parentId: number | null): MenuItem[] => {
+      const children: MenuItem[] = [];
+
+      apiItems.forEach((item) => {
+        if (item.parentId === parentId) {
+          const menuItem: MenuItem = {
+            title: item.title,
+            url: item.url || item.href || "#",
+          };
+
+          // بررسی می‌کنیم که آیا این آیتم فرزند دارد یا نه
+          const childItems = buildHierarchy(item.id);
+          if (childItems.length > 0) {
+            menuItem.children = childItems;
+          }
+
+          children.push(menuItem);
+        }
+      });
+
+      // بر اساس priority مرتب می‌کنیم (اعداد کمتر اولویت بالاتر)
+      return children.sort((b, a) => {
+        const aItem = apiItems.find((item) => item.title === a.title);
+        const bItem = apiItems.find((item) => item.title === b.title);
+        return (aItem?.priority || 0) - (bItem?.priority || 0);
+      });
+    };
+
+    return buildHierarchy(null);
+  };
+
+  useEffect(() => {
+    if (menu.length > 0) {
+      const primaryMenuItems =
+        menu.find((m) => m.menuKey === "primary")?.menuItems || [];
+      const convertedMenu = convertApiMenuToHierarchical(primaryMenuItems);
+      setMenuItems(convertedMenu);
+    }
+  }, [menu]);
 
   // هندل کردن اسکرول برای sticky header
   useEffect(() => {
     const handleScroll = () => {
-      // بعد از 200 پیکسل اسکرول، هدر sticky شود
       const scrollThreshold = 200;
       setIsSticky(window.scrollY > scrollThreshold);
     };
@@ -26,67 +93,6 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const menuItems = [
-    {
-      title: "خودروهای بازار",
-      url: "#",
-    },
-    {
-      title: "شرایط فروش خودرو",
-      url: "#",
-      children: [
-        {
-          title: "شرایط فروش نقدی",
-          url: "#",
-        },
-        {
-          title: "شرایط فروش اقساطی",
-          url: "#",
-        },
-        {
-          title: "فروش ویژه",
-          url: "#",
-        },
-        {
-          title: "پیش فروش خودرو",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "قیمت خودرو",
-      url: "#",
-    },
-    {
-      title: "اخبار خودرو",
-      url: "#",
-      children: [
-        {
-          title: "اخبار روز خودرو",
-          url: "#",
-        },
-        {
-          title: "تحلیل بازار",
-          url: "#",
-        },
-        {
-          title: "تست رانندگی",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "نکات آموزشی",
-      url: "#",
-    },
-  ];
-
-  interface MenuItem {
-    title: string;
-    url: string;
-    children?: MenuItem[];
-  }
 
   interface MobileMenuItemProps {
     item: MenuItem;
@@ -180,10 +186,12 @@ export default function Header() {
   );
 
   return (
-    <div className={`sticky-header !z-[1001] ${isSticky ? "sticky-active" : ""}`}>
+    <div
+      className={`sticky-header !z-[1001] ${isSticky ? "sticky-active" : ""}`}
+    >
       {/* Main Header */}
-      <header className={`header-main ${isSticky ? "sticky" : ""}`}>
-        <div className="max-w-[1360px] mx-auto px-4 py-3">
+      <header className={`header-main bg-white duration-300 shadow-lg ${isSticky ? "sticky" : ""}`}>
+        <div className="max-w-[1560px] mx-auto px-4 py-3">
           <div className="flex items-center">
             {/* Logo and Menu Section */}
             <div className="w-auto lg:w-2/3 xl:w-7/12 flex items-center">
@@ -204,41 +212,52 @@ export default function Header() {
                 {/* Desktop Menu */}
                 <div className="hidden lg:block lg:w-10/12 xl:w-10/12">
                   <nav className="flex items-center space-x-1 space-x-reverse">
-                    {menuItems.map((item, index) => (
-                      <div
-                        key={index}
-                        className="relative group"
-                        onMouseEnter={() => setActiveDropdown(index)}
-                        onMouseLeave={() => setActiveDropdown(null)}
-                      >
-                        <Link
-                          href={item.url}
-                          className="flex items-center text-[13px] mx-1 whitespace-nowrap font-medium !text-[#222] hover:bg-[#ce1a2a] hover:!text-white rounded-lg px-3 py-2 duration-300 transition-all"
+                    {menuItems.length > 0 &&
+                      menuItems.map((item, index) => (
+                        <div
+                          key={index}
+                          className="relative group"
+                          onMouseEnter={() => setActiveDropdown(index)}
+                          onMouseLeave={() => setActiveDropdown(null)}
                         >
-                          {item.title}
-                          {item.children && (
-                            <IoChevronDown className="mr-1 text-xs transition-transform duration-300 group-hover:rotate-180" />
-                          )}
-                        </Link>
+                          <Link
+                            href={item.url}
+                            className="flex items-center text-[13px] whitespace-nowrap font-medium !text-[#222] hover:bg-[#ce1a2a] hover:!text-white rounded-lg px-2 py-2 duration-300 transition-all"
+                          >
+                            {item.title}
+                            {item.children && (
+                              <IoChevronDown className="mr-1 text-xs transition-transform duration-300 group-hover:rotate-180" />
+                            )}
+                          </Link>
 
-                        {/* Dropdown Menu */}
-                        {item.children && (
-                          <div className="absolute right-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
-                            <div className="bg-white rounded-lg shadow-lg border border-gray-200 min-w-[200px] py-2">
-                              {item.children.map((child, childIndex) => (
-                                <Link
-                                  key={childIndex}
-                                  href={child.url}
-                                  className="block px-4 py-3 text-sm text-gray-700 hover:!text-white hover:!bg-[#ce1a2a] transition-all duration-200 border-b border-gray-100 last:border-b-0"
-                                >
-                                  {child.title}
-                                </Link>
-                              ))}
+                          {/* Dropdown Menu */}
+                          {item.children && (
+                            <div className="absolute right-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-50">
+                              <div className="bg-white rounded-lg shadow-lg border border-gray-200 min-w-[230px] py-2">
+                                {item.children.map((child, childIndex) => (
+                                  <Link
+                                    key={childIndex}
+                                    href={child.url}
+                                    className="block px-4 py-3 text-sm text-gray-700 hover:!text-white hover:!bg-[#ce1a2a] transition-all duration-200 border-b border-gray-100 last:border-b-0"
+                                  >
+                                    {child.title}
+                                  </Link>
+                                ))}
+                              </div>
                             </div>
-                          </div>
-                        )}
+                          )}
+                        </div>
+                      ))}
+                    {menuItems.length === 0 && (
+                      <div className="flex items-center gap-5">
+                        <Skeleton.Button active={true} size={"small"} shape={"default"} />
+                        <Skeleton.Button active={true} size={"small"} shape={"default"} />
+                        <Skeleton.Button active={true} size={"small"} shape={"default"} />
+                        <Skeleton.Button active={true} size={"small"} shape={"default"} />
+                        <Skeleton.Button active={true} size={"small"} shape={"default"} />
+                        <Skeleton.Button active={true} size={"small"} shape={"default"} />
                       </div>
-                    ))}
+                    )}
                   </nav>
                 </div>
               </div>
@@ -261,15 +280,8 @@ export default function Header() {
                 </div>
 
                 <div className="flex items-center space-x-3 space-x-reverse">
-                  <Link
-                    href="#"
-                    className="font-bold whitespace-nowrap !text-[#ce1a2a] text-[13px] px-5 py-2.5 rounded transition-all duration-300 hover:shadow-[0_0_0_5px_rgba(206,26,42)]"
-                  >
-                    <div className="flex items-center gap-0.5">
-                      <MdLogin className="text-lg"/>
-                      <span>ورود</span>
-                    </div>
-                  </Link>
+                  <ModalLogin />
+                 
 
                   <Link
                     href="#"
@@ -323,11 +335,7 @@ export default function Header() {
           z-index: 1000;
         }
 
-        .header-main {
-          background: white;
-          transition: all 0.3s ease;
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
+       
 
         .header-main.sticky {
           position: fixed;
@@ -340,11 +348,10 @@ export default function Header() {
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         }
 
-        /* ایجاد فضای خالی برای زمانی که هدر sticky میشود */
         .sticky-active::before {
-          content: '';
+          content: "";
           display: block;
-          height: 80px; /* ارتفاع هدر */
+          height: 80px;
         }
 
         @keyframes slideDown {
@@ -358,14 +365,12 @@ export default function Header() {
           }
         }
 
-        /* برای موبایل ارتفاع کمتر در نظر بگیریم */
         @media (max-width: 1024px) {
           .sticky-active::before {
-            height: 120px; /* ارتفاع هدر در موبایل */
+            height: 120px;
           }
         }
 
-        /* بهبود استایل در حالت sticky */
         .header-main.sticky .header-main {
           padding-top: 0.5rem;
           padding-bottom: 0.5rem;

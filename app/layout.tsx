@@ -1,9 +1,7 @@
-import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { ConfigProvider } from "antd";
-import fa_IR from "antd/locale/fa_IR";
 import type { Metadata } from "next";
-import AOSProvider from "./AOSProvider";
 import "./globals.css";
+import LayoutClient from "./LayoutClient";
+import "@ant-design/v5-patch-for-react-19";
 
 export const metadata: Metadata = {
   title: "ماشین 3 - بازار خودرو ایران",
@@ -21,20 +19,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
-        <AntdRegistry>
-          <ConfigProvider
-            direction="rtl"
-            locale={fa_IR}
-            theme={{
-              token: {
-                colorPrimary: "#ce1a2a",
-                fontFamily: "var(--font-ravi)",
-              },
-            }}
-          >
-            <AOSProvider>{children}</AOSProvider>
-          </ConfigProvider>
-        </AntdRegistry>
+        <LayoutClient>{children}</LayoutClient>
       </body>
     </html>
   );

@@ -83,15 +83,13 @@ const Sidebar = () => {
           </Link>
         </h3>
 
-        <div className="space-y-4">
+        <div className="space-y-4 flex flex-wrap">
           {shahinModels.map((model, index) => (
-            <div
-              key={index}
-              className="h-32 relative rounded-lg overflow-hidden group"
-            >
-              {/* استفاده از Link با legacyBehavior */}
-              <Link href={model.link} legacyBehavior>
-                <a className="block w-full h-full">
+            <div key={index} className="px-0 sm:px-2 lg:px-0 lg:w-full sm:w-1/2 w-full">
+              <div className="h-32 relative rounded-lg overflow-hidden group w-full ">
+                {/* استفاده از Link با legacyBehavior */}
+
+                <div className="block w-full h-full">
                   <a
                     href={model.image}
                     data-fancybox="sidebar-gallery"
@@ -113,8 +111,8 @@ const Sidebar = () => {
                       </h3>
                     </div>
                   </a>
-                </a>
-              </Link>
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -134,9 +132,8 @@ const Sidebar = () => {
               key={index}
               className="item_wd relative rounded-lg overflow-hidden group"
             >
-              {/* استفاده از Link با legacyBehavior */}
-              <Link href={model.link} legacyBehavior>
-                <a className="block w-full h-full">
+              <div>
+                <div className="block w-full h-full">
                   <a
                     href={model.image}
                     data-fancybox="sidebar-gallery"
@@ -158,8 +155,8 @@ const Sidebar = () => {
                       </h3>
                     </div>
                   </a>
-                </a>
-              </Link>
+                </div>
+              </div>
             </div>
           ))}
         </div>

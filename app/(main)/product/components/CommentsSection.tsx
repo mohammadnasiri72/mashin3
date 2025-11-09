@@ -52,7 +52,6 @@ const CommentsSection = () => {
   ];
 
   const onFinish = (values: any) => {
-    console.log('Comment submitted:', values);
     message.success('دیدگاه شما با موفقیت ثبت شد');
     form.resetFields();
   };
@@ -146,7 +145,7 @@ const CommentsSection = () => {
               <div
                 key={comment.id}
                 className={`comment-box bg-gray-50 rounded-xl p-4 ${
-                  comment.isReply ? 'mr-20 border-r-2 border-red-200' : ''
+                  comment.isReply ? 'sm:mr-20 mr-8 border-r-2 border-red-200' : ''
                 }`}
               >
                 <div className="cm_tp flex gap-3 items-center mb-3">

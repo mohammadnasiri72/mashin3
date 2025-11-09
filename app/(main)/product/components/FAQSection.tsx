@@ -1,27 +1,70 @@
 "use client";
 
-import { useState } from 'react';
-import { Collapse } from 'antd';
-import { FaCircleQuestion } from 'react-icons/fa6';
-
-const { Panel } = Collapse;
+import { Collapse } from "antd";
+import { useState } from "react";
+import { FaCircleQuestion } from "react-icons/fa6";
 
 const FAQSection = () => {
-  const [activeKeys, setActiveKeys] = useState<string[]>(['0']);
+  const [activeKeys, setActiveKeys] = useState<string[]>(["0"]);
 
   const faqItems = [
     {
-      question: 'چه امکانات رفاهی و ایمنی در شاهین پلاس دیده می شود؟',
-      answer: 'فرمان کمکی برقی، استارت دکمه ای، سانروف، آنتن کوسه ای، تریم داخلی چرم مصنوعی، کروز کنترل، محدودکننده سرعت، سنسور نور، تهویه اتوماتیک، سامانه کنترل پایداری الکتریکی، سامانه کنترل شروع حرکت در سربالایی، دنده عقب، نمایشگر لمسی ۱۰ اینچی اندروید، آینه های تاشو برقی، صندلی برقی راننده، گرمکن صندلی های جلو و… از جمله امکانات این خودرو است.'
+      key: "0",
+      label: (
+        <div className="flex items-center text-right">
+          <FaCircleQuestion className="text-red-600 ml-2" />
+          چه امکانات رفاهی و ایمنی در شاهین پلاس دیده می شود؟
+        </div>
+      ),
+      children: (
+        <p className="text-gray-700 leading-7 text-justify">
+          فرمان کمکی برقی، استارت دکمه ای، سانروف، آنتن کوسه ای، تریم داخلی چرم
+          مصنوعی، کروز کنترل، محدودکننده سرعت، سنسور نور، تهویه اتوماتیک، سامانه
+          کنترل پایداری الکتریکی، سامانه کنترل شروع حرکت در سربالایی، دنده عقب،
+          نمایشگر لمسی ۱۰ اینچی اندروید، آینه های تاشو برقی، صندلی برقی راننده،
+          گرمکن صندلی های جلو و… از جمله امکانات این خودرو است.
+        </p>
+      ),
+      className: "faq-panel",
     },
     {
-      question: 'مشخصات فنی شاهین پلاس چیست؟',
-      answer: 'فرمان کمکی برقی، استارت دکمه ای، سانروف، آنتن کوسه ای، تریم داخلی چرم مصنوعی، کروز کنترل، محدودکننده سرعت، سنسور نور، تهویه اتوماتیک، سامانه کنترل پایداری الکتریکی، سامانه کنترل شروع حرکت در سربالایی، دنده عقب، نمایشگر لمسی ۱۰ اینچی اندروید، آینه های تاشو برقی، صندلی برقی راننده، گرمکن صندلی های جلو و… از جمله امکانات این خودرو است.'
+      key: "1",
+      label: (
+        <div className="flex items-center text-right">
+          <FaCircleQuestion className="text-red-600 ml-2" />
+          مشخصات فنی شاهین پلاس چیست؟
+        </div>
+      ),
+      children: (
+        <p className="text-gray-700 leading-7 text-justify">
+          فرمان کمکی برقی، استارت دکمه ای، سانروف، آنتن کوسه ای، تریم داخلی چرم
+          مصنوعی، کروز کنترل، محدودکننده سرعت، سنسور نور، تهویه اتوماتیک، سامانه
+          کنترل پایداری الکتریکی، سامانه کنترل شروع حرکت در سربالایی، دنده عقب،
+          نمایشگر لمسی ۱۰ اینچی اندروید، آینه های تاشو برقی، صندلی برقی راننده،
+          گرمکن صندلی های جلو و… از جمله امکانات این خودرو است.
+        </p>
+      ),
+      className: "faq-panel",
     },
     {
-      question: 'مشخصات فنی شاهین پلاس چیست؟',
-      answer: 'فرمان کمکی برقی، استارت دکمه ای، سانروف، آنتن کوسه ای، تریم داخلی چرم مصنوعی، کروز کنترل، محدودکننده سرعت، سنسور نور، تهویه اتوماتیک، سامانه کنترل پایداری الکتریکی، سامانه کنترل شروع حرکت در سربالایی، دنده عقب، نمایشگر لمسی ۱۰ اینچی اندروید، آینه های تاشو برقی، صندلی برقی راننده، گرمکن صندلی های جلو و… از جمله امکانات این خودرو است.'
-    }
+      key: "2",
+      label: (
+        <div className="flex items-center text-right">
+          <FaCircleQuestion className="text-red-600 ml-2" />
+          مشخصات فنی شاهین پلاس چیست؟
+        </div>
+      ),
+      children: (
+        <p className="text-gray-700 leading-7 text-justify">
+          فرمان کمکی برقی، استارت دکمه ای، سانروف، آنتن کوسه ای، تریم داخلی چرم
+          مصنوعی، کروز کنترل، محدودکننده سرعت، سنسور نور، تهویه اتوماتیک، سامانه
+          کنترل پایداری الکتریکی، سامانه کنترل شروع حرکت در سربالایی، دنده عقب،
+          نمایشگر لمسی ۱۰ اینچی اندروید، آینه های تاشو برقی، صندلی برقی راننده،
+          گرمکن صندلی های جلو و… از جمله امکانات این خودرو است.
+        </p>
+      ),
+      className: "faq-panel",
+    },
   ];
 
   return (
@@ -35,24 +78,8 @@ const FAQSection = () => {
         onChange={setActiveKeys}
         expandIconPosition="end"
         className="faq-collapse"
-      >
-        {faqItems.map((item, index) => (
-          <Panel
-            key={index.toString()}
-            header={
-              <div className="flex items-center text-right">
-                <FaCircleQuestion className="text-red-600 ml-2" />
-                {item.question}
-              </div>
-            }
-            className="faq-panel"
-          >
-            <p className="text-gray-700 leading-7 text-justify">
-              {item.answer}
-            </p>
-          </Panel>
-        ))}
-      </Collapse>
+        items={faqItems}
+      />
 
       <style jsx global>{`
         .faq-collapse .ant-collapse-item {

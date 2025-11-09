@@ -1,3 +1,4 @@
+import { MenuResponse } from "@/services/Menu/Menu";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -13,46 +14,12 @@ interface SocialMedia {
 }
 
 interface FooterProps {
-  quickLinks?: {
-    column1: FooterLink[];
-    column2: FooterLink[];
-    column3: FooterLink[];
-  };
+  menu: MenuResponse;
   socialMedias?: SocialMedia[];
 }
 
 const Footer = ({
-  quickLinks = {
-    column1: [
-      { href: "#", text: "درباره ما" },
-      { href: "#", text: "تماس با ما" },
-      { href: "#", text: "خودرویاب" },
-      { href: "#", text: "بهترین انتخاب" },
-      { href: "#", text: "کدومو بخرم" },
-      { href: "#", text: "راهنمای خرید" },
-      { href: "#", text: "نکات آموزشی خودرو" },
-      { href: "#", text: "فیلم تست و بررسی خودرو" },
-    ],
-    column2: [
-      { href: "#", text: "واژگان فنی" },
-      { href: "#", text: "نمایندگی ها" },
-      { href: "#", text: "نظر سنجی" },
-      { href: "#", text: "تویوتا" },
-      { href: "#", text: "هوندا" },
-      { href: "#", text: "رنو" },
-      { href: "#", text: "هیوندای" },
-      { href: "#", text: "قیمت موتور سیکلت" },
-    ],
-    column3: [
-      { href: "#", text: "کیا" },
-      { href: "#", text: "جک" },
-      { href: "#", text: "جیلی" },
-      { href: "#", text: "بنز" },
-      { href: "#", text: "ب ام و" },
-      { href: "#", text: "ام جی MG" },
-      { href: "#", text: "ام وی ام MVM" },
-    ],
-  },
+  menu,
   socialMedias = [
     { href: "#", icon: "/images/icons/telegram.png", alt: "Telegram" },
     { href: "#", icon: "/images/icons/Instagram.png", alt: "Instagram" },
@@ -63,6 +30,36 @@ const Footer = ({
     { href: "#", icon: "/images/icons/Facebook.png", alt: "Facebook" },
   ],
 }: FooterProps) => {
+  // پیدا کردن منوی فوتر
+  const footerMenu = menu.find((m) => m.menuKey === "menufooter");
+  const footerItems = footerMenu?.menuItems || [];
+
+  // تقسیم آیتم‌های فوتر به سه ستون
+  const splitIntoColumns = (items: any[], columnsCount: number = 3) => {
+    const columns: any[][] = Array.from({ length: columnsCount }, () => []);
+
+    items.forEach((item, index) => {
+      const columnIndex = index % columnsCount;
+      columns[columnIndex].push(item);
+    });
+
+    return columns;
+  };
+
+  const footerColumns = splitIntoColumns(footerItems, 3);
+
+  // تبدیل آیتم‌های API به فرمت مورد نیاز فوتر
+  const convertToFooterLinks = (items: any[]): FooterLink[] => {
+    return items.map((item) => ({
+      href: item.url || item.href || "#",
+      text: item.title,
+    }));
+  };
+
+  const column1Links = convertToFooterLinks(footerColumns[0]);
+  const column2Links = convertToFooterLinks(footerColumns[1]);
+  const column3Links = convertToFooterLinks(footerColumns[2]);
+
   return (
     <div className="footer-wrap">
       {/* Main Footer */}
@@ -73,8 +70,8 @@ const Footer = ({
             <div className="grid grid-cols-12 sm:gap-8 gap-2">
               {/* Footer Column - Logo and Info */}
               <div className="footer-column col-span-12 sm:col-span-6 lg:col-span-4">
-                <div className="logo-footer mb-4 !h-7 ">
-                  <Link href="#" className="!h-7 bg-amber-500">
+                <div className="logo-footer mb-4 !h-7">
+                  <Link href="/" className="!h-7">
                     <img
                       src="/images/logo.png"
                       alt="ماشین3"
@@ -118,8 +115,8 @@ const Footer = ({
                 </div>
               </div>
 
-               {/* Footer Column - Social Media */}
-              <div className="footer-column col-span-12 sm:col-span-6 lg:hidden block ">
+              {/* Footer Column - Social Media (Mobile) */}
+              <div className="footer-column col-span-12 sm:col-span-6 lg:hidden block">
                 <h4 className="!text-black text-lg !font-bold mb-4 sm:text-start text-center">
                   شبکه های اجتماعی
                 </h4>
@@ -147,14 +144,14 @@ const Footer = ({
               {/* Footer Column - Quick Links */}
               <div className="footer-column col-span-12 lg:col-span-6 ft-lists-wrap">
                 <h4 className="text-black text-[16px] !font-bold !mb-4 sm:text-start text-center">
-                  دسترسی سریع
+                  {footerMenu?.title || "دسترسی سریع"}
                 </h4>
 
                 <div className="grid grid-cols-3 sm:grid-cols-3 gap-4">
                   {/* Column 1 */}
                   <div className="col-span-1 sm:text-start text-center">
                     <ul className="space-y-5">
-                      {quickLinks.column1.map((link, index) => (
+                      {column1Links.map((link, index) => (
                         <li key={index}>
                           <Link
                             href={link.href}
@@ -170,7 +167,7 @@ const Footer = ({
                   {/* Column 2 */}
                   <div className="col-span-1 sm:text-start text-center">
                     <ul className="space-y-5">
-                      {quickLinks.column2.map((link, index) => (
+                      {column2Links.map((link, index) => (
                         <li key={index}>
                           <Link
                             href={link.href}
@@ -186,7 +183,7 @@ const Footer = ({
                   {/* Column 3 */}
                   <div className="col-span-1 sm:text-start text-center">
                     <ul className="space-y-5">
-                      {quickLinks.column3.map((link, index) => (
+                      {column3Links.map((link, index) => (
                         <li key={index}>
                           <Link
                             href={link.href}
@@ -201,7 +198,7 @@ const Footer = ({
                 </div>
               </div>
 
-              {/* Footer Column - Social Media */}
+              {/* Footer Column - Social Media (Desktop) */}
               <div className="footer-column col-span-12 md:col-span-2 lg:col-span-2 lg:block hidden">
                 <h4 className="text-gray-900 text-lg font-bold mb-4">
                   شبکه های اجتماعی

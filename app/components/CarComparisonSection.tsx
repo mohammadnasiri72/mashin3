@@ -67,12 +67,7 @@ const CarComparisonSection = ({
 
   const handleCompare = () => {
     // منطق مقایسه خودروها
-    console.log("مقایسه خودروها:", {
-      firstCarType,
-      firstCarModel,
-      secondCarType,
-      secondCarModel,
-    });
+  
   };
 
   return (
