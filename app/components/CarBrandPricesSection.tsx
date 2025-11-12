@@ -186,9 +186,9 @@ const CarBrandPricesSection = ({
     <div className="mb-5 mt-20">
       <div className="mx-auto px-4">
         {/* هدر بخش */}
-        <div className="flex flex-col sm:flex-row sm:justify-between justify-center items-center sm:!mb-0 !mb-10 gap-4 h-14">
-          <div className="!mb-2 sm:w-auto w-full p-3 sm:bg-transparent bg-[#f6eced] rounded-xl flex sm:justify-start justify-center items-center">
-            <h3 className="!pb-0 !mb-0 !text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ffd6db]">
+        <div className="flex flex-col sm:flex-row sm:justify-between justify-center items-center sm:mb-0! mb-10! gap-4 h-14">
+          <div className="mb-2! sm:w-auto w-full p-3 sm:bg-transparent bg-[#f6eced] rounded-xl flex sm:justify-start justify-center items-center">
+            <h3 className="pb-0! mb-0! text-[#292929]! font-bold! inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ffd6db]">
               قیمت برند خودرویی
             </h3>
           </div>
@@ -198,7 +198,7 @@ const CarBrandPricesSection = ({
             <button
               className={`px-4 py-2 text-gray-600 font-medium text-sm cursor-pointer whitespace-nowrap ${
                 activeTab === "tab-1"
-                  ? "!text-[#ce1a2a] !font-extrabold !text-[20px]"
+                  ? "text-[#ce1a2a]! font-extrabold! text-[20px]!"
                   : "text-gray-600 text-sm"
               } transition-all duration-200`}
               onClick={() => handleTabChange("tab-1")}
@@ -208,7 +208,7 @@ const CarBrandPricesSection = ({
             <button
               className={`px-4 py-2 text-gray-600 font-medium text-sm cursor-pointer whitespace-nowrap ${
                 activeTab === "tab-2"
-                  ? "!text-[#ce1a2a] !font-extrabold !text-[20px]"
+                  ? "text-[#ce1a2a]! font-extrabold! text-[20px]!"
                   : "text-gray-600 text-sm"
               } transition-all duration-200`}
               onClick={() => handleTabChange("tab-2")}
@@ -218,7 +218,7 @@ const CarBrandPricesSection = ({
             <button
               className={`px-4 py-2 font-medium cursor-pointer whitespace-nowrap ${
                 activeTab === "tab-3"
-                  ? "!text-[#ce1a2a] !font-extrabold !text-[20px]"
+                  ? "text-[#ce1a2a]! font-extrabold! text-[20px]!"
                   : "text-gray-600 text-sm"
               } transition-all duration-200`}
               onClick={() => handleTabChange("tab-3")}
@@ -304,11 +304,11 @@ const CarBrandPricesSection = ({
 
             {/* محتوای مرتبط با برند انتخاب شده */}
             <div className="related-content ">
-              <div className="flex flex-wrap -mx-2 !-mt-5">
+              <div className="flex flex-wrap -mx-2 -mt-5!">
                 {filteredPriceItems.slice(0, 9).map((item, index) => (
                   <div
                     key={item.id}
-                    className="w-full md:w-1/2 px-2 mb-4 !transition-all !duration-500"
+                    className="w-full md:w-1/2 px-2 mb-4 transition-all! duration-500!"
                     data-aos="custom-fade-down"
                   >
                     <div className="bg-white rounded-2xl shadow-sm p-5 flex sm:flex-nowrap flex-wrap items-center gap-5 text-base font-bold text-gray-900">
@@ -335,7 +335,7 @@ const CarBrandPricesSection = ({
                   <Link
                     href="#"
                     data-aos="custom-fade-down"
-                    className="!text-[#ce1a2a] bg-white w-full md:w-1/2 px-2 mb-4 rounded-2xl shadow-sm p-5 flex items-center justify-center hover:bg-linear-to-b hover:from-red-400 hover:to-[#ce1a2a] !transition-all !duration-500 text-sm font-bold hover:!text-white gap-2"
+                    className="text-[#ce1a2a]! bg-white w-full md:w-1/2 px-2 mb-4 rounded-2xl shadow-sm p-5 flex items-center justify-center hover:bg-linear-to-b hover:from-red-400 hover:to-[#ce1a2a] transition-all! duration-500! text-sm font-bold hover:text-white! gap-2"
                   >
                     نمایش بیشتر
                     <FaArrowLeftLong />

@@ -41,7 +41,6 @@ function ModalLogin() {
       try {
         const dataLogin = await PostLogin(data);
       } catch (err) {
-        console.log(err);
       }
     }
   }
@@ -57,7 +56,6 @@ function ModalLogin() {
       try {
         const dataResetPass = await PostResetPass(userName);
       } catch (err) {
-        console.log(err);
       }
     }
   }
@@ -67,7 +65,7 @@ function ModalLogin() {
       {/* دکمه باز کردن مودال */}
       <button
         onClick={handleOpen}
-        className="font-bold cursor-pointer whitespace-nowrap !text-[#ce1a2a] text-[13px] px-5 py-2.5 rounded transition-all duration-300 hover:shadow-[0_0_0_5px_rgba(206,26,42)]"
+        className="font-bold cursor-pointer whitespace-nowrap text-[#ce1a2a]! text-[13px] px-5 py-2.5 rounded transition-all duration-300 hover:shadow-[0_0_0_5px_rgba(206,26,42)]"
       >
         <div className="flex items-center gap-0.5">
           <MdLogin className="text-lg" />
@@ -183,7 +181,7 @@ function ModalLogin() {
             <Button
               onClick={ResetPasswordHandler}
               type="link"
-              className="!text-xs !p-0 !h-auto"
+              className="text-xs! p-0! h-auto!"
             >
               فراموشی رمز
             </Button>

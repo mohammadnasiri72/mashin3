@@ -74,7 +74,7 @@ const CarComparisonSection = ({
     <div className="py-3">
       <div className="mx-auto">
         {/* عنوان اصلی */}
-        <h3 className="text-center text-xl !text-[#292929] !font-bold !mb-4">
+        <h3 className="text-center text-xl text-[#292929]! font-bold! mb-4!">
           مقایسه خودروهای بازار
         </h3>
 
@@ -84,7 +84,7 @@ const CarComparisonSection = ({
             <div className="flex flex-col lg:flex-row gap-6">
               {/* خودرو اول */}
               <div className="w-full lg:w-2/5">
-                <h4 className="!text-white text-sm font-medium pb-4 w-full">
+                <h4 className="text-white! text-sm font-medium pb-4 w-full">
                   خودرو اول
                 </h4>
 
@@ -115,7 +115,7 @@ const CarComparisonSection = ({
 
               {/* خودرو دوم */}
               <div className="w-full lg:w-2/5 ">
-                <h4 className="!text-white text-sm font-medium pb-4 w-full">
+                <h4 className="text-white! text-sm font-medium pb-4 w-full">
                   خودرو دوم
                 </h4>
 
@@ -146,12 +146,12 @@ const CarComparisonSection = ({
 
               {/* دکمه مقایسه */}
               <div className="w-full lg:w-1/6">
-                <h4 className="!text-white invisible opacity-0 cursor-default select-none text-sm font-medium pb-4 w-full">
+                <h4 className="text-white! invisible opacity-0 cursor-default select-none text-sm font-medium pb-4 w-full">
                   مقایسه
                 </h4>
                 <button
                   onClick={handleCompare}
-                  className="w-full bg-white cursor-pointer button-wave-1 !text-[#ce1a2a]  font-semibold py-3 rounded-xl transition-colors duration-300 relative overflow-hidden"
+                  className="w-full bg-white cursor-pointer button-wave-1 text-[#ce1a2a]!  font-semibold py-3 rounded-xl transition-colors duration-300 relative overflow-hidden"
                 >
                   مقایسه
                 </button>
@@ -202,10 +202,10 @@ const CarComparisonSection = ({
                 </div>
 
                 <div className="p-4 text-center w-full">
-                  <h3 className="text-sm !text-[#202020] font-medium">
+                  <h3 className="text-sm text-[#202020]! font-medium">
                     <Link
                       href={item.link}
-                      className="hover:!text-[#ce1a2a] !text-[#000] !font-semibold transition-colors duration-200"
+                      className="hover:text-[#ce1a2a]! text-black! font-semibold! transition-colors duration-200"
                     >
                       {item.title}
                     </Link>

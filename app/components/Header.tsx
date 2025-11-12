@@ -1,9 +1,5 @@
 "use client";
 
-import {
-  MenuItem as ApiMenuItem,
-  type MenuResponse,
-} from "@/services/Menu/Menu";
 import { Collapse } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
 import { Skeleton } from "antd";
@@ -12,30 +8,31 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FiX } from "react-icons/fi";
 import { IoChevronDown, IoSearch } from "react-icons/io5";
-import { MdLogin } from "react-icons/md";
 import { TiThMenu } from "react-icons/ti";
 import ModalLogin from "./ModalLogin";
 
-export default function Header({ menu }: { menu: MenuResponse }) {
+export default function Header({
+  menu,
+  setting,
+}: {
+  menu: MenuGroup[];
+  setting: SettingType[];
+}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
   const [isSticky, setIsSticky] = useState(false);
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [menuItems, setMenuItems] = useState<LastMenuItem[]>([]);
 
-  // تایپ برای menuItems نهایی
-  interface MenuItem {
-    title: string;
-    url: string;
-    children?: MenuItem[];
-  }
+  
+  
 
-  // تابع تبدیل ApiMenuItem به MenuItem با ساختار سلسله‌مراتبی
+  // تابع تبدیل LastMenuItem به MenuItem با ساختار سلسله‌مراتبی
   const convertApiMenuToHierarchical = (
-    apiItems: ApiMenuItem[]
-  ): MenuItem[] => {
+    apiItems: MenuItem[]
+  ): LastMenuItem[] => {
     // ایجاد یک مپ برای دسترسی سریع به آیتم‌ها بر اساس id
-    const itemsMap = new Map<number, ApiMenuItem>();
-    const hierarchicalItems: MenuItem[] = [];
+    const itemsMap = new Map<number, MenuItem>();
+    const hierarchicalItems: LastMenuItem[] = [];
 
     // اول همه آیتم‌ها را در مپ قرار می‌دهیم
     apiItems.forEach((item) => {
@@ -43,12 +40,12 @@ export default function Header({ menu }: { menu: MenuResponse }) {
     });
 
     // تابع بازگشتی برای ایجاد ساختار سلسله‌مراتبی
-    const buildHierarchy = (parentId: number | null): MenuItem[] => {
-      const children: MenuItem[] = [];
+    const buildHierarchy = (parentId: number | null): LastMenuItem[] => {
+      const children: LastMenuItem[] = [];
 
       apiItems.forEach((item) => {
         if (item.parentId === parentId) {
-          const menuItem: MenuItem = {
+          const menuItem: LastMenuItem = {
             title: item.title,
             url: item.url || item.href || "#",
           };
@@ -95,7 +92,7 @@ export default function Header({ menu }: { menu: MenuResponse }) {
   }, []);
 
   interface MobileMenuItemProps {
-    item: MenuItem;
+    item: LastMenuItem;
     onClose: () => void;
   }
 
@@ -187,10 +184,14 @@ export default function Header({ menu }: { menu: MenuResponse }) {
 
   return (
     <div
-      className={`sticky-header !z-[1001] ${isSticky ? "sticky-active" : ""}`}
+      className={`sticky-header z-1001! ${isSticky ? "sticky-active" : ""}`}
     >
       {/* Main Header */}
-      <header className={`header-main bg-white duration-300 shadow-lg ${isSticky ? "sticky" : ""}`}>
+      <header
+        className={`header-main bg-white duration-300 shadow-lg ${
+          isSticky ? "sticky" : ""
+        }`}
+      >
         <div className="max-w-[1560px] mx-auto px-4 py-3">
           <div className="flex items-center">
             {/* Logo and Menu Section */}
@@ -222,7 +223,7 @@ export default function Header({ menu }: { menu: MenuResponse }) {
                         >
                           <Link
                             href={item.url}
-                            className="flex items-center text-[13px] whitespace-nowrap font-medium !text-[#222] hover:bg-[#ce1a2a] hover:!text-white rounded-lg px-2 py-2 duration-300 transition-all"
+                            className="flex items-center text-[13px] whitespace-nowrap font-medium text-[#222]! hover:bg-[#ce1a2a] hover:text-white! rounded-lg px-2 py-2 duration-300 transition-all"
                           >
                             {item.title}
                             {item.children && (
@@ -238,7 +239,7 @@ export default function Header({ menu }: { menu: MenuResponse }) {
                                   <Link
                                     key={childIndex}
                                     href={child.url}
-                                    className="block px-4 py-3 text-sm text-gray-700 hover:!text-white hover:!bg-[#ce1a2a] transition-all duration-200 border-b border-gray-100 last:border-b-0"
+                                    className="block px-4 py-3 text-sm text-gray-700 hover:text-white! hover:bg-[#ce1a2a]! transition-all duration-200 border-b border-gray-100 last:border-b-0"
                                   >
                                     {child.title}
                                   </Link>
@@ -250,12 +251,36 @@ export default function Header({ menu }: { menu: MenuResponse }) {
                       ))}
                     {menuItems.length === 0 && (
                       <div className="flex items-center gap-5">
-                        <Skeleton.Button active={true} size={"small"} shape={"default"} />
-                        <Skeleton.Button active={true} size={"small"} shape={"default"} />
-                        <Skeleton.Button active={true} size={"small"} shape={"default"} />
-                        <Skeleton.Button active={true} size={"small"} shape={"default"} />
-                        <Skeleton.Button active={true} size={"small"} shape={"default"} />
-                        <Skeleton.Button active={true} size={"small"} shape={"default"} />
+                        <Skeleton.Button
+                          active={true}
+                          size={"small"}
+                          shape={"default"}
+                        />
+                        <Skeleton.Button
+                          active={true}
+                          size={"small"}
+                          shape={"default"}
+                        />
+                        <Skeleton.Button
+                          active={true}
+                          size={"small"}
+                          shape={"default"}
+                        />
+                        <Skeleton.Button
+                          active={true}
+                          size={"small"}
+                          shape={"default"}
+                        />
+                        <Skeleton.Button
+                          active={true}
+                          size={"small"}
+                          shape={"default"}
+                        />
+                        <Skeleton.Button
+                          active={true}
+                          size={"small"}
+                          shape={"default"}
+                        />
                       </div>
                     )}
                   </nav>
@@ -269,7 +294,7 @@ export default function Header({ menu }: { menu: MenuResponse }) {
                 {/* Search Box */}
                 <div className="hidden lg:block flex-1 max-w-md">
                   <div className="bg-[#f1f2f4] rounded-lg px-4 py-2 flex items-center border border-transparent hover:border-gray-300 transition-all duration-300">
-                    <IoSearch className="text-lg !text-[#656565]" />
+                    <IoSearch className="text-lg text-[#656565]!" />
                     <input
                       type="text"
                       className="bg-transparent text-[13px] w-full pr-2 outline-none placeholder-[#777] font-medium"
@@ -281,11 +306,10 @@ export default function Header({ menu }: { menu: MenuResponse }) {
 
                 <div className="flex items-center space-x-3 space-x-reverse">
                   <ModalLogin />
-                 
 
                   <Link
                     href="#"
-                    className="bg-[#ce1a2a] !text-white font-bold text-[13px] px-5 py-2.5 rounded transition-all duration-300 hover:shadow-[0_0_0_5px_rgba(206,26,42)] hover:bg-[#d1182b]"
+                    className="bg-[#ce1a2a] text-white! font-bold text-[13px] px-5 py-2.5 rounded transition-all duration-300 hover:shadow-[0_0_0_5px_rgba(206,26,42)] hover:bg-[#d1182b]"
                   >
                     ثبت‌نام
                   </Link>
@@ -300,10 +324,10 @@ export default function Header({ menu }: { menu: MenuResponse }) {
           <div className="flex items-center justify-between">
             {/* Search Box */}
             <div className="grow bg-[#d1182b] rounded-lg p-4 flex items-center mr-4">
-              <IoSearch className="!text-white text-lg" />
+              <IoSearch className="text-white! text-lg" />
               <input
                 type="text"
-                className="bg-transparent text-sm w-full pr-2 outline-none !text-white placeholder-white font-medium"
+                className="bg-transparent text-sm w-full pr-2 outline-none text-white! placeholder-white font-medium"
                 placeholder="جستجو"
                 required
               />
@@ -311,7 +335,7 @@ export default function Header({ menu }: { menu: MenuResponse }) {
 
             {/* Close Button */}
             <button
-              className="!text-white cursor-pointer p-2 text-2xl hover:bg-[#d1182b] rounded-lg transition-all duration-300"
+              className="text-white! cursor-pointer p-2 text-2xl hover:bg-[#d1182b] rounded-lg transition-all duration-300"
               onClick={() => setIsMenuOpen((e) => !e)}
             >
               <TiThMenu className="text-3xl" />
@@ -334,8 +358,6 @@ export default function Header({ menu }: { menu: MenuResponse }) {
           position: relative;
           z-index: 1000;
         }
-
-       
 
         .header-main.sticky {
           position: fixed;

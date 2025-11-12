@@ -1,11 +1,9 @@
 import axiosInstance from "../axiosInstance";
 
 
-
-
-export const getMenu = async (data: MenuParams): Promise< MenuGroup[]> => {
+export const getItem = async (data: ItemParams): Promise<Items[]> => {
   try {
-    const response = await axiosInstance.get< MenuGroup[]>("/api/Menu", {
+    const response = await axiosInstance.get<Items[]>("/api/Item", {
       params: data,
       withCredentials: true,
     });

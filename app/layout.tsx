@@ -1,7 +1,7 @@
+import "@ant-design/v5-patch-for-react-19";
 import type { Metadata } from "next";
 import "./globals.css";
 import LayoutClient from "./LayoutClient";
-import "@ant-design/v5-patch-for-react-19";
 
 export const metadata: Metadata = {
   title: "ماشین 3 - بازار خودرو ایران",

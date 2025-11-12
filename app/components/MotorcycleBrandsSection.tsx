@@ -138,8 +138,8 @@ const MotorcycleBrandsSection = ({
       <div className="mx-auto px-4 pb-5">
         {/* هدر بخش */}
         <div className="flex justify-between items-center">
-          <div className="!mb-2 sm:w-auto w-full p-3 sm:bg-transparent bg-[#f6eced] rounded-xl flex sm:justify-start justify-center items-center">
-            <h3 className="!pb-0 !mb-0 !text-[#292929] inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ffd6db]">
+          <div className="mb-2! sm:w-auto w-full p-3 sm:bg-transparent bg-[#f6eced] rounded-xl flex sm:justify-start justify-center items-center">
+            <h3 className="pb-0! mb-0! text-[#292929]! inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ffd6db]">
               موتورسیکلت
             </h3>
           </div>
@@ -227,7 +227,7 @@ const MotorcycleBrandsSection = ({
                 {brands.map((brand) => (
                   <SwiperSlide key={brand.id}>
                     <div
-                      className={`brand-box flex flex-col items-center justify-between text-center p-5 !h-52 border border-gray-200 rounded-2xl relative bg-white cursor-pointer transition-all duration-300 hover:shadow-md hover:border-gray-300 `}
+                      className={`brand-box flex flex-col items-center justify-between text-center p-5 h-52! border border-gray-200 rounded-2xl relative bg-white cursor-pointer transition-all duration-300 hover:shadow-md hover:border-gray-300 `}
                       onClick={() => handleBrandClick(brand.id)}
                     >
                       <div className="w-full h-28 flex items-start justify-center">
@@ -242,7 +242,7 @@ const MotorcycleBrandsSection = ({
                         </div>
                       </div>
                       <h4
-                        className={`text-sm font-bold absolute bottom-5 left-0 right-0 text-center !text-[#656565] `}
+                        className={`text-sm font-bold absolute bottom-5 left-0 right-0 text-center text-[#656565]! `}
                       >
                         {brand.name}
                       </h4>

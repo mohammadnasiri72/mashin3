@@ -14,7 +14,7 @@ const HeroSection = () => {
       <div className="relative mx-auto px-4 py-12 sm:w-auto w-full">
         <div className="text-white sm:w-auto w-full">
           <div className="sm:w-auto w-full p-3 sm:bg-transparent bg-[#fff2] rounded-xl flex sm:justify-start justify-center items-center">
-            <h3 className="!pb-0 !mb-0 text-center !text-white !font-bold inline-block relative sm:text-3xl text-xl z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ce1a2a]">
+            <h3 className="pb-0! mb-0! text-center text-white! font-bold! inline-block relative sm:text-3xl text-xl z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ce1a2a]">
               ماشین شاهین اتوماتیک
             </h3>
           </div>
@@ -24,7 +24,7 @@ const HeroSection = () => {
               <li>
                 <Link
                   href="/"
-                  className="!text-white hover:!text-[#ce1a2a] text-sm duration-300"
+                  className="text-white! hover:text-[#ce1a2a]! text-sm duration-300"
                 >
                   صفحه اصلی
                 </Link>
@@ -33,14 +33,14 @@ const HeroSection = () => {
                 <span className="mx-2">/</span>
                 <Link
                   href="/cars"
-                  className="!text-white hover:!text-[#ce1a2a] text-sm duration-300"
+                  className="text-white! hover:text-[#ce1a2a]! text-sm duration-300"
                 >
                   خودرو های بازار
                 </Link>
               </li>
               <li className="flex items-center">
                 <span className="mx-2">/</span>
-                <span className="!text-white text-sm">
+                <span className="text-white! text-sm">
                   ماشین شاهین اتوماتیک
                 </span>
               </li>

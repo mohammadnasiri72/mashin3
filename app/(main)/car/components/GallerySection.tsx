@@ -1,30 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect } from "react";
 
 // Fancybox
+import { mainDomainOld } from "@/utils/mainDomain";
 import { Fancybox } from "@fancyapps/ui";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
-const GallerySection = () => {
-  const images = [
-    "/images/gallery/auto-11.jpg",
-    "/images/gallery/auto-12.jpg",
-    "/images/gallery/auto-11.jpg",
-    "/images/gallery/auto-12.jpg",
-    "/images/gallery/auto-11.jpg",
-    "/images/gallery/auto-12.jpg",
-    "/images/gallery/auto-11.jpg",
-    "/images/gallery/auto-12.jpg",
-    "/images/gallery/auto-11.jpg",
-    "/images/gallery/auto-12.jpg",
-    "/images/gallery/auto-11.jpg",
-    "/images/gallery/auto-12.jpg",
-    "/images/gallery/auto-11.jpg",
-    "/images/gallery/auto-12.jpg",
-    "/images/gallery/auto-11.jpg",
-  ];
+const GallerySection = ({ Attachment ,detailsCar}: { Attachment: ItemsAttachment[] , detailsCar:ItemsId}) => {
 
   // Initialize Fancybox
   useEffect(() => {
@@ -73,36 +56,32 @@ const GallerySection = () => {
     <div className="detailsBox bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
       <h3 className="dt_title text-xl font-bold text-gray-900 mb-4">
         <strong className="text-red-600">تصاویر </strong>
-        ماشین شاهین اتوماتیک
+        ماشین {detailsCar.sourceName} {detailsCar.title}
       </h3>
 
       <div className="space-y-4 mt-3">
         {/* ردیف‌های تصاویر */}
-        
-        
-          <div className="flex flex-wrap items-center">
-            {images.map((image, colIndex) => (
-              <div key={colIndex} className="lg:w-1/5 sm:w-1/4 w-1/2 p-1">
-                <div className="inn_gl_item border-2 border-transparent rounded-lg overflow-hidden cursor-pointer transition-all duration-300 hover:border-red-400">
-                  <a
-                    href={image}
-                    data-fancybox="gallery"
-                    data-caption={`شاهین اتوماتیک`}
-                    aria-label="لینک گالری تصاویر"
-                  >
-                    <Image
-                      src={image}
-                      alt={`شاهین اتوماتیک `}
-                      width={200}
-                      height={150}
-                      className="w-full h-32 object-cover"
-                    />
-                  </a>
-                </div>
+
+        <div className="flex flex-wrap items-center">
+          {Attachment.map((image) => (
+            <div key={image.id} className="lg:w-1/5 sm:w-1/4 w-1/2 p-1">
+              <div className="inn_gl_item border-2 border-transparent rounded-lg overflow-hidden cursor-pointer transition-all duration-300 hover:border-red-400">
+                <a
+                  href={mainDomainOld + image.fileUrl}
+                  data-fancybox="gallery"
+                  data-caption={image.title || "تصاویر محصول"}
+                  aria-label={image.title || "تصاویر محصول"}
+                >
+                  <img
+                    src={mainDomainOld + image.fileUrl}
+                    alt={image.title || "تصاویر محصول"}
+                    className="w-full h-32 object-cover"
+                  />
+                </a>
               </div>
-            ))}
-          </div>
-      
+            </div>
+          ))}
+        </div>
       </div>
 
       <style jsx global>{`

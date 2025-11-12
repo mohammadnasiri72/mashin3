@@ -185,10 +185,10 @@ const CarNews = () => {
               <div className="space-y-6">
                 {filteredNews.map((news) => (
                   <Link key={news.id} href={"#"}>
-                    <article className="!py-6 !border-b border-gray-200 last:border-b-0 last:pb-0 group">
+                    <article className="py-6! border-b! border-gray-200 last:border-b-0 last:pb-0 group">
                       <div className="flex flex-col md:flex-row gap-4">
                         {/* تصویر خبر */}
-                        <div className="md:w-48 w-full h-32 flex-shrink-0">
+                        <div className="md:w-48 w-full h-32 shrink-0">
                           <div className="w-full h-full bg-gray-200 rounded-lg overflow-hidden relative">
                             <Image
                               src={news.image}

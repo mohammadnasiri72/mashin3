@@ -156,14 +156,14 @@ const CarAdsSection = ({
         {/* هدر بخش */}
         <div className="flex flex-col sm:flex-row justify-between items-center mb-5 gap-4">
           <div className="sm:w-auto w-full p-3 sm:bg-transparent bg-[#f6eced] rounded-xl flex sm:justify-start justify-center items-center">
-            <h3 className="!pb-0 !mb-0 !text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ffd6db]">
+            <h3 className="pb-0! mb-0! text-[#292929]! font-bold! inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ffd6db]">
               آگهی فروش خودرو
             </h3>
           </div>
 
           <Link
             href="#"
-            className="!text-[#ce1a2a] text-sm font-medium flex items-center gap-2"
+            className="text-[#ce1a2a]! text-sm font-medium flex items-center gap-2"
           >
             نمایش بیشتر
             <FaArrowLeft className="text-xs" />
@@ -206,7 +206,7 @@ const CarAdsSection = ({
                 {/* بخش تصویر */}
                 <div className="img-box mb-3 relative overflow-hidden rounded-xl">
                   <Link href={ad.link}>
-                    <div className="relative aspect-[5/3] w-full">
+                    <div className="relative aspect-5/3 w-full">
                       <Image
                         src={ad.image}
                         alt={ad.alt}

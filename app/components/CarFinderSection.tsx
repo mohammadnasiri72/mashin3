@@ -105,16 +105,9 @@ const CarFinderSection: React.FC = () => {
       >
         {/* Header Section */}
         <div className="mb-4 mt-3 sm:px-5 px-2 flex sm:flex-row flex-col justify-between items-center">
-          {/* <div className="!mb-2 sm:w-auto w-full p-3 sm:bg-transparent bg-[#ffd6db33] rounded-xl flex sm:justify-start justify-center items-center">
-            <div className=" !text-white inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-2 after:h-1/3 after:-z-10 sm:after:bg-[#ce1a2a]">
-              <h3 className="!pb-0 !mb-0 text-xl !font-bold !text-white">
-                خودرو یاب
-              </h3>
-            </div>
-          </div> */}
-          <div className="sm:!mb-0 !mb-5 sm:w-auto w-full p-3 sm:bg-transparent bg-[#ffd6db33] rounded-xl flex sm:justify-start justify-center items-center">
+          <div className="sm:mb-0! mb-5! sm:w-auto w-full p-3 sm:bg-transparent bg-[#ffd6db33] rounded-xl flex sm:justify-start justify-center items-center">
             <div className=" pr-3 ">
-              <h3 className="!pb-0 !mb-0 !text-white !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ce1a2a]">
+              <h3 className="pb-0! mb-0! text-white! font-bold! inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ce1a2a]">
                 خودرو یاب
               </h3>
             </div>

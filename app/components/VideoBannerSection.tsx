@@ -1,6 +1,8 @@
+import { mainDomainOld } from "@/utils/mainDomain";
 import Link from "next/link";
+import { FaPlay } from "react-icons/fa";
 
-const VideoBannerSection = () => {
+const VideoBannerSection = ({ video }: { video: Items[] }) => {
   return (
     <div className="mb-5">
       <div className="flex flex-wrap px-3">
@@ -8,15 +10,18 @@ const VideoBannerSection = () => {
           <div className="w-full relative overflow-hidden rounded-2xl shadow-lg md:h-80 h-auto cursor-pointer">
             <div className="relative h-full w-full">
               <img
-                src="/images/gallery/video11.jpg"
-                alt="مقایسه تخصصی خودرو"
+                src={mainDomainOld+ video[0].image}
+                alt= {video[0].title}
                 className="object-cover h-full w-full"
               />
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-50 bg-black/50! text-white! p-4 rounded-full text-2xl">
+                <FaPlay />
+              </div>
             </div>
             <div className="absolute bottom-0 right-0">
               <div className="titleBox pink_Highlight pr-3">
-                <h3 className="!text-white !font-bold inline-block relative text-3xl z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ce1a2a]">
-                  مقایسه تخصصی خودرو
+                <h3 className="text-white! font-bold! inline-block relative text-3xl z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 after:bg-[#ce1a2a]">
+                  {video[0].title}
                 </h3>
               </div>
             </div>

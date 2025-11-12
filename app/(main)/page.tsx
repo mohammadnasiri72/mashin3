@@ -1,3 +1,5 @@
+import { getItem } from "@/services/Item/Item";
+import BannerTop from "../components/BannerTop";
 import CarAdsSection from "../components/CarAdsSection";
 import CarBrandPricesSection from "../components/CarBrandPricesSection";
 import CarComparisonSection from "../components/CarComparisonSection";
@@ -12,56 +14,89 @@ import PopularCarsSection from "../components/PopularCarsSection";
 import ServicesSection from "../components/ServicesSection";
 import VideoBannerSection from "../components/VideoBannerSection";
 
-export default function Home() {
+export default async function Home() {
+  const slider: Items[] = await getItem({ TypeId: 6, langCode: "fa" });
+  const banner: Items[] = await getItem({
+    TypeId: 1051,
+    langCode: "fa",
+    CategoryIdArray: "6390",
+  });
+  const news: Items[] = await getItem({
+    TypeId: 5,
+    langCode: "fa",
+    PageIndex: 1,
+    PageSize: 6,
+  });
+  const saleNews: Items[] = await getItem({
+    TypeId: 5,
+    langCode: "fa",
+    CategoryIdArray: "6593",
+    PageIndex: 1,
+    PageSize: 4,
+  });
+  const lastCompare: Items[] = await getItem({
+    TypeId: 1045,
+    langCode: "fa",
+    PageIndex: 1,
+    PageSize: 1,
+  });
+  const segmentCars: Items[] = await getItem({
+    TypeId: 1048,
+    langCode: "fa",
+  });
+  const video: Items[] = await getItem({
+    TypeId: 1028,
+    langCode: "fa",
+    PageIndex: 1,
+    PageSize: 1,
+  });
+  const carSpecs: Items[] = await getItem({
+    TypeId: 1042,
+    langCode: "fa",
+    PageIndex: 1,
+    PageSize: 12,
+  });
+  const carView: Items[] = await getItem({
+    TypeId: 1042,
+    langCode: "fa",
+    OrderBy:5,
+    PageIndex: 1,
+    PageSize: 12,
+  });
+  
+  
+
+
   return (
     <div className="page-wrapper min-h-screen bg-[#f4f4f4]">
       <div className="content-box pt-4">
         {/* Banner Top */}
-        <div className="bannerTop_wrap mb-8">
-          <div className="mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="banner_box rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow">
-                <a href="#">
-                  <img
-                    src="/images/gallery/banner-2.jpg"
-                    alt="Banner"
-                    className="w-full h-auto rounded-2xl transition-transform hover:scale-105"
-                  />
-                </a>
-              </div>
-              <div className="banner_box rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow">
-                <a href="#">
-                  <img
-                    src="/images/gallery/banner-1.jpg"
-                    alt="Banner"
-                    className="w-full h-auto rounded-2xl transition-transform hover:scale-105"
-                  />
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+        <BannerTop banner={banner} />
 
         {/* Hero Slider */}
-        <HeroSlider />
+        <HeroSlider slider={slider} />
 
         {/* News and Comparison */}
-        <NewsSection />
+        <NewsSection
+          news={news.slice(0, 2)}
+          saleNews={saleNews}
+          lastCompare={lastCompare}
+        />
 
         {/* Car Types */}
-        <CarTypes />
+        <CarTypes segmentCars={segmentCars} />
 
         {/* Video Banner Section */}
-        <VideoBannerSection />
+        <VideoBannerSection video={video}/>
 
         {/* News List Section */}
-        <NewsListSection />
+        <NewsListSection news={news}/>
 
         {/* Car Specs Section */}
-        <CarSpecsSection />
+        <CarSpecsSection carSpecs={carSpecs}/>
 
         {/* Popular Cars Section */}
-        <PopularCarsSection />
+        <PopularCarsSection carView={carView}/>
 
         {/* Car Comparison Section */}
         <CarComparisonSection />

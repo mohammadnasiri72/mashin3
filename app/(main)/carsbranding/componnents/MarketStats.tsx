@@ -122,7 +122,7 @@ function MarketStats() {
               className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-200"
             >
               <div className="flex items-center gap-2 flex-1 min-w-0">
-                <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center shrink-0">
                   <img
                     src={car.logo}
                     alt={car.name}
@@ -136,7 +136,7 @@ function MarketStats() {
                   <p className="text-xs text-gray-500 truncate">{car.brand}</p>
                 </div>
               </div>
-              <div className="text-left ml-2 flex-shrink-0">
+              <div className="text-left ml-2 shrink-0">
                 <div className="font-bold text-gray-900 text-sm whitespace-nowrap">
                   {car.price}
                 </div>

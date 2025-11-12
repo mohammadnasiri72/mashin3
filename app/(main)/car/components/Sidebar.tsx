@@ -3,10 +3,17 @@ import Link from "next/link";
 import { useEffect } from "react";
 
 // Fancybox
+import { mainDomainOld } from "@/utils/mainDomain";
 import { Fancybox } from "@fancyapps/ui";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 
-const Sidebar = () => {
+const Sidebar = ({
+  detailsCarcompetitor,
+  detailsCar,
+}: {
+  detailsCarcompetitor: ItemsId[];
+  detailsCar: ItemsId;
+}) => {
   const shahinModels = [
     {
       image: "/images/gallery/shahin-s.jpg",
@@ -32,7 +39,31 @@ const Sidebar = () => {
 
   // Initialize Fancybox
   useEffect(() => {
-    Fancybox.bind("[data-fancybox='sidebar-gallery']", {
+    Fancybox.bind("[data-fancybox='sidebar-gallery1']", {
+      Toolbar: {
+        display: {
+          left: [],
+          middle: [],
+          right: ["close"],
+        },
+      },
+      Thumbs: {
+        type: "classic",
+      },
+      Images: {
+        zoom: true,
+      },
+      Carousel: {
+        infinite: true,
+      },
+    });
+
+    return () => {
+      Fancybox.destroy();
+    };
+  }, []);
+  useEffect(() => {
+    Fancybox.bind("[data-fancybox='sidebar-gallery2']", {
       Toolbar: {
         display: {
           left: [],
@@ -77,22 +108,25 @@ const Sidebar = () => {
     <div className="sidebar space-y-6">
       {/* مدل‌های شاهین */}
       <div className="sidebar_widget bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-        <h3 className="widget_title text-lg font-bold text-gray-900 !mb-3">
+        <h3 className="widget_title text-lg font-bold text-gray-900 mb-3!">
           <Link href="#" className="hover:text-red-600 transition-colors">
-            مدل های شاهین
+            مدل های {detailsCar.sourceName} {detailsCar.title}
           </Link>
         </h3>
 
         <div className="space-y-4 flex flex-wrap">
           {shahinModels.map((model, index) => (
-            <div key={index} className="px-0 sm:px-2 lg:px-0 lg:w-full sm:w-1/2 w-full">
+            <div
+              key={index}
+              className="px-0 sm:px-2 lg:px-0 lg:w-full sm:w-1/2 w-full"
+            >
               <div className="h-32 relative rounded-lg overflow-hidden group w-full ">
                 {/* استفاده از Link با legacyBehavior */}
 
                 <div className="block w-full h-full">
                   <a
                     href={model.image}
-                    data-fancybox="sidebar-gallery"
+                    data-fancybox="sidebar-gallery1"
                     data-caption={model.title}
                     aria-label={`بزرگنمایی تصویر ${model.title}`}
                     className="block w-full h-full"
@@ -106,7 +140,7 @@ const Sidebar = () => {
                     <div className="absolute inset-0 bg-black/20 transition-all duration-300"></div>
 
                     <div className="sm:w-auto w-full p-3 sm:bg-transparent bg-[#fff2] rounded-xl flex sm:justify-start justify-center items-center absolute left-0 bottom-0">
-                      <h3 className="!pb-0 !mb-0 text-center !text-white !font-bold inline-block relative text-sm z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#5d5dff]">
+                      <h3 className="pb-0! mb-0! text-center text-white! font-bold! inline-block relative text-sm z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#5d5dff]">
                         {model.title}
                       </h3>
                     </div>
@@ -127,34 +161,27 @@ const Sidebar = () => {
         </h3>
 
         <div className="space-y-4">
-          {shahinModels.map((model, index) => (
+          {detailsCarcompetitor.map((model) => (
             <div
-              key={index}
+              key={model.id}
               className="item_wd relative rounded-lg overflow-hidden group"
             >
               <div>
                 <div className="block w-full h-full">
-                  <a
-                    href={model.image}
-                    data-fancybox="sidebar-gallery"
-                    data-caption={model.title}
-                    aria-label={`بزرگنمایی تصویر ${model.title}`}
-                    className="block w-full h-full"
-                  >
-                    <Image
-                      src={model.image}
+                  <Link href={model.url} className="block w-full h-full">
+                    <img
+                      src={mainDomainOld + model.image}
                       alt={model.title}
-                      width={300}
-                      height={150}
+                      aria-label={model.title}
                       className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     <div className="absolute inset-0 bg-black/20 transition-all duration-300"></div>
                     <div className="sm:w-auto w-full p-3 sm:bg-transparent bg-[#fff2] rounded-xl flex sm:justify-start justify-center items-center absolute left-0 bottom-0">
-                      <h3 className="!pb-0 !mb-0 text-center !text-white !font-bold inline-block relative text-sm z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#5d5dff]">
+                      <h3 className="pb-0! mb-0! text-center text-white! font-bold! inline-block relative text-sm z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#5d5dff]">
                         {model.title}
                       </h3>
                     </div>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

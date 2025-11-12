@@ -1,33 +1,23 @@
 "use client";
 
+import { extractTextFromHtml } from "@/utils/func";
 import { FaSquareMinus, FaSquarePlus } from "react-icons/fa6";
 
-interface FeaturesSectionProps {
-  advantages?: string[];
-  disadvantages?: string[];
-}
-
-const FeaturesSection = ({
-  advantages = [
-    "امکانات رفاهی فراوان",
-    "طراحی ظاهری جذاب",
-    "امکانات رفاهی فراوان",
-    "کیفیت ساخت بالاتر از رقبای چینی",
-    "موتور و گیربکس کاملا هماهنگ",
-    "امکانات رفاهی فراوان",
-  ],
-  disadvantages = [
-    "مونتاژ ضعیف",
-    "طراحی و متریال ضعیف داخل کابین",
-    "دید کم عقب",
-    "امکانات ناکافی",
-    "فقدان سامانه کنترل پایداری",
-  ],
-}: FeaturesSectionProps) => {
+const FeaturesSection = ({ detailsCar }: { detailsCar: ItemsId }) => {
+  const advantages = detailsCar.properties.filter(
+    (e) => e.propertyId === 22639
+  );
+  const disadvantages = detailsCar.properties.filter(
+    (e) => e.propertyId === 22640
+  );
   return (
-    <div className="advg_wrap detailsBox bg-white rounded-xl p-6 !mb-6">
-      <h2 className="dt_title text-2xl font-bold text-gray-900 !mb-6">
-        <strong><span className="text-green-700">مزایا</span> و <span className="text-red-700">معایب</span> شاهین اتوماتیک</strong>
+    <div className="advg_wrap detailsBox bg-white rounded-xl p-6 mb-6!">
+      <h2 className="dt_title text-2xl font-bold text-gray-900 mb-6!">
+        <strong>
+          <span className="text-green-700">مزایا</span> و{" "}
+          <span className="text-red-700">معایب</span> {detailsCar.sourceName}{" "}
+          {detailsCar.title}
+        </strong>
       </h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -38,13 +28,13 @@ const FeaturesSection = ({
             مزایا
           </div>
           <ul className="flex flex-wrap space-y-3">
-            {advantages.map((advantage, index) => (
+            {advantages.map((advantage) => (
               <li
-                key={index}
-                className="text-gray-800 font-medium flex items-start lg:w-1/2 w-full"
+                key={advantage.id}
+                className="text-gray-800 font-medium flex items-start w-full"
               >
                 <span className="text-green-500 ml-2 mt-1">•</span>
-                {advantage}
+                {extractTextFromHtml(advantage.value)}
               </li>
             ))}
           </ul>
@@ -57,13 +47,13 @@ const FeaturesSection = ({
             معایب
           </div>
           <ul className="flex flex-wrap space-y-3">
-            {disadvantages.map((disadvantage, index) => (
+            {disadvantages.map((disadvantage) => (
               <li
-                key={index}
-                className="text-gray-800 font-medium flex items-start lg:w-1/2 w-full"
+                key={disadvantage.id}
+                className="text-gray-800 font-medium flex items-start w-full"
               >
                 <span className="text-red-500 ml-2 mt-1">•</span>
-                {disadvantage}
+                {extractTextFromHtml(disadvantage.value)}
               </li>
             ))}
           </ul>

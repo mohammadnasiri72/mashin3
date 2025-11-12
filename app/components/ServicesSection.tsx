@@ -123,7 +123,7 @@ const ServicesSection = ({
         {/* هدر بخش */}
         <div className="flex sm:flex-row flex-col justify-between items-center mb-5 gap-4">
           <div className="sm:w-auto w-full p-3 sm:bg-transparent bg-[#f6eced] rounded-xl flex sm:justify-start justify-center items-center">
-            <h3 className="!pb-0 !mb-0 !text-[#292929] !font-bold inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ffd6db]">
+            <h3 className="pb-0! mb-0! text-[#292929]! font-bold! inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ffd6db]">
               خدمات  <span className="text-[#ce1a2a]"> ماشین3 </span>
             </h3>
           </div>
@@ -171,27 +171,27 @@ const ServicesSection = ({
         >
           {services.map((service) => (
             <SwiperSlide key={service.id}>
-              <div className="service-box overflow-hidden rounded-2xl !h-64 rounded-br-none relative group cursor-pointer bg-amber-400">
+              <div className="service-box overflow-hidden rounded-2xl h-64! rounded-br-none relative group cursor-pointer bg-amber-400">
                 {/* بخش تصویر */}
-                <div className="img-box relative overflow-hidden !h-64">
+                <div className="img-box relative overflow-hidden h-64!">
                   <Image
                     src={service.image}
                     alt={service.alt}
                     fill
-                    className="w-full !h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-64! object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                   {/* Shadow Overlay */}
-                  <div className="absolute bottom-0 right-0 w-full h-1/2 bg-gradient-to-t from-black/80 to-transparent" />
+                  <div className="absolute bottom-0 right-0 w-full h-1/2 bg-linear-to-t from-black/80 to-transparent" />
                 </div>
 
                 {/* عنوان خدمت */}
-                <h3 className="absolute !bottom-10 !right-16 !text-white text-xl font-black z-10">
+                <h3 className="absolute bottom-10! right-16! text-white! text-xl font-black z-10">
                   {service.title}
                 </h3>
 
                 {/* شماره مرحله */}
-                <div className="!absolute !bottom-0 !right-0 bg-gray-100 p-3 rounded-tl-2xl">
-                  <span className="!w-8 !h-8 bg-[#ce1a2a] !text-white rounded-full !flex !items-center !justify-center text-sm font-semibold">
+                <div className="absolute! bottom-0! right-0! bg-gray-100 p-3 rounded-tl-2xl">
+                  <span className="w-8! h-8! bg-[#ce1a2a] text-white! rounded-full flex! items-center! justify-center! text-sm font-semibold">
                     {service.step}
                   </span>
                 </div>

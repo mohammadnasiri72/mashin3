@@ -1,4 +1,6 @@
-import { getMenu, type MenuResponse } from "@/services/Menu/Menu";
+import { getItem } from "@/services/Item/Item";
+import { getMenu } from "@/services/Menu/Menu";
+import { getSetting } from "@/services/Property/setting";
 import type { Metadata } from "next";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -13,13 +15,15 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const menu: MenuResponse = await getMenu({ langCode: "fa", menuKey: "" });
+  const menu: MenuGroup[] = await getMenu({ langCode: "fa", menuKey: "" });
+  const setting: SettingType[] = await getSetting();
+  const Social: Items[] = await getItem({ TypeId: 8, langCode: "fa" });
 
   return (
     <>
-      <Header menu={menu} />
+      <Header menu={menu} setting={setting} />
       <main>{children}</main>
-      <Footer menu={menu}/>
+      <Footer menu={menu} setting={setting} Social={Social}/>
     </>
   );
 }
