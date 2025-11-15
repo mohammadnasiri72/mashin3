@@ -2,6 +2,7 @@ import { PostLogin } from "@/services/Account/login";
 import { PostResetPass } from "@/services/Account/resetPass";
 import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
 import { Button, Checkbox, Input } from "antd";
+import Link from "next/link";
 import { useState } from "react";
 import { FaLock, FaUser } from "react-icons/fa";
 import { MdClose, MdLogin } from "react-icons/md";
@@ -185,6 +186,13 @@ function ModalLogin() {
             >
               فراموشی رمز
             </Button>
+          </div>
+          <div className="pr-5">
+            <Link href={'/auth'}
+              className="text-xs! p-0! h-auto! text-[#1677ff]! hover:text-[#69b1ff]!"
+            >
+              ساخت حساب کاربری
+            </Link>
           </div>
           <div className="mt-3">
             <Button

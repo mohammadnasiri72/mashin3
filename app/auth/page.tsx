@@ -1,7 +1,7 @@
 "use client";
 
 import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
-import { Button, Checkbox, Input, Tabs, message } from "antd";
+import { Button, Checkbox, Input, Tabs } from "antd";
 import React, { useState } from "react";
 import {
   FaEnvelope,
@@ -25,10 +25,10 @@ interface LoginData {
 }
 
 interface RegisterData {
-  fullName: string;
-  userName: string;
+  name: string;
+  family: string;
+  mobile: string;
   email: string;
-  phone: string;
   password: string;
   confirmPassword: string;
   agreeToTerms: boolean;
@@ -75,10 +75,10 @@ const AuthPage: React.FC = () => {
 
   // حالت‌های فرم ثبت‌نام
   const [registerData, setRegisterData] = useState<RegisterData>({
-    fullName: "",
-    userName: "",
+    name: "",
+    family: "",
     email: "",
-    phone: "",
+    mobile: "",
     password: "",
     confirmPassword: "",
     agreeToTerms: false,
@@ -101,7 +101,7 @@ const AuthPage: React.FC = () => {
   });
 
   // حالت فعال تب
-  const [activeTab, setActiveTab] = useState<string>("login");
+  const [activeTab, setActiveTab] = useState<string>("register");
 
   // حالت مودال بازیابی رمز عبور
   const [resetPasswordModal, setResetPasswordModal] = useState<boolean>(false);
@@ -159,10 +159,10 @@ const AuthPage: React.FC = () => {
   // اعتبارسنجی فرم ثبت‌نام
   const validateRegisterForm = (): boolean => {
     const errors: RegisterErrors = {
-      fullName: !registerData.fullName,
-      userName: !registerData.userName,
+      fullName: !registerData.name,
+      userName: !registerData.family,
       email: !registerData.email || !/\S+@\S+\.\S+/.test(registerData.email),
-      phone: !registerData.phone,
+      phone: !registerData.mobile,
       password: !registerData.password || registerData.password.length < 6,
       confirmPassword: registerData.password !== registerData.confirmPassword,
       agreeToTerms: !registerData.agreeToTerms,
@@ -175,58 +175,58 @@ const AuthPage: React.FC = () => {
   // هندلر ورود
   const handleLogin = async (): Promise<void> => {
     if (!validateLoginForm()) {
-    //   message.error("لطفا اطلاعات ورود را به درستی تکمیل کنید");
+      //   message.error("لطفا اطلاعات ورود را به درستی تکمیل کنید");
       return;
     }
 
     try {
       const result = await PostLogin(loginData);
-    //   message.success("ورود موفقیت‌آمیز بود");
+      //   message.success("ورود موفقیت‌آمیز بود");
       // در اینجا می‌توانید کاربر را به صفحه مورد نظر هدایت کنید
     } catch (error) {
       console.error("خطا در ورود:", error);
-    //   message.error("نام کاربری یا رمز عبور نادرست است");
+      //   message.error("نام کاربری یا رمز عبور نادرست است");
     }
   };
 
   // هندلر ثبت‌نام
   const handleRegister = async (): Promise<void> => {
     if (!validateRegisterForm()) {
-    //   message.error("لطفا اطلاعات ثبت‌نام را به درستی تکمیل کنید");
+      //   message.error("لطفا اطلاعات ثبت‌نام را به درستی تکمیل کنید");
       return;
     }
 
     try {
       const result = await PostRegister(registerData);
-    //   message.success("ثبت‌نام موفقیت‌آمیز بود");
+      //   message.success("ثبت‌نام موفقیت‌آمیز بود");
       // سوئیچ به تب ورود پس از ثبت‌نام موفق
       setActiveTab("login");
     } catch (error) {
       console.error("خطا در ثبت‌نام:", error);
-    //   message.error("خطا در ثبت‌نام. لطفا مجددا تلاش کنید");
+      //   message.error("خطا در ثبت‌نام. لطفا مجددا تلاش کنید");
     }
   };
 
   // هندلر بازیابی رمز عبور
   const handleResetPassword = async (): Promise<void> => {
     if (!resetPasswordEmail) {
-    //   message.error("لطفا ایمیل خود را وارد کنید");
+      //   message.error("لطفا ایمیل خود را وارد کنید");
       return;
     }
 
     if (!/\S+@\S+\.\S+/.test(resetPasswordEmail)) {
-    //   message.error("لطفا یک ایمیل معتبر وارد کنید");
+      //   message.error("لطفا یک ایمیل معتبر وارد کنید");
       return;
     }
 
     try {
       const result = await PostResetPass(resetPasswordEmail);
-    //   message.success("ایمیل بازیابی رمز عبور ارسال شد");
+      //   message.success("ایمیل بازیابی رمز عبور ارسال شد");
       setResetPasswordModal(false);
       setResetPasswordEmail("");
     } catch (error) {
       console.error("خطا در بازیابی رمز عبور:", error);
-    //   message.error("خطا در بازیابی رمز عبور. لطفا مجددا تلاش کنید");
+      //   message.error("خطا در بازیابی رمز عبور. لطفا مجددا تلاش کنید");
     }
   };
 
@@ -311,13 +311,13 @@ const AuthPage: React.FC = () => {
     <div className="space-y-4">
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          <span className="text-red-600">*</span> نام کامل
+          <span className="text-red-600">*</span> نام
         </label>
         <Input
-          value={registerData.fullName}
-          onChange={(e) => handleRegisterChange("fullName", e.target.value)}
+          value={registerData.name}
+          onChange={(e) => handleRegisterChange("name", e.target.value)}
           prefix={<FaUser className="text-gray-400 ml-2" />}
-          placeholder="نام و نام خانوادگی خود را وارد کنید"
+          placeholder="نام خود را وارد کنید"
           size="large"
           className={`rounded-lg ${
             registerErrors.fullName ? "border-red-500" : "border-gray-300"
@@ -325,20 +325,20 @@ const AuthPage: React.FC = () => {
         />
         {registerErrors.fullName && (
           <span className="text-xs text-red-600 mt-1 block">
-            لطفا نام کامل خود را وارد کنید
+            لطفا نام خود را وارد کنید
           </span>
         )}
       </div>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">
-          <span className="text-red-600">*</span> نام کاربری
+          <span className="text-red-600">*</span> نام خانوادگی
         </label>
         <Input
-          value={registerData.userName}
-          onChange={(e) => handleRegisterChange("userName", e.target.value)}
+          value={registerData.family}
+          onChange={(e) => handleRegisterChange("family", e.target.value)}
           prefix={<FaUser className="text-gray-400 ml-2" />}
-          placeholder="نام کاربری دلخواه خود را وارد کنید"
+          placeholder="نام خانوادگی خود را وارد کنید"
           size="large"
           className={`rounded-lg ${
             registerErrors.userName ? "border-red-500" : "border-gray-300"
@@ -346,7 +346,7 @@ const AuthPage: React.FC = () => {
         />
         {registerErrors.userName && (
           <span className="text-xs text-red-600 mt-1 block">
-            لطفا نام کاربری خود را وارد کنید
+            لطفا نام خانوادگی خود را وارد کنید
           </span>
         )}
       </div>
@@ -377,8 +377,8 @@ const AuthPage: React.FC = () => {
           <span className="text-red-600">*</span> تلفن همراه
         </label>
         <Input
-          value={registerData.phone}
-          onChange={(e) => handleRegisterChange("phone", e.target.value)}
+          value={registerData.mobile}
+          onChange={(e) => handleRegisterChange("mobile", e.target.value)}
           prefix={<FaPhone className="text-gray-400 ml-2" />}
           placeholder="شماره تلفن همراه خود را وارد کنید"
           size="large"
@@ -485,7 +485,9 @@ const AuthPage: React.FC = () => {
         <div className="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden">
           {/* هدر */}
           <div className="bg-red-600  text-center py-6 px-4">
-            <h1 className="text-2xl font-bold mb-2 text-white!">سامانه احراز هویت</h1>
+            <h1 className="text-2xl font-bold mb-2 text-white!">
+              سامانه احراز هویت
+            </h1>
             <p className="text-red-100 opacity-90">
               به حساب کاربری خود وارد شوید یا ثبت‌نام کنید
             </p>

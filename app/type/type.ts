@@ -74,15 +74,54 @@ interface MenuGroup {
 }
 
 interface Items {
-  id: number;
-  sourceLink: string;
-  image: string;
-  summary: string;
-  title: string;
-  created: string;
+  amount: number;
+  authorId: string;
   body: string;
-  visit: number;
+  breadcrumb: string | null;
+  categoryId: number;
+  categoryKey: string;
+  categoryTitle: string;
+  comment: number;
+  created: string;
+  deleted: string | null;
+  endDate: string | null;
+  flag: number;
+  headTags: string | null;
+  id: number;
+  image: string;
+  imageMobile: string | null;
+  isActive: boolean;
+  isHome: boolean;
+  isPrivate: string | null;
+  isSys: boolean;
+  itemHtml: string;
+  itemInMenu: boolean;
+  itemKey: string;
+  itemSlugFormat: string;
+  itemTypeId: number;
+  itemUrlFormat: string;
+  keywords: string | null;
+  langCode: string;
+  modified: string;
+  parentId: number | null;
+  priority: number;
+  properties: [];
+  publishCode: string;
+  score: number;
+  seoDescription: string;
+  seoInfo: string | null;
+  seoKeywords: string | null;
+  seoTitle: string;
+  seoUrl: string;
+  sourceLink: string;
+  sourceName: string;
+  startDate: string | null;
+  summary: string | null;
+  title: string;
+  total: number;
   url: string;
+  userId: string | null;
+  visit: number;
 }
 
 interface ItemsAttachment {
@@ -171,4 +210,74 @@ interface ItemsId {
   comment: number;
   visit: number;
   score: number;
+}
+
+interface ItemCategoryParams {
+  TypeId: number;
+  LangCode: string;
+  ParentIdArray?: number;
+  IsActive?: number;
+  IsHome?: number;
+  Term?: string;
+  OrderBy?: number;
+  PageSize?: number;
+  PageIndex?: number;
+}
+
+interface ItemsCategory {
+  rowId: number;
+  id: number;
+  authorId: string;
+  categoryKey: string;
+  itemTypeId: number;
+  title: string;
+  summary: string;
+  url: string;
+  parentId: number;
+  parentTitle: string;
+  image: string;
+  priority: number;
+  isActive: boolean;
+  isHome: boolean;
+  isSys: boolean;
+  routeId: string;
+  path: string;
+  pathLevel: number;
+  total: number;
+}
+
+interface ItemsCategoryId {
+  breadcrumb: string | null;
+  id: number;
+  authorId: string;
+  categoryKey: string;
+  title: string;
+  itemTypeId: number;
+  url: string;
+  langCode: string;
+  parentId: number;
+  parentTitle: string;
+  isActive: boolean;
+  isHome: boolean;
+  image: string;
+  summary: string;
+  body: string;
+  created: string;
+  modified: string;
+  flag: null;
+  isSys: boolean;
+  priority: number;
+  sourceLink: string | null;
+  seoUrl: string;
+  seoTitle: string;
+  seoKeywords: string | null;
+  seoDescription: string | null;
+  headTags: string | null;
+  routeId: string;
+  path: string;
+  path2: string | null;
+  categoryUrlFormat: string;
+  categorySlugFormat: string;
+  categoryHtml: string | null;
+  categoryInMenu: boolean;
 }

@@ -1,157 +1,109 @@
 "use client";
 
-import type { TabsProps } from "antd";
-import { Pagination, Tabs } from "antd";
-import Image from "next/image";
+import MarketStats from "@/app/components/MarketStats";
+import NewsBlogForm from "@/app/components/NewsBlogForm";
+import { extractTextFromHtml } from "@/utils/func";
+import { mainDomainOld } from "@/utils/mainDomain";
+import { Pagination } from "antd";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaCalendar, FaEye } from "react-icons/fa";
-import MarketStats from "../../carsbranding/componnents/MarketStats";
-import NewsBlogForm from "../../carsbranding/componnents/NewsBlogForm";
+const moment = require("moment-jalaali");
 
-// تابع تبدیل اعداد به فارسی
-const toPersianNumber = (number: number): string => {
+export const toPersianNumbers = (input: number | string): string => {
   const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
-  return number
+  return input
     .toString()
     .replace(/\d/g, (digit) => persianDigits[parseInt(digit)]);
 };
 
-const CarNews = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+const formatPersianDate = (dateString: string): string => {
+  try {
+    const persianMonths = [
+      "فروردین",
+      "اردیبهشت",
+      "خرداد",
+      "تیر",
+      "مرداد",
+      "شهریور",
+      "مهر",
+      "آبان",
+      "آذر",
+      "دی",
+      "بهمن",
+      "اسفند",
+    ];
+
+    const date = moment(dateString);
+    const day = toPersianNumbers(date.jDate());
+    const month = persianMonths[date.jMonth()];
+    const year = toPersianNumbers(date.jYear());
+
+    return `${day} ${month} ${year}`;
+  } catch (error) {
+    console.error("Error formatting date:", error);
+    return toPersianNumbers(dateString); // حتی در صورت خطا هم اعداد را فارسی کن
+  }
+};
+
+const CarNews = ({ id, newsData }: { id: number; newsData: Items[] }) => {
   const [activeTab, setActiveTab] = useState<string>("all");
-
-  // داده‌های اخبار
-  const newsData = [
-    {
-      id: 1,
-      title: "قیمت جدید شاهین پلاس در بازار اعلام شد",
-      summary:
-        "قیمت خودروی شاهین پلاس در بازار با افزایش ۲.۳ درصدی نسبت به هفته گذشته مواجه شده است.",
-      image: "/images/gallery/shahin-plus.jpg",
-      category: "market" as const,
-      date: "۱۴۰۲/۱۰/۱۵",
-      time: "۱۰:۳۰",
-      views: 1250,
-      readTime: "۳ دقیقه",
-    },
-    {
-      id: 2,
-      title: "شرایط پیش‌فروش جدید ایران خودرو برای نیمه دوم سال",
-      summary:
-        "ایران خودرو شرایط پیش‌فروش جدیدی برای محصولات خود در نیمه دوم سال ۱۴۰۲ اعلام کرد.",
-      image: "/images/gallery/shahin-plus.jpg",
-      category: "presale" as const,
-      date: "۱۴۰۲/۱۰/۱۴",
-      time: "۱۴:۲۰",
-      views: 890,
-      readTime: "۵ دقیقه",
-    },
-    {
-      id: 3,
-      title: "بررسی فنی شاهین پلاس؛ نقاط قوت و ضعف",
-      summary:
-        "در این بررسی فنی به نقاط قوت و ضعف خودروی شاهین پلاس می‌پردازیم.",
-      image: "/images/gallery/shahin-plus.jpg",
-      category: "review" as const,
-      date: "۱۴۰۲/۱۰/۱۳",
-      time: "۰۹:۱۵",
-      views: 2100,
-      readTime: "۸ دقیقه",
-    },
-    {
-      id: 4,
-      title: "تست ایمنی تارا پلاس با نتایج قابل توجه",
-      summary:
-        "تست ایمنی خودروی تارا پلاس نتایج بسیار خوبی را به همراه داشته است.",
-      image: "/images/gallery/shahin-plus.jpg",
-      category: "test" as const,
-      date: "۱۴۰۲/۱۰/۱۲",
-      time: "۱۶:۴۵",
-      views: 1560,
-      readTime: "۶ دقیقه",
-    },
-    {
-      id: 5,
-      title: "آغاز فروش فوق العاده سایپا در نمایشگاه تهران",
-      summary:
-        "شرکت سایپا فروش فوق‌العاده‌ای را در نمایشگاه بین‌المللی تهران آغاز کرد.",
-      image: "/images/gallery/shahin-plus.jpg",
-      category: "sale" as const,
-      date: "۱۴۰۲/۱۰/۱۱",
-      time: "۱۱:۱۰",
-      views: 980,
-      readTime: "۴ دقیقه",
-    },
-    {
-      id: 6,
-      title: "جدیدترین آگهی‌های خودرو در بازار",
-      summary: "مروری بر جدیدترین آگهی‌های خودرو در بازار و قیمت‌های روز.",
-      image: "/images/gallery/shahin-plus.jpg",
-      category: "ads" as const,
-      date: "۱۴۰۲/۱۰/۱۰",
-      time: "۱۳:۳۰",
-      views: 750,
-      readTime: "۳ دقیقه",
-    },
-  ];
-
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   // محبوب‌ترین اخبار (بر اساس بازدید)
-  const popularNews = [...newsData]
-    .sort((a, b) => b.views - a.views)
-    .slice(0, 3);
+  const popularNews = [...newsData].slice(0, 3);
 
-  // مدیریت تب فعال از روی URL
-  useEffect(() => {
-    const tabFromUrl = searchParams.get("subject") || "all";
-    setActiveTab(tabFromUrl);
-  }, [searchParams]);
-
-  // تغییر تب و آپدیت URL
-  const handleTabChange = (key: string) => {
-    setActiveTab(key);
-    router.push(`/news?subject=${key}`, { scroll: false });
-  };
-
-  // فیلتر اخبار بر اساس تب فعال
-  const filteredNews =
-    activeTab === "all"
-      ? newsData
-      : newsData.filter((news) => news.category === activeTab);
-
-  // تب‌های آنت دیزاین
-  const tabItems: TabsProps["items"] = [
+  // تعریف تب‌ها و URL مربوطه
+  const tabConfig = [
     {
       key: "all",
+      href: "/fa/News/اخبار-خودرو.html",
       label: "همه اخبار خودرو",
     },
     {
-      key: "sale",
-      label: "شرایط فروش",
-    },
-    {
-      key: "presale",
-      label: "پیش فروش خودرو",
+      key: "salePresale",
+      href: "/fa/News/6593/شرایط-فروش-و-پیش-فروش-خودرو.html",
+      label: "شرایط فروش و پیش فروش خودرو",
     },
     {
       key: "market",
+      href: "/fa/News/6323/اخبار-بازار-خودرو.html",
       label: "اخبار بازار خودرو",
     },
     {
       key: "test",
+      href: "/fa/News/6430/تست-خودرو.html",
       label: "تست خودرو",
     },
     {
       key: "review",
+      href: "/fa/News/6448/بررسی-خودرو.html",
       label: "بررسی خودرو",
     },
     {
       key: "ads",
+      href: "/fa/News/6510/آگهی.html",
       label: "آگهی",
     },
   ];
+
+  useEffect(() => {
+    if (id === 6510) {
+      setActiveTab("ads");
+    } else if (id === 6448) {
+      setActiveTab("review");
+    } else if (id === 6430) {
+      setActiveTab("test");
+    } else if (id === 6323) {
+      setActiveTab("market");
+    } else if (id === 6593) {
+      setActiveTab("salePresale");
+    } else {
+      setActiveTab("all");
+    }
+  }, [id]);
 
   return (
     <div className="min-h-screen bg-[#f4f4f4] py-8">
@@ -171,73 +123,103 @@ const CarNews = () => {
           <div className="lg:w-3/4 w-full">
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
               {/* تب‌های اخبار */}
-              <div className="mb-6">
-                <Tabs
+              <div className="mb-6 flex items-center flex-wrap gap-2">
+                {tabConfig.map((tab) => (
+                  <Link
+                    key={tab.key}
+                    onClick={() => {
+                      setActiveTab(tab.key);
+                    }}
+                    className={`hover:text-white!  duration-300 px-3 py-1 rounded-lg ${
+                      activeTab === tab.key
+                        ? "text-white! bg-[#ce1a2a]"
+                        : "text-black! hover:bg-red-500"
+                    }`}
+                    href={tab.href}
+                  >
+                    {tab.label}
+                  </Link>
+                ))}
+                {/* <Tabs
                   activeKey={activeTab}
-                  onChange={handleTabChange}
                   items={tabItems}
                   className="custom-news-tabs"
                   tabBarStyle={{ marginBottom: 0 }}
-                />
+                /> */}
               </div>
 
               {/* لیست اخبار */}
               <div className="space-y-6">
-                {filteredNews.map((news) => (
-                  <Link key={news.id} href={"#"}>
-                    <article className="py-6! border-b! border-gray-200 last:border-b-0 last:pb-0 group">
+                {newsData.map((news) => (
+                 
+                    <article key={news.id} className="py-6! border-b! border-gray-200 last:border-b-0 last:pb-0 group">
                       <div className="flex flex-col md:flex-row gap-4">
                         {/* تصویر خبر */}
                         <div className="md:w-48 w-full h-32 shrink-0">
                           <div className="w-full h-full bg-gray-200 rounded-lg overflow-hidden relative">
-                            <Image
-                              src={news.image}
-                              alt={news.title}
-                              fill
-                              className="object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
+                            <Link href={news.url} className="rounded-lg!">
+                              <img
+                                src={mainDomainOld + news.image}
+                                alt={news.title}
+                                className="object-cover w-full h-full hover:scale-105 rounded-lg! transition-transform duration-300"
+                              />
+                            </Link>
                           </div>
                         </div>
 
                         {/* محتوای خبر */}
                         <div className="flex-1">
-                          <h2 className="text-xl font-bold text-gray-900 mb-2 hover:text-red-600 transition-colors cursor-pointer">
+                           <Link href={news.url}>
+                           
+                          <h2 className="text-xl font-bold text-gray-900 mb-2 hover:text-[#ce1a2a]! duration-300 transition-colors cursor-pointer">
                             {news.title}
                           </h2>
+                           </Link>
 
-                          <p className="text-gray-600 mb-3 leading-relaxed">
-                            {news.summary}
+                          <p className="text-gray-600 mb-3 leading-relaxed text-justify line-clamp-3">
+                            {extractTextFromHtml(news.body)}
                           </p>
 
                           {/* متا اطلاعات */}
                           <div className="flex flex-wrap items-center gap-4 text-xs text-gray-400 mt-2">
                             <div className="flex items-center gap-1">
                               <FaCalendar />
-                              <span>{news.date}</span>
+                              <span>{formatPersianDate(news.created)}</span>
                             </div>
 
                             <div className="flex items-center gap-1">
                               <FaEye className="w-3 h-3" />
-                              <span>{toPersianNumber(news.views)} بازدید</span>
+                              <span>{toPersianNumbers(news.visit)} بازدید</span>
                             </div>
                           </div>
                         </div>
                       </div>
                     </article>
-                  </Link>
+                 
                 ))}
               </div>
 
               {/* صفحه بندی */}
-              <div className="p-3 flex justify-center items-center">
-                <Pagination
-                  total={100}
-                  showSizeChanger={false}
-                  //   showTotal={(total) => `Total ${total} items`}
-                  defaultPageSize={20}
-                  defaultCurrent={1}
-                />
-              </div>
+              {newsData.length > 0 && (
+                <div className="p-3 flex justify-center items-center">
+                  <Pagination
+                    onChange={(page) => {
+                      const params = new URLSearchParams(
+                        searchParams.toString()
+                      );
+                      params.set("page", page.toString());
+                      router.push(`${pathname}?${params.toString()}`, {
+                        scroll: false,
+                      });
+                    }}
+                    total={newsData[0].total}
+                    showSizeChanger={false}
+                    defaultPageSize={20}
+                    current={Number(searchParams.get("page")) || 1}
+                  />
+                  <span>{newsData[0].total} مورد</span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -258,23 +240,21 @@ const CarNews = () => {
                     >
                       <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-[#ce1a2a] hover:text-white! transition-colors">
                         <div className="w-16 h-12 bg-gray-200 rounded shrink-0 overflow-hidden">
-                          <Image
-                            src={news.image}
+                          <img
+                            src={mainDomainOld + news.image}
                             alt={news.title}
-                            width={64}
-                            height={48}
                             className="w-full h-full object-cover"
                           />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-medium text-gray-900 text-sm leading-tight group-hover:!text-white transition-colors line-clamp-2">
+                          <h4 className="font-medium text-gray-900 text-sm leading-tight group-hover:text-white! transition-colors line-clamp-2">
                             {news.title}
                           </h4>
                           <div className="flex items-center gap-2 mt-1 ">
-                            <span className="text-xs text-gray-500 group-hover:!text-white">
-                              {toPersianNumber(news.views)}
+                            <span className="text-xs text-gray-500 group-hover:text-white!">
+                              {toPersianNumbers(news.visit)}
                             </span>
-                            <FaEye className="w-3 h-3 text-gray-400 group-hover:!text-white" />
+                            <FaEye className="w-3 h-3 text-gray-400 group-hover:text-white!" />
                           </div>
                         </div>
                       </div>

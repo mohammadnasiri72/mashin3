@@ -308,7 +308,7 @@ export default function Header({
                   <ModalLogin />
 
                   <Link
-                    href="#"
+                    href="/auth"
                     className="bg-[#ce1a2a] text-white! font-bold text-[13px] px-5 py-2.5 rounded transition-all duration-300 hover:shadow-[0_0_0_5px_rgba(206,26,42)] hover:bg-[#d1182b]"
                   >
                     ثبت‌نام

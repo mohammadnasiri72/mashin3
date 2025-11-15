@@ -3,8 +3,9 @@
 
 import Link from "next/link";
 import { FaSearch, FaStar } from "react-icons/fa";
-import MarketStats from "./MarketStats";
-import NewsBlogForm from "./NewsBlogForm";
+import NewsBlogForm from "../../../../../components/NewsBlogForm";
+import { mainDomainOld } from "@/utils/mainDomain";
+import MarketStats from "@/app/components/MarketStats";
 
 // تابع تبدیل اعداد به فارسی
 const toPersianNumber = (number: number): string => {
@@ -14,69 +15,8 @@ const toPersianNumber = (number: number): string => {
     .replace(/\d/g, (digit) => persianDigits[parseInt(digit)]);
 };
 
-const CarBrands = () => {
+const CarBrands = ({carBrands}:{carBrands:ItemsCategory[]}) => {
  
-
-  // داده‌های برندهای خودرو
-  const carBrands = [
-    {
-      id: 1,
-      name: "بنز",
-      logo: "/images/gallery/benz.png",
-      models: 18,
-      rating: 4.6,
-      link: "/cars/toyota",
-    },
-    {
-      id: 2,
-      name: "ام وی ام",
-      logo: "/images/gallery/mvm.png",
-      models: 6,
-      rating: 3.5,
-      link: "/cars/mvm",
-    },
-    {
-      id: 3,
-      name: "پاگانی",
-      logo: "/images/gallery/pagani.png",
-      models: 9,
-      rating: 4.0,
-      link: "/cars/renault",
-    },
-    {
-      id: 4,
-      name: "تویوتا",
-      logo: "/images/gallery/toyota.png",
-      models: 11,
-      rating: 4.1,
-      link: "/cars/peugeot",
-    },
-    {
-      id: 5,
-      name: "پورشه",
-      logo: "/images/gallery/porsche.png",
-      models: 20,
-      rating: 4.8,
-      link: "/cars/mercedes",
-    },
-    {
-      id: 6,
-      name: "جیپ",
-      logo: "/images/gallery/jeep.png",
-      models: 16,
-      rating: 4.7,
-      link: "/cars/bmw",
-    },
-    {
-      id: 7,
-      name: "فورد",
-      logo: "/images/gallery/ford.png",
-      models: 7,
-      rating: 4.2,
-      link: "/cars/geely",
-    },
-  ];
-
   // محتوای سایدبار
   const popularCars = [
     {
@@ -137,57 +77,24 @@ const CarBrands = () => {
             {/* گرید برندها */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {carBrands.map((brand) => (
-                <Link key={brand.id} href={brand.link} className="group block">
+                <Link key={brand.id} href={brand.url+`?id=${brand.id}`} className="group block">
                   <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:border-red-200">
                     {/* لوگو و نام برند */}
                     <div className="flex flex-col items-center text-center mb-4">
-                      <div className="w-20 h-20 overflow-hidden flex items-center justify-center">
+                      <div className="w-20 h-20 overflow-hidden flex items-center justify-center ">
                         <img
-                          src={brand.logo}
-                          alt={brand.name}
-                          className="object-contain"
+                          src={mainDomainOld+ brand.image}
+                          alt={brand.title}
+                          className="object-contain w-full h-full"
                         />
                       </div>
 
                       <h3 className="font-bold text-gray-900 text-lg mb-2">
-                        {brand.name}
+                        {brand.title}
                       </h3>
                     </div>
 
-                    {/* اطلاعات آماری */}
-                    <div className="space-y-3">
-                      {/* رتبه‌بندی */}
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">امتیاز:</span>
-                        <div className="flex items-center gap-1">
-                          <span className="text-sm font-bold text-gray-900">
-                            {brand.rating.toFixed(1)}
-                          </span>
-                          <FaStar className="text-yellow-400 text-sm" />
-                        </div>
-                      </div>
-
-                      {/* تعداد مدل‌ها */}
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">مدل‌ها:</span>
-                        <span className="text-sm font-bold text-gray-900">
-                          {toPersianNumber(brand.models)} مدل
-                        </span>
-                      </div>
-
-                      {/* وضعیت */}
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">وضعیت:</span>
-                        <span className="text-xs font-medium bg-green-100 text-green-800 px-2 py-1 rounded-full">
-                          فعال
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* دکمه مشاهده */}
-                    <button className="w-full mt-4 cursor-pointer whitespace-nowrap bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-lg font-medium transition-colors duration-300 flex items-center justify-center gap-2">
-                      مشاهده مدل‌ها
-                    </button>
+                   
                   </div>
                 </Link>
               ))}
