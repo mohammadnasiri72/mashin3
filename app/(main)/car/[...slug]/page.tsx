@@ -18,6 +18,8 @@ async function page({
   const id = searchParam.id;
   const Attachment: ItemsAttachment[] = await getAttachment(Number(id));
   const detailsCar: ItemsId = await getItemId(Number(id));
+  console.log(detailsCar);
+  
   const detailsCarcompetitor: ItemsId[] = detailsCar.properties.filter(
     (e) => e.propertyId === 22643
   )[0]?.value

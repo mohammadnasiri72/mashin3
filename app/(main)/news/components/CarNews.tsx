@@ -246,7 +246,7 @@ const CarNews = () => {
             <div className="space-y-6">
               {/* محبوب‌ترین اخبار */}
               <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-                <h3 className="text-lg font-bold text-gray-900 !mb-4 border-b pb-2">
+                <h3 className="text-lg font-bold text-gray-900 mb-4! border-b pb-2">
                   محبوب‌ترین اخبار
                 </h3>
                 <div className="space-y-4">
@@ -256,8 +256,8 @@ const CarNews = () => {
                       href={`/news/${news.id}`}
                       className="block group"
                     >
-                      <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-[#ce1a2a] hover:!text-white transition-colors">
-                        <div className="w-16 h-12 bg-gray-200 rounded flex-shrink-0 overflow-hidden">
+                      <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-[#ce1a2a] hover:text-white! transition-colors">
+                        <div className="w-16 h-12 bg-gray-200 rounded shrink-0 overflow-hidden">
                           <Image
                             src={news.image}
                             alt={news.title}

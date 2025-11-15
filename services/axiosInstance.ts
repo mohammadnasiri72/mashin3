@@ -1,9 +1,9 @@
 // axiosConfig.js
-import axios from 'axios';
+import axios from "axios";
 
 // ایجاد instance اصلی
 const axiosInstance = axios.create({
-  baseURL: 'https://api3.aitest2.ir/',
+  baseURL: "https://api3.aitest2.ir/",
   timeout: 10000,
 });
 
@@ -15,19 +15,16 @@ axiosInstance.interceptors.response.use(
   },
   (error) => {
     // هندل کردن خطا
-    if (error.response?.status === 401) {
-      // مدیریت خطای 401
-      handleUnauthorizedError();
-    }
+    handleUnauthorizedError();
     return Promise.reject(error);
   }
 );
 
 // تابع مدیریت خطای 401
 const handleUnauthorizedError = () => {
-  
+  if (typeof window !== "undefined") {
+    window.location.href = "/404";
+  }
 };
-
-
 
 export default axiosInstance;
