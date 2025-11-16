@@ -7,13 +7,7 @@ import type { Swiper as SwiperType } from "swiper";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-// تابع تبدیل اعداد به فارسی
-const toPersianNumber = (number: number): string => {
-  const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
-  return number
-    .toString()
-    .replace(/\d/g, (digit) => persianDigits[parseInt(digit)]);
-};
+
 
 // Import Swiper styles
 import "swiper/css";
@@ -27,6 +21,7 @@ import { Fancybox } from "@fancyapps/ui";
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 import { Skeleton } from "antd";
 import { FaCalendarDays, FaCodeCompare, FaCommentDots } from "react-icons/fa6";
+import { toPersianNumbers } from "@/utils/func";
 
 const CarDetails = ({
   Attachment,
@@ -135,7 +130,7 @@ const CarDetails = ({
                         {rating.title}
                       </span>
                       <span className="text-red-600 font-bold">
-                        {toPersianNumber(rating.score)}/۱۰
+                        {toPersianNumbers(rating.score)}/۱۰
                       </span>
                     </div>
                     <div className="flex gap-1">

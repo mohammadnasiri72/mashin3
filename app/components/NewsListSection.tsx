@@ -1,50 +1,14 @@
-import { extractTextFromHtml } from "@/utils/func";
+import { createMarkup, formatPersianDate } from "@/utils/func";
 import { mainDomainOld } from "@/utils/mainDomain";
 import Link from "next/link";
 import { FaCalendar, FaComments } from "react-icons/fa";
 import { FaArrowLeftLong } from "react-icons/fa6";
-const moment = require("moment-jalaali");
 
 
-export const toPersianNumbers = (input: number | string): string => {
-  const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
-  return input
-    .toString()
-    .replace(/\d/g, (digit) => persianDigits[parseInt(digit)]);
-};
 
-const formatPersianDate = (dateString: string): string => {
-  try {
-    const persianMonths = [
-      "فروردین",
-      "اردیبهشت",
-      "خرداد",
-      "تیر",
-      "مرداد",
-      "شهریور",
-      "مهر",
-      "آبان",
-      "آذر",
-      "دی",
-      "بهمن",
-      "اسفند",
-    ];
 
-    const date = moment(dateString);
-    const day = toPersianNumbers(date.jDate());
-    const month = persianMonths[date.jMonth()];
-    const year = toPersianNumbers(date.jYear());
-
-    return `${day} ${month} ${year}`;
-  } catch (error) {
-    console.error("Error formatting date:", error);
-    return toPersianNumbers(dateString); // حتی در صورت خطا هم اعداد را فارسی کن
-  }
-};
 
 const NewsListSection = ({ news }: { news: Items[] }) => {
-
- 
   return (
     <div className="mb-5">
       <div className="mx-auto px-4">
@@ -88,10 +52,12 @@ const NewsListSection = ({ news }: { news: Items[] }) => {
                       <h4 className="font-bold! text-[#222]! mb-2 line-clamp-2 text-lg group-hover:text-white! duration-300">
                         {item.title}
                       </h4>
-
-                      <div className="text-gray-600 text-xs mb-3 line-clamp-3 mt-1 text-justify group-hover:text-white! duration-300">
-                        {extractTextFromHtml(item.body)}
-                      </div>
+                      {item.body && (
+                        <div
+                          className="text-gray-600 text-xs mb-3 line-clamp-3 mt-1 text-justify group-hover:text-white! duration-300"
+                          dangerouslySetInnerHTML={createMarkup(item.body)}
+                        />
+                      )}
                     </div>
                     <div className="flex justify-between text-xs text-gray-500  w-full group-hover:text-white! duration-300 sm:mt-0 mt-3 ">
                       <div className="flex items-center gap-1">

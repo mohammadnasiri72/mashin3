@@ -1,12 +1,13 @@
 "use client";
 
-import { extractTextFromHtml } from "@/utils/func";
+import { createMarkup } from "@/utils/func";
 import { FaSquareMinus, FaSquarePlus } from "react-icons/fa6";
 
 const FeaturesSection = ({ detailsCar }: { detailsCar: ItemsId }) => {
   const advantages = detailsCar.properties.filter(
     (e) => e.propertyId === 22639
   );
+
   const disadvantages = detailsCar.properties.filter(
     (e) => e.propertyId === 22640
   );
@@ -34,7 +35,10 @@ const FeaturesSection = ({ detailsCar }: { detailsCar: ItemsId }) => {
                 className="text-gray-800 font-medium flex items-start w-full"
               >
                 <span className="text-green-500 ml-2 mt-1">•</span>
-                {extractTextFromHtml(advantage.value)}
+                <div
+                  className="text-gray-700 leading-8 text-justify"
+                  dangerouslySetInnerHTML={createMarkup(advantage.value)}
+                />
               </li>
             ))}
           </ul>
@@ -53,7 +57,10 @@ const FeaturesSection = ({ detailsCar }: { detailsCar: ItemsId }) => {
                 className="text-gray-800 font-medium flex items-start w-full"
               >
                 <span className="text-red-500 ml-2 mt-1">•</span>
-                {extractTextFromHtml(disadvantage.value)}
+                <div
+                  className="text-gray-700 leading-8 text-justify"
+                  dangerouslySetInnerHTML={createMarkup(disadvantage.value)}
+                />
               </li>
             ))}
           </ul>

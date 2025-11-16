@@ -2,58 +2,31 @@
 
 import MarketStats from "@/app/components/MarketStats";
 import NewsBlogForm from "@/app/components/NewsBlogForm";
-import { extractTextFromHtml } from "@/utils/func";
+import { createMarkup, formatPersianDate, toPersianNumbers } from "@/utils/func";
 import { mainDomainOld } from "@/utils/mainDomain";
 import { Pagination } from "antd";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaCalendar, FaEye } from "react-icons/fa";
-const moment = require("moment-jalaali");
 
-export const toPersianNumbers = (input: number | string): string => {
-  const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
-  return input
-    .toString()
-    .replace(/\d/g, (digit) => persianDigits[parseInt(digit)]);
-};
 
-const formatPersianDate = (dateString: string): string => {
-  try {
-    const persianMonths = [
-      "فروردین",
-      "اردیبهشت",
-      "خرداد",
-      "تیر",
-      "مرداد",
-      "شهریور",
-      "مهر",
-      "آبان",
-      "آذر",
-      "دی",
-      "بهمن",
-      "اسفند",
-    ];
 
-    const date = moment(dateString);
-    const day = toPersianNumbers(date.jDate());
-    const month = persianMonths[date.jMonth()];
-    const year = toPersianNumbers(date.jYear());
 
-    return `${day} ${month} ${year}`;
-  } catch (error) {
-    console.error("Error formatting date:", error);
-    return toPersianNumbers(dateString); // حتی در صورت خطا هم اعداد را فارسی کن
-  }
-};
 
-const CarNews = ({ id, newsData }: { id: number; newsData: Items[] }) => {
+const CarNews = ({
+  id,
+  newsData,
+  popularNews,
+}: {
+  id: number;
+  newsData: Items[];
+  popularNews: Items[];
+}) => {
   const [activeTab, setActiveTab] = useState<string>("all");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  // محبوب‌ترین اخبار (بر اساس بازدید)
-  const popularNews = [...newsData].slice(0, 3);
 
   // تعریف تب‌ها و URL مربوطه
   const tabConfig = [
@@ -151,51 +124,53 @@ const CarNews = ({ id, newsData }: { id: number; newsData: Items[] }) => {
               {/* لیست اخبار */}
               <div className="space-y-6">
                 {newsData.map((news) => (
-                 
-                    <article key={news.id} className="py-6! border-b! border-gray-200 last:border-b-0 last:pb-0 group">
-                      <div className="flex flex-col md:flex-row gap-4">
-                        {/* تصویر خبر */}
-                        <div className="md:w-48 w-full h-32 shrink-0">
-                          <div className="w-full h-full bg-gray-200 rounded-lg overflow-hidden relative">
-                            <Link href={news.url} className="rounded-lg!">
-                              <img
-                                src={mainDomainOld + news.image}
-                                alt={news.title}
-                                className="object-cover w-full h-full hover:scale-105 rounded-lg! transition-transform duration-300"
-                              />
-                            </Link>
-                          </div>
+                  <article
+                    key={news.id}
+                    className="py-6! border-b! border-gray-200 last:border-b-0 last:pb-0 group"
+                  >
+                    <div className="flex flex-col md:flex-row gap-4">
+                      {/* تصویر خبر */}
+                      <div className="md:w-48 w-full h-32 shrink-0">
+                        <div className="w-full h-full bg-gray-200 rounded-lg overflow-hidden relative">
+                          <Link href={news.url} className="rounded-lg!">
+                            <img
+                              src={mainDomainOld + news.image}
+                              alt={news.title}
+                              className="object-cover w-full h-full hover:scale-105 rounded-lg! transition-transform duration-300"
+                            />
+                          </Link>
                         </div>
+                      </div>
 
-                        {/* محتوای خبر */}
-                        <div className="flex-1">
-                           <Link href={news.url}>
-                           
+                      {/* محتوای خبر */}
+                      <div className="flex-1">
+                        <Link href={news.url}>
                           <h2 className="text-xl font-bold text-gray-900 mb-2 hover:text-[#ce1a2a]! duration-300 transition-colors cursor-pointer">
                             {news.title}
                           </h2>
-                           </Link>
+                        </Link>
+                        {news.body && (
+                          <div
+                            className="text-gray-600 mb-3 leading-relaxed text-justify line-clamp-3"
+                            dangerouslySetInnerHTML={createMarkup(news.body)}
+                          />
+                        )}
 
-                          <p className="text-gray-600 mb-3 leading-relaxed text-justify line-clamp-3">
-                            {extractTextFromHtml(news.body)}
-                          </p>
+                        {/* متا اطلاعات */}
+                        <div className="flex flex-wrap items-center gap-4 text-xs text-gray-400 mt-2">
+                          <div className="flex items-center gap-1">
+                            <FaCalendar />
+                            <span>{formatPersianDate(news.created)}</span>
+                          </div>
 
-                          {/* متا اطلاعات */}
-                          <div className="flex flex-wrap items-center gap-4 text-xs text-gray-400 mt-2">
-                            <div className="flex items-center gap-1">
-                              <FaCalendar />
-                              <span>{formatPersianDate(news.created)}</span>
-                            </div>
-
-                            <div className="flex items-center gap-1">
-                              <FaEye className="w-3 h-3" />
-                              <span>{toPersianNumbers(news.visit)} بازدید</span>
-                            </div>
+                          <div className="flex items-center gap-1">
+                            <FaEye className="w-3 h-3" />
+                            <span>{toPersianNumbers(news.visit)} بازدید</span>
                           </div>
                         </div>
                       </div>
-                    </article>
-                 
+                    </div>
+                  </article>
                 ))}
               </div>
 
@@ -250,11 +225,16 @@ const CarNews = ({ id, newsData }: { id: number; newsData: Items[] }) => {
                           <h4 className="font-medium text-gray-900 text-sm leading-tight group-hover:text-white! transition-colors line-clamp-2">
                             {news.title}
                           </h4>
-                          <div className="flex items-center gap-2 mt-1 ">
-                            <span className="text-xs text-gray-500 group-hover:text-white!">
-                              {toPersianNumbers(news.visit)}
-                            </span>
-                            <FaEye className="w-3 h-3 text-gray-400 group-hover:text-white!" />
+                          <div className="flex flex-wrap items-center gap-4 text-xs text-gray-400 mt-2 group-hover:text-white!">
+                            <div className="flex items-center gap-1">
+                              <FaCalendar />
+                              <span>{formatPersianDate(news.created)}</span>
+                            </div>
+
+                            <div className="flex items-center gap-1">
+                              <FaEye className="w-3 h-3" />
+                              <span>{toPersianNumbers(news.visit)} بازدید</span>
+                            </div>
                           </div>
                         </div>
                       </div>

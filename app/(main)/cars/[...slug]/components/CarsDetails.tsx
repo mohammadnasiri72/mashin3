@@ -1,20 +1,14 @@
 "use client";
 
-import { extractTextFromHtml } from "@/utils/func";
+import NewsBlogForm from "@/app/components/NewsBlogForm";
+import { createMarkup, toPersianNumbers } from "@/utils/func";
 import { mainDomainOld } from "@/utils/mainDomain";
 import Link from "next/link";
 import { useState } from "react";
 import { FaCar, FaInfoCircle, FaSearch, FaStar } from "react-icons/fa";
 import MarketStats from "../../../../components/MarketStats";
-import NewsBlogForm from "@/app/components/NewsBlogForm";
 
-// تابع تبدیل اعداد به فارسی
-const toPersianNumber = (number: number): string => {
-  const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
-  return number
-    .toString()
-    .replace(/\d/g, (digit) => persianDigits[parseInt(digit)]);
-};
+
 
 const CarsDetails = ({
   carBrands,
@@ -86,7 +80,7 @@ const CarsDetails = ({
                 <div className="flex items-center gap-2 bg-red-50 px-3 py-2 rounded-lg">
                   <FaCar className="text-red-600" />
                   <span className="text-sm font-medium text-gray-700">
-                    {toPersianNumber(carBrands.length)} مدل
+                    {toPersianNumbers(carBrands.length)} مدل
                   </span>
                 </div>
 
@@ -103,11 +97,12 @@ const CarsDetails = ({
           </div>
 
           {/* توضیحات برند */}
-          {carDetails.summary && carDetails.summary !== "<!DOCTYPE html>" && (
+          {carDetails.summary && (
             <div className="mt-6 pt-6 border-t border-gray-200">
-              <div className="prose prose-sm max-w-none text-justify text-gray-600">
-                {extractTextFromHtml(carDetails.summary)}
-              </div>
+              <div
+                className="prose prose-sm max-w-none text-justify text-gray-600"
+                dangerouslySetInnerHTML={createMarkup(carDetails.summary)}
+              />
             </div>
           )}
         </div>
@@ -146,7 +141,7 @@ const CarsDetails = ({
                 مدل‌های <span className="text-red-600">{carDetails.title}</span>
               </h2>
               <span className="text-gray-500 text-sm">
-                {toPersianNumber(carBrands.length)} مدل
+                {toPersianNumbers(carBrands.length)} مدل
               </span>
             </div>
 

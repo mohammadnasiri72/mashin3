@@ -14,14 +14,9 @@ import "antd/dist/reset.css";
 import React, { useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import theme from "../theme/theme";
+import { toPersianNumbers } from "@/utils/func";
 
-// تابع تبدیل اعداد به فارسی
-const toPersianNumber = (number: number): string => {
-  const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
-  return number
-    .toString()
-    .replace(/\d/g, (digit) => persianDigits[parseInt(digit)]);
-};
+
 
 const { Option } = Select;
 
@@ -209,7 +204,7 @@ const CarFinderSection: React.FC = () => {
           <div className="lg:w-1/5 sm:w-1/2 w-full px-1 mt-3 lg:mt-0">
             <TextField
               disabled
-              value={toPersianNumber(searchData.minPrice)}
+              value={toPersianNumbers(searchData.minPrice)}
               className="price-input"
               fullWidth
               size="small"
@@ -260,7 +255,7 @@ const CarFinderSection: React.FC = () => {
           <div className="lg:w-1/5 sm:w-1/2 w-full px-1 mt-3 lg:mt-0">
             <TextField
               disabled
-              value={toPersianNumber(searchData.maxPrice)}
+              value={toPersianNumbers(searchData.maxPrice)}
               className="price-input"
               fullWidth
               size="small"

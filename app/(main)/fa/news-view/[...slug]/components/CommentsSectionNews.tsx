@@ -10,7 +10,7 @@ import { toPersianNumbers } from '@/utils/func';
 
 const { TextArea } = Input;
 
-const CommentsSection = ({detailsCar}:{detailsCar:ItemsId}) => {
+const CommentsSectionNews = ({detailsNews}:{detailsNews:ItemsId}) => {
   const [form] = Form.useForm();
 
   const comments = [
@@ -54,9 +54,9 @@ const CommentsSection = ({detailsCar}:{detailsCar:ItemsId}) => {
   return (
     <>
     <div className="detailsBox bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-      <h3 className="dt_title text-xl font-bold text-gray-900 mb-4">
+      <h3 className="dt_title text-xl font-bold text-gray-900 mb-4!">
         <strong className="text-red-600">نظرات </strong>
-        درمورد ماشین {detailsCar.sourceName} {detailsCar.title}
+        درمورد خبر {detailsNews.title}
       </h3>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 ">
@@ -66,7 +66,7 @@ const CommentsSection = ({detailsCar}:{detailsCar:ItemsId}) => {
             <div className="title_sec mb-4">
               <h3 className="text-lg font-bold text-gray-900">دیدگاه</h3>
               <p className="text-gray-600 mt-2">
-                شما هم درباره این کالا دیدگاه ثبت کنید
+                شما هم درباره این خبر دیدگاه ثبت کنید
               </p>
             </div>
 
@@ -106,7 +106,7 @@ const CommentsSection = ({detailsCar}:{detailsCar:ItemsId}) => {
                 rules={[{ required: true, message: 'لطفا دیدگاه خود را وارد کنید' }]}
               >
                 <TextArea
-                  placeholder="نظر خود را در مورد این کالا با کاربران دیگر به اشتراک بگذارید.."
+                  placeholder="نظر خود را در مورد این خبر با کاربران دیگر به اشتراک بگذارید.."
                   rows={4}
                   size="large"
                 />
@@ -275,6 +275,98 @@ const CommentsSection = ({detailsCar}:{detailsCar:ItemsId}) => {
                 </div>
               </div>
             ))}
+            {comments.map((comment) => (
+              <div
+                key={comment.id}
+                className={`comment-box bg-gray-50 rounded-xl p-4 ${
+                  comment.isReply ? 'sm:mr-20 mr-8 border-r-2 border-red-200' : ''
+                }`}
+              >
+                <div className="cm_tp flex gap-3 items-center mb-3">
+                  <div className="author_name font-bold text-gray-800">
+                    {comment.author}
+                  </div>
+                  <div className="text-xs font-semibold relative pr-3">
+                    {comment.date}
+                    <span className="absolute right-0 top-1/2 transform -translate-y-1/2 w-1.5 h-1.5 bg-purple-200 rounded-full"></span>
+                  </div>
+                </div>
+
+                <div className="text-justify text-gray-700 leading-7 mb-3">
+                  {comment.content}
+                </div>
+
+                <div className="cm_btm flex justify-between items-center">
+                  <a href="#" className="cm_report flex items-center text-xs text-gray-500 bg-white px-3 py-1 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors">
+                    <FaFlag className="ml-1 text-red-500 text-lg" />
+                    گزارش مشکل
+                  </a>
+
+                  <div className="cm_buttons flex items-center gap-2">
+                    <button className="cursor-pointer group flex items-center text-xs text-gray-500 bg-white p-3 rounded-lg">
+                      <span>{toPersianNumbers(comment.replies)}</span>
+                      <FaReply className="mr-1 text-purple-500 text-lg group-hover:-rotate-360 duration-500" />
+                    </button>
+                    
+                    <button className="cursor-pointer group flex items-center text-xs text-gray-500 bg-white p-3 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors">
+                      <span>{toPersianNumbers(comment.dislikes)}</span>
+                      <FaThumbsDown className="mr-1 group-hover:animate-pulse text-red-500 text-lg" />
+                    </button>
+                    
+                    <button className="cursor-pointer group flex items-center text-xs text-gray-500 bg-white p-3 rounded-lg hover:bg-green-50 hover:text-green-600 transition-colors">
+                     <span>{toPersianNumbers(comment.likes)}</span>
+                      <FaThumbsUp className="mr-1 group-hover:animate-pulse text-green-500 text-lg" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+            {comments.map((comment) => (
+              <div
+                key={comment.id}
+                className={`comment-box bg-gray-50 rounded-xl p-4 ${
+                  comment.isReply ? 'sm:mr-20 mr-8 border-r-2 border-red-200' : ''
+                }`}
+              >
+                <div className="cm_tp flex gap-3 items-center mb-3">
+                  <div className="author_name font-bold text-gray-800">
+                    {comment.author}
+                  </div>
+                  <div className="text-xs font-semibold relative pr-3">
+                    {comment.date}
+                    <span className="absolute right-0 top-1/2 transform -translate-y-1/2 w-1.5 h-1.5 bg-purple-200 rounded-full"></span>
+                  </div>
+                </div>
+
+                <div className="text-justify text-gray-700 leading-7 mb-3">
+                  {comment.content}
+                </div>
+
+                <div className="cm_btm flex justify-between items-center">
+                  <a href="#" className="cm_report flex items-center text-xs text-gray-500 bg-white px-3 py-1 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors">
+                    <FaFlag className="ml-1 text-red-500 text-lg" />
+                    گزارش مشکل
+                  </a>
+
+                  <div className="cm_buttons flex items-center gap-2">
+                    <button className="cursor-pointer group flex items-center text-xs text-gray-500 bg-white p-3 rounded-lg">
+                      <span>{toPersianNumbers(comment.replies)}</span>
+                      <FaReply className="mr-1 text-purple-500 text-lg group-hover:-rotate-360 duration-500" />
+                    </button>
+                    
+                    <button className="cursor-pointer group flex items-center text-xs text-gray-500 bg-white p-3 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors">
+                      <span>{toPersianNumbers(comment.dislikes)}</span>
+                      <FaThumbsDown className="mr-1 group-hover:animate-pulse text-red-500 text-lg" />
+                    </button>
+                    
+                    <button className="cursor-pointer group flex items-center text-xs text-gray-500 bg-white p-3 rounded-lg hover:bg-green-50 hover:text-green-600 transition-colors">
+                     <span>{toPersianNumbers(comment.likes)}</span>
+                      <FaThumbsUp className="mr-1 group-hover:animate-pulse text-green-500 text-lg" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -282,7 +374,7 @@ const CommentsSection = ({detailsCar}:{detailsCar:ItemsId}) => {
      <style jsx global>{`
        .comment-form.sticky {
           position: sticky !important;
-          top: 100px !important;
+          top: 70px !important;
           left: 0;
           right: 0;
           z-index: 999;
@@ -295,4 +387,4 @@ const CommentsSection = ({detailsCar}:{detailsCar:ItemsId}) => {
   );
 };
 
-export default CommentsSection;
+export default CommentsSectionNews;

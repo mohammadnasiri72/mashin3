@@ -1,5 +1,6 @@
 "use client";
 
+import { toPersianNumbers } from "@/utils/func";
 import type { TabsProps } from "antd";
 import { Pagination, Tabs } from "antd";
 import Image from "next/image";
@@ -8,17 +9,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FaCalendar, FaEye, FaBook, FaMotorcycle, FaCar, FaWrench } from "react-icons/fa";
 
-// تابع تبدیل اعداد به فارسی با مدیریت مقدار undefined
-const toPersianNumber = (number: number | undefined | null): string => {
-  if (number === undefined || number === null) {
-    return "۰";
-  }
-  
-  const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
-  return number
-    .toString()
-    .replace(/\d/g, (digit) => persianDigits[parseInt(digit)]);
-};
+
 
 const EducationCar = () => {
   const router = useRouter();
@@ -281,7 +272,7 @@ const EducationCar = () => {
 
                             <div className="flex items-center gap-1">
                               <FaEye className="w-3 h-3" />
-                              <span>{toPersianNumber(item.views)} بازدید</span>
+                              <span>{toPersianNumbers(item.views)} بازدید</span>
                             </div>
 
                             <div className="flex items-center gap-1">
@@ -303,7 +294,7 @@ const EducationCar = () => {
                   defaultPageSize={6}
                   defaultCurrent={1}
                   showTotal={(total, range) => 
-                    `نمایش ${toPersianNumber(range[0])}-${toPersianNumber(range[1])} از ${toPersianNumber(total)} مطلب`
+                    `نمایش ${toPersianNumbers(range[0])}-${toPersianNumbers(range[1])} از ${toPersianNumbers(total)} مطلب`
                   }
                 />
               </div>
@@ -340,7 +331,7 @@ const EducationCar = () => {
                           </h4>
                           <div className="flex items-center gap-2 mt-1">
                             <span className="text-xs text-gray-500">
-                              {toPersianNumber(item.views)}
+                              {toPersianNumbers(item.views)}
                             </span>
                             <FaEye className="w-3 h-3 text-gray-400" />
                             <span className="text-xs text-gray-500 mr-2">
@@ -373,7 +364,7 @@ const EducationCar = () => {
                       <div className="flex items-center justify-between">
                         <span>{tab.label}</span>
                         <span className="text-xs bg-gray-200 px-2 py-1 rounded-full">
-                          {toPersianNumber(
+                          {toPersianNumbers(
                             educationData.filter(item => item.category === tab.key).length
                           )}
                         </span>

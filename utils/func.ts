@@ -1,31 +1,41 @@
-export const extractTextFromHtml = (html: string) => {
-  if (!html) return "";
+const moment = require("moment-jalaali");
 
+export const createMarkup = (html: string) => {
+  return { __html: html };
+};
+
+export const toPersianNumbers = (input: number | string): string => {
+  const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
+  return input
+    .toString()
+    .replace(/\d/g, (digit) => persianDigits[parseInt(digit)]);
+};
+
+export const formatPersianDate = (dateString: string): string => {
   try {
-    // اگر HTML نیست، همان را برگردان
-    if (!html.includes("<") && !html.includes(">")) {
-      return html;
-    }
+    const persianMonths = [
+      "فروردین",
+      "اردیبهشت",
+      "خرداد",
+      "تیر",
+      "مرداد",
+      "شهریور",
+      "مهر",
+      "آبان",
+      "آذر",
+      "دی",
+      "بهمن",
+      "اسفند",
+    ];
 
-    // استفاده از DOMParser برای استخراج متن
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(html, 'text/html');
-    let text = doc.body.textContent || "";
+    const date = moment(dateString);
+    const day = toPersianNumbers(date.jDate());
+    const month = persianMonths[date.jMonth()];
+    const year = toPersianNumbers(date.jYear());
 
-    // پاکسازی فضاهای خالی اضافی
-    return text
-      .replace(/\s+/g, " ")
-      .replace(/&nbsp;/g, " ")
-      .replace(/&zwnj;/g, "")
-      .trim();
-      
+    return `${day} ${month} ${year}`;
   } catch (error) {
-    // روش fallback در صورت خطا
-    return html
-      .replace(/<[^>]*>/g, " ")
-      .replace(/\s+/g, " ")
-      .replace(/&nbsp;/g, " ")
-      .replace(/&zwnj;/g, "")
-      .trim();
+    console.error("Error formatting date:", error);
+    return toPersianNumbers(dateString); // حتی در صورت خطا هم اعداد را فارسی کن
   }
 };

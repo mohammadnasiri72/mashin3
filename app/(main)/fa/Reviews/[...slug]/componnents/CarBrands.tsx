@@ -7,13 +7,7 @@ import NewsBlogForm from "../../../../../components/NewsBlogForm";
 import { mainDomainOld } from "@/utils/mainDomain";
 import MarketStats from "@/app/components/MarketStats";
 
-// تابع تبدیل اعداد به فارسی
-const toPersianNumber = (number: number): string => {
-  const persianDigits = ["۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹"];
-  return number
-    .toString()
-    .replace(/\d/g, (digit) => persianDigits[parseInt(digit)]);
-};
+
 
 const CarBrands = ({carBrands}:{carBrands:ItemsCategory[]}) => {
  

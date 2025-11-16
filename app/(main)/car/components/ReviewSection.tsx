@@ -1,4 +1,4 @@
-import { extractTextFromHtml } from "@/utils/func";
+import { createMarkup } from "@/utils/func";
 
 const ReviewSection = ({ detailsCar }: { detailsCar: ItemsId }) => {
   const Criticism = detailsCar.properties.filter((e) => e.propertyId === 22642);
@@ -9,9 +9,10 @@ const ReviewSection = ({ detailsCar }: { detailsCar: ItemsId }) => {
         کارشناسی ماشین {detailsCar.sourceName} {detailsCar.title}
       </h3>
       {Criticism[0]?.value && (
-        <div className="text_area text-gray-700 leading-8 text-justify space-y-4 mt-3">
-          {extractTextFromHtml(Criticism[0]?.value)}
-        </div>
+        <div
+          className="text_area text-gray-700 leading-8 text-justify space-y-4 mt-3"
+          dangerouslySetInnerHTML={createMarkup(Criticism[0]?.value)}
+        />
       )}
     </div>
   );

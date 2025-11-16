@@ -25,11 +25,19 @@ async function pageNewsDetails({
     : await getItem({
         TypeId: 5,
         langCode: "fa",
-        PageIndex: 1,
+        PageIndex: page || 1,
         PageSize: 20,
       });
 
-  return <CarNews id={id} newsData={news} />;
+  const popularNews: Items[] = await getItem({
+    TypeId: 5,
+    langCode: "fa",
+    OrderBy: 5,
+    PageIndex: 1,
+    PageSize: 5,
+  });
+
+  return <CarNews id={id} newsData={news} popularNews={popularNews} />;
 }
 
 export default pageNewsDetails;
