@@ -1,7 +1,7 @@
 "use client";
 
 import { getItemId } from "@/services/Item/ItemId";
-import { mainDomainOld } from "@/utils/mainDomain";
+import { mainDomain } from "@/utils/mainDomain";
 import { useEffect, useRef, useState } from "react";
 import { FaPause, FaPlay, FaVolumeMute, FaVolumeUp } from "react-icons/fa";
 
@@ -22,26 +22,22 @@ function AudioPlayer({ podcast }: { podcast: Items }) {
   const fetchAudioDetails = async (shouldPlay: boolean = false) => {
     try {
       setIsLoading(true);
-      console.log("📥 شروع دریافت اطلاعات آهنگ برای ID:", podcast.id);
 
       const details = await getItemId(podcast.id);
       setAudioDetails(details);
-      console.log("✅ اطلاعات آهنگ دریافت شد:", details);
 
       // استخراج لینک آهنگ از properties
       const audioProperty = details.properties?.find(
         (prop: any) => prop.propertyKey === "p1047_padcastfile"
       );
 
-      console.log("🔍 جستجو برای property p1047_padcastfile:", audioProperty);
 
       if (audioProperty?.value) {
         // ساخت لینک کامل آهنگ - رفع مشکل دو اسلش
         const cleanPath = audioProperty.value.startsWith("/")
           ? audioProperty.value
           : `/${audioProperty.value}`;
-        const fullAudioUrl = `${mainDomainOld.replace(/\/$/, "")}${cleanPath}`;
-        console.log("🎵 لینک کامل آهنگ (اصلاح شده):", fullAudioUrl);
+        const fullAudioUrl = `${mainDomain.replace(/\/$/, "")}${cleanPath}`;
 
         setAudioUrl(fullAudioUrl);
         if (shouldPlay) {
@@ -61,16 +57,12 @@ function AudioPlayer({ podcast }: { podcast: Items }) {
   useEffect(() => {
     const audio = audioRef.current;
     if (audio && audioUrl) {
-      console.log("🔄 آپدیت audio element با لینک جدید:", audioUrl);
 
       const handleCanPlay = () => {
-        console.log("✅ audio می‌تواند پخش شود");
         if (shouldPlayAfterLoad) {
-          console.log("▶️ پخش خودکار بعد از لود");
           audio
             .play()
             .then(() => {
-              console.log("✅ پخش خودکار موفق");
               setShouldPlayAfterLoad(false);
             })
             .catch((error) => {
@@ -82,17 +74,11 @@ function AudioPlayer({ podcast }: { podcast: Items }) {
 
       const handleError = (e: any) => {
         console.error("❌ خطا در audio element:", e);
-        console.log("📊 وضعیت audio:", {
-          error: audio.error,
-          networkState: audio.networkState,
-          readyState: audio.readyState,
-          src: audio.src,
-        });
+       
         setShouldPlayAfterLoad(false);
       };
 
       const handleLoadStart = () => {
-        console.log("🔄 شروع لود audio");
       };
 
       audio.addEventListener("canplay", handleCanPlay);
@@ -114,10 +100,8 @@ function AudioPlayer({ podcast }: { podcast: Items }) {
     const audio = audioRef.current;
     if (!audio) return;
 
-    console.log("🎧 تنظیم event listeners برای audio");
 
     const setAudioData = () => {
-      console.log("📊 audio data loaded - duration:", audio.duration);
       setDuration(audio.duration);
     };
 
@@ -126,18 +110,15 @@ function AudioPlayer({ podcast }: { podcast: Items }) {
     };
 
     const handleEnded = () => {
-      console.log("⏹️ آهنگ به پایان رسید");
       setIsPlaying(false);
       setCurrentTime(0);
     };
 
     const handlePlay = () => {
-      console.log("▶️ آهنگ شروع به پخش کرد");
       setIsPlaying(true);
     };
 
     const handlePause = () => {
-      console.log("⏸️ آهنگ متوقف شد");
       setIsPlaying(false);
     };
 
@@ -157,12 +138,9 @@ function AudioPlayer({ podcast }: { podcast: Items }) {
   }, []); // این useEffect فقط یک بار اجرا شود
 
   const togglePlayPause = async () => {
-    console.log("🖱️ کلیک روی دکمه پلی/پاز");
-    console.log("📊 وضعیت فعلی:", { isPlaying, audioUrl, isLoading });
-
+  
     // اگر audioUrl وجود ندارد، اول اطلاعات را دریافت کن
     if (!audioUrl) {
-      console.log("🎵 audioUrl وجود ندارد، دریافت اطلاعات...");
       await fetchAudioDetails(true); // true یعنی بعد از لود پخش شود
       return;
     }
@@ -173,22 +151,13 @@ function AudioPlayer({ podcast }: { podcast: Items }) {
       return;
     }
 
-    console.log("📊 وضعیت audio element:", {
-      paused: audio.paused,
-      ended: audio.ended,
-      readyState: audio.readyState,
-      networkState: audio.networkState,
-      error: audio.error,
-    });
+    
 
     if (isPlaying) {
-      console.log("⏸️ توقف آهنگ");
       audio.pause();
     } else {
-      console.log("▶️ تلاش برای پخش آهنگ");
       try {
         await audio.play();
-        console.log("✅ پخش آهنگ موفقیت‌آمیز بود");
       } catch (error) {
         console.error("❌ خطا در پخش آهنگ:", error);
         setIsPlaying(false);
@@ -201,7 +170,6 @@ function AudioPlayer({ podcast }: { podcast: Items }) {
     if (!audio) return;
 
     const newTime = parseFloat(e.target.value);
-    console.log("⏩ seek به زمان:", newTime);
     audio.currentTime = newTime;
     setCurrentTime(newTime);
   };
@@ -211,7 +179,6 @@ function AudioPlayer({ podcast }: { podcast: Items }) {
     if (!audio) return;
 
     const newVolume = parseFloat(e.target.value);
-    console.log("🔊 تغییر حجم صدا به:", newVolume);
     setVolume(newVolume);
     audio.volume = newVolume;
     setIsMuted(newVolume === 0);
@@ -221,7 +188,6 @@ function AudioPlayer({ podcast }: { podcast: Items }) {
     const audio = audioRef.current;
     if (!audio) return;
 
-    console.log("🔇 تغییر حالت mute:", !isMuted);
     if (isMuted) {
       audio.volume = volume;
       setIsMuted(false);
@@ -248,15 +214,6 @@ function AudioPlayer({ podcast }: { podcast: Items }) {
         {audioUrl && <source src={audioUrl} type="audio/mpeg" />}
         مرورگر شما از پخش کننده صدا پشتیبانی نمی‌کند.
       </audio>
-
-      {/* نمایش اطلاعات دیباگ */}
-      <div className="text-xs text-gray-500 mb-2 p-2 bg-gray-100 rounded">
-        <div>Audio URL: {audioUrl ? "✅ موجود" : "❌ ناموجود"}</div>
-        <div>isPlaying: {isPlaying ? "▶️" : "⏸️"}</div>
-        <div>isLoading: {isLoading ? "🔄" : "✅"}</div>
-        <div>shouldPlayAfterLoad: {shouldPlayAfterLoad ? "✅" : "❌"}</div>
-        <div>Duration: {formatTime(duration)}</div>
-      </div>
 
       {/* دسکتاپ - چیدمان افقی */}
       <div className="flex items-center gap-4">
