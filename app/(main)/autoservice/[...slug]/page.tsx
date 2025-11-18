@@ -15,17 +15,10 @@ async function pageAutoservicesDetails({
 
   const detailsAuto: ItemsId = await getItemId(id);
 
-
-
   return (
     <>
       <div className="flex flex-wrap bg-gray-50">
-        <div className="lg:w-3/4 w-full">
-          <MainBoxAutoService detailsAuto={detailsAuto}/>
-        </div>
-        <div className="lg:w-1/4 w-full">
-          <SidebarAutoService />
-        </div>
+        <MainBoxAutoService detailsAuto={detailsAuto} />
       </div>
     </>
   );

@@ -11,7 +11,7 @@ async function pageAutoService({
 }) {
   const searchParam = await searchParams;
   const page = Number(searchParam.page);
-  const id = String(searchParam.page);
+  const id = String(searchParam.id);
 
   const AutoServiceData: Items[] = await getItem({
     TypeId: 1050,

@@ -1,5 +1,4 @@
 import { getItem } from "@/services/Item/Item";
-import BannerTop from "../components/BannerTop";
 import CarAdsSection from "../components/CarAdsSection";
 import CarBrandPricesSection from "../components/CarBrandPricesSection";
 import CarComparisonSection from "../components/CarComparisonSection";
@@ -16,11 +15,7 @@ import VideoBannerSection from "../components/VideoBannerSection";
 
 export default async function Home() {
   const slider: Items[] = await getItem({ TypeId: 6, langCode: "fa" });
-  const banner: Items[] = await getItem({
-    TypeId: 1051,
-    langCode: "fa",
-    CategoryIdArray: "6390",
-  });
+
   const news: Items[] = await getItem({
     TypeId: 5,
     langCode: "fa",
@@ -59,20 +54,14 @@ export default async function Home() {
   const carView: Items[] = await getItem({
     TypeId: 1042,
     langCode: "fa",
-    OrderBy:5,
+    OrderBy: 5,
     PageIndex: 1,
     PageSize: 12,
   });
-  
-  
-
 
   return (
     <div className="page-wrapper min-h-screen bg-[#f4f4f4]">
       <div className="content-box pt-4">
-        {/* Banner Top */}
-        <BannerTop banner={banner} />
-
         {/* Hero Slider */}
         <HeroSlider slider={slider} />
 
@@ -87,16 +76,16 @@ export default async function Home() {
         <CarTypes segmentCars={segmentCars} />
 
         {/* Video Banner Section */}
-        <VideoBannerSection video={video}/>
+        <VideoBannerSection video={video} />
 
         {/* News List Section */}
-        <NewsListSection news={news}/>
+        <NewsListSection news={news} />
 
         {/* Car Specs Section */}
-        <CarSpecsSection carSpecs={carSpecs}/>
+        <CarSpecsSection carSpecs={carSpecs} />
 
         {/* Popular Cars Section */}
-        <PopularCarsSection carView={carView}/>
+        <PopularCarsSection carView={carView} />
 
         {/* Car Comparison Section */}
         <CarComparisonSection />

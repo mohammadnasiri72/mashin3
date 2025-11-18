@@ -71,19 +71,19 @@ const CarBrands = ({carBrands}:{carBrands:ItemsCategory[]}) => {
             {/* گرید برندها */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {carBrands.map((brand) => (
-                <Link key={brand.id} href={brand.url+`?id=${brand.id}`} className="group block">
-                  <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:border-red-200">
+                <Link key={brand.id} href={brand.url} className="group block">
+                  <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:border-red-200">
                     {/* لوگو و نام برند */}
-                    <div className="flex flex-col items-center text-center mb-4">
-                      <div className="w-20 h-20 overflow-hidden flex items-center justify-center ">
+                    <div className="flex flex-col items-center text-center">
+                      <div className=" overflow-hidden flex items-center justify-center ">
                         <img
                           src={mainDomainOld+ brand.image}
                           alt={brand.title}
-                          className="object-contain w-full h-full"
+                          className="object-contain w-full h-full mb-2!"
                         />
                       </div>
 
-                      <h3 className="font-bold text-gray-900 text-lg mb-2">
+                      <h3 className="font-bold text-gray-900 text-lg">
                         {brand.title}
                       </h3>
                     </div>

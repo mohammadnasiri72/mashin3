@@ -12,6 +12,7 @@ async function pageReviews({ params }: { params: Promise<{ slug: string }> }) {
     PageIndex: 1,
     PageSize: 200,
   });
+  
 
   return <CarBrands carBrands={carBrands}/>;
 }

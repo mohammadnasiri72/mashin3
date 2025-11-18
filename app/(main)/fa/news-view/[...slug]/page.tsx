@@ -23,7 +23,7 @@ async function pageNewsViewDetails({
    });
   const Attachment: ItemsAttachment[] = await getAttachment(2135);
 
-  return <NewsViewDetails detailsNews={detailsNews} Attachment={Attachment} popularNews={popularNews}/>;
+  return  <NewsViewDetails detailsNews={detailsNews} Attachment={Attachment} popularNews={popularNews}/>;
 }
 
 export default pageNewsViewDetails;

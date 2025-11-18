@@ -5,7 +5,6 @@ import { mainDomainOld } from "@/utils/mainDomain";
 import Link from "next/link";
 import { FaCalendar, FaEye } from "react-icons/fa";
 
-
 function SidebarNewsView({ popularNews }: { popularNews: Items[] }) {
   return (
     <>
@@ -19,11 +18,7 @@ function SidebarNewsView({ popularNews }: { popularNews: Items[] }) {
               </h3>
               <div className="space-y-4">
                 {popularNews.map((news) => (
-                  <Link
-                    key={news.id}
-                    href={`/news/${news.id}`}
-                    className="block group"
-                  >
+                  <Link key={news.id} href={news.url} className="block group">
                     <div className="flex items-start gap-3 p-2 rounded-lg hover:bg-[#ce1a2a] hover:text-white! transition-colors">
                       <div className="w-16 h-12 bg-gray-200 rounded shrink-0 overflow-hidden">
                         <img

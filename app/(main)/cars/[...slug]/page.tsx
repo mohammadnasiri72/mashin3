@@ -29,11 +29,20 @@ async function pageCarsDetails({
     PageSize: 200,
   });
 
-   const uniqueArray = carBrands.filter((item, index, self) => 
-  index === self.findIndex((i) => i.id === item.id)
-);
+  const uniqueArray = carBrands.filter(
+    (item, index, self) => index === self.findIndex((i) => i.id === item.id)
+  );
+  const productsWithCategories = uniqueArray.filter((product) =>
+    carView.some((category) => category.categoryId === product.id)
+  );
 
-  return <CarsDetails carBrands={uniqueArray} carDetails={carDetails} carView={carView}/>;
+  return (
+    <CarsDetails
+      carBrands={productsWithCategories}
+      carDetails={carDetails}
+      carView={carView}
+    />
+  );
 }
 
 export default pageCarsDetails;
