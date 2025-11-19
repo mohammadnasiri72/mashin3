@@ -7,7 +7,7 @@ import { FaStar } from "react-icons/fa";
 
 const { TextArea } = Input;
 
-const VideoComments = ({ video }: { video: ItemsId }) => {
+const EducationComments = ({ education }: { education: ItemsId }) => {
   const [form] = Form.useForm();
 
   const comments = [
@@ -15,9 +15,8 @@ const VideoComments = ({ video }: { video: ItemsId }) => {
       id: 1,
       author: "علیرضا ریاحی",
       date: "۸ دی ۱۴۰۴",
-      content:
-        "اما هنوز شیشه بالابر راننده سایپا اتوماتیک نیست، همین مزیت ایرانخودرو برگ برندشه. (وسط پیچ جاده یکی زنگ میزنه دستت رو فرمانه یکی رو دنده، پاهات درگیر پدالاست، کسی پیشت نیست! گوشی از رو داشبورد پرت میشه طبق معمول، نیش ترمزف کلاچ، گاز! یه دست رو فرمن و با اونیکی دنده میزنی سریع گوشیو تو هوا میگیری برای اینکه صدا به صدا برسه یدونه میزنی تو سر کلید بالابر! به عذن اون خدا شیشه خودش میره بالا!)",
-      likes: 0,
+      content: "مطالب بسیار مفید و کاربردی بود. مخصوصاً بخش مربوط به رانندگی در باران که واقعاً به درد بخور بود.",
+      likes: 12,
       dislikes: 2,
       replies: 2,
       isReply: false,
@@ -25,24 +24,12 @@ const VideoComments = ({ video }: { video: ItemsId }) => {
     {
       id: 2,
       author: "محمد توانا",
-      date: "۸ دی ۱۴۰۴",
-      content:
-        "اما هنوز شیشه بالابر راننده سایپا اتوماتیک نیست، همین مزیت ایرانخودرو برگ برندشه. (وسط پیچ جاده یکی زنگ میزنه دستت رو فرمانه یکی رو دنده، پاهات درگیر پدالاست، کسی پیشت نیست! گوشی از رو داشبورد پرت میشه طبق معمول، نیش ترمزف کلاچ، گاز! یه دست رو فرمن و با اونیکی دنده میزنی سریع گوشیو تو هوا میگیری برای اینکه صدا به صدا برسه یدونه میزنی تو سر کلید بالابر! به عذن اون خدا شیشه خودش میره بالا!)",
-      likes: 0,
-      dislikes: 2,
-      replies: 0,
-      isReply: false,
-    },
-    {
-      id: 3,
-      author: "علیرضا آقایی",
-      date: "۸ دی ۱۴۰۴",
-      content:
-        "اما هنوز شیشه بالابر راننده سایپا اتوماتیک نیست، همین مزیت ایرانخودرو برگ برندشه. (وسط پیچ جاده یکی زنگ میزنه دستت رو فرمانه یکی رو دنده، پاهات درگیر پدالاست، کسی پیشت نیست! گوشی از رو داشبورد پرت میشه طبق معمول، نیش ترمزف کلاچ، گاز! یه دست رو فرمن و با اونیکی دنده میزنی سریع گوشیو تو هوا میگیری برای اینکه صدا به صدا برسه یدونه میزنی تو سر کلید بالابر! به عذن اون خدا شیشه خودش میره بالا!)",
-      likes: 0,
+      date: "۷ دی ۱۴۰۴",
+      content: "من چندین بار این نکات رو اجرا کردم و واقعاً تأثیرش رو دیدم. ممنون از مطالب آموزشی خوبتون.",
+      likes: 8,
       dislikes: 0,
       replies: 0,
-      isReply: true,
+      isReply: false,
     },
   ];
 
@@ -56,23 +43,23 @@ const VideoComments = ({ video }: { video: ItemsId }) => {
       <div className="detailsBox bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
         <h3 className="dt_title text-xl font-bold text-gray-900 mb-4!">
           <strong className="text-red-600">نظرات </strong>
-          درمورد ویدئو {video.sourceName} {video.title}
+          درمورد مطلب آموزشی {education.title}
         </h3>
 
         <div className="flex items-center justify-between">
           <div className="text-center">
-            <div className="text-3xl font-bold text-gray-800">۴.۵</div>
+            <div className="text-3xl font-bold text-gray-800">۴.۸</div>
             <div className="flex justify-center mt-1">
               {[...Array(5)].map((_, i) => (
                 <FaStar
                   key={i}
                   className={`ml-1 ${
-                    i < 4 ? "text-yellow-400" : "text-gray-300"
+                    i < 5 ? "text-yellow-400" : "text-gray-300"
                   }`}
                 />
               ))}
             </div>
-            <div className="text-gray-600 text-sm mt-1">۱۲۴ نظر</div>
+            <div className="text-gray-600 text-sm mt-1">۴۲ نظر</div>
           </div>
 
           <div className="flex-1 max-w-md">
@@ -85,13 +72,13 @@ const VideoComments = ({ video }: { video: ItemsId }) => {
                     style={{
                       width: `${
                         star === 5
-                          ? "70%"
+                          ? "85%"
                           : star === 4
-                          ? "20%"
+                          ? "12%"
                           : star === 3
-                          ? "8%"
+                          ? "3%"
                           : star === 2
-                          ? "2%"
+                          ? "0%"
                           : "0%"
                       }`,
                     }}
@@ -99,13 +86,13 @@ const VideoComments = ({ video }: { video: ItemsId }) => {
                 </div>
                 <span className="text-sm text-gray-600 w-12">
                   {star === 5
-                    ? "۷۰٪"
+                    ? "۸۵٪"
                     : star === 4
-                    ? "۲۰٪"
+                    ? "۱۲٪"
                     : star === 3
-                    ? "۸٪"
+                    ? "۳٪"
                     : star === 2
-                    ? "۲٪"
+                    ? "۰٪"
                     : "۰٪"}
                 </span>
               </div>
@@ -120,7 +107,7 @@ const VideoComments = ({ video }: { video: ItemsId }) => {
               <div className="title_sec mb-4!">
                 <h3 className="text-lg font-bold text-gray-900">دیدگاه</h3>
                 <p className="text-gray-600 mt-2">
-                  شما هم درباره این کالا دیدگاه ثبت کنید
+                  شما هم درباره این مطلب آموزشی دیدگاه ثبت کنید
                 </p>
               </div>
 
@@ -154,7 +141,7 @@ const VideoComments = ({ video }: { video: ItemsId }) => {
                   ]}
                 >
                   <TextArea
-                    placeholder="نظر خود را در مورد این کالا با کاربران دیگر به اشتراک بگذارید.."
+                    placeholder="نظر خود را در مورد این مطلب آموزشی با کاربران دیگر به اشتراک بگذارید.."
                     rows={4}
                     size="large"
                   />
@@ -338,6 +325,108 @@ const VideoComments = ({ video }: { video: ItemsId }) => {
                   </div>
                 </div>
               ))}
+              {comments.map((comment) => (
+                <div
+                  key={comment.id}
+                  className={`comment-box bg-gray-50 rounded-xl p-4 ${
+                    comment.isReply
+                      ? "sm:mr-20 mr-8 border-r-2 border-red-200"
+                      : ""
+                  }`}
+                >
+                  <div className="cm_tp flex gap-3 items-center mb-3!">
+                    <div className="author_name font-bold text-gray-800">
+                      {comment.author}
+                    </div>
+                    <div className="text-xs font-semibold relative pr-3">
+                      {comment.date}
+                      <span className="absolute right-0 top-1/2 transform -translate-y-1/2 w-1.5 h-1.5 bg-purple-200 rounded-full"></span>
+                    </div>
+                  </div>
+
+                  <div className="text-justify text-gray-700 leading-7 mb-3!">
+                    {comment.content}
+                  </div>
+
+                  <div className="cm_btm flex justify-between items-center">
+                    <a
+                      href="#"
+                      className="cm_report flex items-center text-xs text-gray-500 bg-white px-3 py-1 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors"
+                    >
+                      <FaFlag className="ml-1 text-red-500 text-lg" />
+                      گزارش مشکل
+                    </a>
+
+                    <div className="cm_buttons flex items-center gap-2">
+                      <button className="cursor-pointer group flex items-center text-xs text-gray-500 bg-white p-3 rounded-lg">
+                        <span>{toPersianNumbers(comment.replies)}</span>
+                        <FaReply className="mr-1 text-purple-500 text-lg group-hover:-rotate-360 duration-500" />
+                      </button>
+
+                      <button className="cursor-pointer group flex items-center text-xs text-gray-500 bg-white p-3 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors">
+                        <span>{toPersianNumbers(comment.dislikes)}</span>
+                        <FaThumbsDown className="mr-1 group-hover:animate-pulse text-red-500 text-lg" />
+                      </button>
+
+                      <button className="cursor-pointer group flex items-center text-xs text-gray-500 bg-white p-3 rounded-lg hover:bg-green-50 hover:text-green-600 transition-colors">
+                        <span>{toPersianNumbers(comment.likes)}</span>
+                        <FaThumbsUp className="mr-1 group-hover:animate-pulse text-green-500 text-lg" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {comments.map((comment) => (
+                <div
+                  key={comment.id}
+                  className={`comment-box bg-gray-50 rounded-xl p-4 ${
+                    comment.isReply
+                      ? "sm:mr-20 mr-8 border-r-2 border-red-200"
+                      : ""
+                  }`}
+                >
+                  <div className="cm_tp flex gap-3 items-center mb-3!">
+                    <div className="author_name font-bold text-gray-800">
+                      {comment.author}
+                    </div>
+                    <div className="text-xs font-semibold relative pr-3">
+                      {comment.date}
+                      <span className="absolute right-0 top-1/2 transform -translate-y-1/2 w-1.5 h-1.5 bg-purple-200 rounded-full"></span>
+                    </div>
+                  </div>
+
+                  <div className="text-justify text-gray-700 leading-7 mb-3!">
+                    {comment.content}
+                  </div>
+
+                  <div className="cm_btm flex justify-between items-center">
+                    <a
+                      href="#"
+                      className="cm_report flex items-center text-xs text-gray-500 bg-white px-3 py-1 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors"
+                    >
+                      <FaFlag className="ml-1 text-red-500 text-lg" />
+                      گزارش مشکل
+                    </a>
+
+                    <div className="cm_buttons flex items-center gap-2">
+                      <button className="cursor-pointer group flex items-center text-xs text-gray-500 bg-white p-3 rounded-lg">
+                        <span>{toPersianNumbers(comment.replies)}</span>
+                        <FaReply className="mr-1 text-purple-500 text-lg group-hover:-rotate-360 duration-500" />
+                      </button>
+
+                      <button className="cursor-pointer group flex items-center text-xs text-gray-500 bg-white p-3 rounded-lg hover:bg-red-50 hover:text-red-600 transition-colors">
+                        <span>{toPersianNumbers(comment.dislikes)}</span>
+                        <FaThumbsDown className="mr-1 group-hover:animate-pulse text-red-500 text-lg" />
+                      </button>
+
+                      <button className="cursor-pointer group flex items-center text-xs text-gray-500 bg-white p-3 rounded-lg hover:bg-green-50 hover:text-green-600 transition-colors">
+                        <span>{toPersianNumbers(comment.likes)}</span>
+                        <FaThumbsUp className="mr-1 group-hover:animate-pulse text-green-500 text-lg" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -358,4 +447,4 @@ const VideoComments = ({ video }: { video: ItemsId }) => {
   );
 };
 
-export default VideoComments;
+export default EducationComments;

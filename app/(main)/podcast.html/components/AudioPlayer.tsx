@@ -1,447 +1,359 @@
 "use client";
 
-import { getItemId } from "@/services/Item/ItemId";
-import { mainDomain } from "@/utils/mainDomain";
-import { useEffect, useRef, useState } from "react";
-import { FaPause, FaPlay, FaVolumeMute, FaVolumeUp } from "react-icons/fa";
+import React, { useState, useRef, useEffect } from 'react';
+import { FaPlay, FaPause, FaVolumeUp, FaVolumeMute, FaRedo } from 'react-icons/fa';
+import { getItemId } from '@/services/Item/ItemId';
+import { mainDomain } from '@/utils/mainDomain';
+
+interface Items {
+  id: number;
+  title: string;
+  categoryTitle: string;
+}
+
+interface Property {
+  propertyKey: string;
+  value: string;
+}
+
+interface ItemsId {
+  properties: Property[];
+}
 
 function AudioPlayer({ podcast }: { podcast: Items }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [volume, setVolume] = useState(1);
+  const [volume, setVolume] = useState(0.7);
   const [isMuted, setIsMuted] = useState(false);
+  const [audioSrc, setAudioSrc] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [audioUrl, setAudioUrl] = useState<string | null>(null);
-  const [audioLoaded, setAudioLoaded] = useState(false);
-
+  const [error, setError] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const previousVolume = useRef(0.7); // برای ذخیره حجم صدا قبل از mute
 
-  // تابع برای دریافت اطلاعات آهنگ
-  const fetchAudioDetails = async () => {
+  // تابع برای دریافت لینک فایل صوتی
+  const fetchAudioUrl = async (id: number): Promise<string> => {
     try {
       setIsLoading(true);
-      console.log("📥 شروع دریافت اطلاعات آهنگ برای ID:", podcast.id);
+      setError(null);
 
-      const details = await getItemId(podcast.id);
-      console.log("✅ اطلاعات آهنگ دریافت شد:", details);
-
-      // استخراج لینک آهنگ از properties
+      const details: ItemsId = await getItemId(id);
+      
       const audioProperty = details.properties?.find(
-        (prop: any) => prop.propertyKey === "p1047_padcastfile"
+        (prop: Property) => prop.propertyKey === "p1047_padcastfile"
       );
 
-      console.log("🔍 جستجو برای property p1047_padcastfile:", audioProperty);
-
       if (audioProperty?.value) {
-        // ساخت لینک کامل آهنگ
         const cleanPath = audioProperty.value.startsWith("/")
           ? audioProperty.value
           : `/${audioProperty.value}`;
         const fullAudioUrl = `${mainDomain.replace(/\/$/, "")}${cleanPath}`;
-        console.log("🎵 لینک کامل آهنگ:", fullAudioUrl);
-
-        setAudioUrl(fullAudioUrl);
+        return fullAudioUrl;
       } else {
-        console.error("❌ property p1047_padcastfile پیدا نشد یا value ندارد");
+        throw new Error("فایل صوتی برای این پادکست پیدا نشد");
       }
     } catch (error) {
-      console.error("❌ خطا در دریافت اطلاعات آهنگ:", error);
+      console.error("❌ خطا در دریافت لینک آهنگ:", error);
+      setError("خطا در دریافت فایل صوتی");
+      throw error;
     } finally {
       setIsLoading(false);
     }
   };
 
-  // وقتی audioUrl تغییر کرد، audio element را آپدیت کن
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (audio && audioUrl) {
-      console.log("🔄 آپدیت audio element با لینک جدید:", audioUrl);
-
-      const handleLoadedData = () => {
-        console.log("✅ audio data loaded - duration:", audio.duration);
-        setAudioLoaded(true);
-        setDuration(audio.duration);
-      };
-
-      const handleCanPlay = () => {
-        console.log("🎵 audio می‌تواند پخش شود");
-        setAudioLoaded(true);
-      };
-
-      const handleCanPlayThrough = () => {
-        console.log("🎵 audio می‌تواند بدون وقفه پخش شود");
-        setAudioLoaded(true);
-      };
-
-      const handleError = (e: any) => {
-        console.error("❌ خطا در audio element:", e);
-        console.log("📊 وضعیت audio error:", audio.error);
-        setAudioLoaded(false);
-      };
-
-      const handleLoadStart = () => {
-        console.log("🔄 شروع لود audio");
-        setAudioLoaded(false);
-      };
-
-      // اضافه کردن event listeners
-      audio.addEventListener("loadeddata", handleLoadedData);
-      audio.addEventListener("canplay", handleCanPlay);
-      audio.addEventListener("canplaythrough", handleCanPlayThrough);
-      audio.addEventListener("error", handleError);
-      audio.addEventListener("loadstart", handleLoadStart);
-
-      // تنظیم src و load کردن
-      audio.src = audioUrl;
-      audio.load();
-
-      console.log("🎯 audio src تنظیم شد، منتظر events...");
-
-      return () => {
-        audio.removeEventListener("loadeddata", handleLoadedData);
-        audio.removeEventListener("canplay", handleCanPlay);
-        audio.removeEventListener("canplaythrough", handleCanPlayThrough);
-        audio.removeEventListener("error", handleError);
-        audio.removeEventListener("loadstart", handleLoadStart);
-      };
-    }
-  }, [audioUrl]);
-
-  // event listeners اصلی برای audio
-  useEffect(() => {
+  // تابع برای کلیک روی پلی/پاز
+  const handlePlayClick = async () => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    console.log("🎧 تنظیم event listeners اصلی برای audio");
-
-    const setAudioTime = () => {
-      setCurrentTime(audio.currentTime);
-    };
-
-    const handleEnded = () => {
-      console.log("⏹️ آهنگ به پایان رسید");
-      setIsPlaying(false);
-      setCurrentTime(0);
-    };
-
-    const handlePlay = () => {
-      console.log("▶️ آهنگ شروع به پخش کرد");
-      setIsPlaying(true);
-    };
-
-    const handlePause = () => {
-      console.log("⏸️ آهنگ متوقف شد");
-      setIsPlaying(false);
-    };
-
-    audio.addEventListener("timeupdate", setAudioTime);
-    audio.addEventListener("ended", handleEnded);
-    audio.addEventListener("play", handlePlay);
-    audio.addEventListener("pause", handlePause);
-
-    return () => {
-      audio.removeEventListener("timeupdate", setAudioTime);
-      audio.removeEventListener("ended", handleEnded);
-      audio.removeEventListener("play", handlePlay);
-      audio.removeEventListener("pause", handlePause);
-    };
-  }, []);
-
-  const togglePlayPause = async () => {
-    console.log("🖱️ کلیک روی دکمه پلی/پاز");
-    console.log("📊 وضعیت فعلی:", {
-      isPlaying,
-      audioUrl,
-      audioLoaded,
-      isLoading,
-    });
-
-    // اگر audioUrl وجود ندارد، اول اطلاعات را دریافت کن
-    if (!audioUrl) {
-      console.log("🎵 audioUrl وجود ندارد، دریافت اطلاعات...");
-      await fetchAudioDetails();
-      return;
-    }
-
-    const audio = audioRef.current;
-    if (!audio) {
-      console.error("❌ audioRef.current null است");
-      return;
-    }
-
-    console.log("📊 وضعیت audio element:", {
-      paused: audio.paused,
-      ended: audio.ended,
-      readyState: audio.readyState,
-      networkState: audio.networkState,
-      error: audio.error,
-      src: audio.src,
-    });
-
-    if (isPlaying) {
-      console.log("⏸️ توقف آهنگ");
-      audio.pause();
-    } else {
-      console.log("▶️ تلاش برای پخش آهنگ");
-      try {
-        // بررسی اینکه آیا audio آماده پخش است
-        if (audio.readyState >= 2) {
-          // HAVE_CURRENT_DATA or more
-          await audio.play();
-          console.log("✅ پخش آهنگ موفقیت‌آمیز بود");
-        } else {
-          console.log("⏳ audio آماده پخش نیست، منتظر می‌مانیم...");
-          // اگر آماده نیست، منتظر می‌مانیم و دوباره تلاش می‌کنیم
-          setTimeout(() => {
-            audio
-              .play()
-              .then(() => {
-                console.log("✅ پخش آهنگ بعد از انتظار موفق بود");
-              })
-              .catch((error) => {
-                console.error("❌ خطا در پخش بعد از انتظار:", error);
-              });
-          }, 500);
-        }
-      } catch (error) {
-        console.error("❌ خطا در پخش آهنگ:", error);
-        // تلاش مجدد
+    try {
+      if (!audioSrc) {
+        const url = await fetchAudioUrl(podcast.id);
+        setAudioSrc(url);
+        
         setTimeout(() => {
-          audio.play().catch((e) => console.error("❌ خطا در تلاش مجدد:", e));
-        }, 1000);
+          audio.play().then(() => {
+            setIsPlaying(true);
+          }).catch(error => {
+            console.error("❌ خطا در پخش:", error);
+            setError("خطا در پخش فایل صوتی");
+          });
+        }, 100);
+      } else {
+        if (audio.paused) {
+          audio.play().then(() => {
+            setIsPlaying(true);
+          }).catch(error => {
+            console.error("❌ خطا در پخش:", error);
+            setError("خطا در پخش فایل صوتی");
+          });
+        } else {
+          audio.pause();
+          setIsPlaying(false);
+        }
+      }
+    } catch (error) {
+      console.error("❌ خطا در عملیات پخش:", error);
+      setError("خطا در دریافت یا پخش فایل صوتی");
+    }
+  };
+
+  // آپدیت زمان جاری
+  const handleTimeUpdate = () => {
+    const audio = audioRef.current;
+    if (audio) {
+      setCurrentTime(audio.currentTime);
+    }
+  };
+
+  // وقتی metadata لود می‌شود
+  const handleLoadedMetadata = () => {
+    const audio = audioRef.current;
+    if (audio) {
+      setDuration(audio.duration);
+    }
+  };
+
+  // تغییر موقعیت پخش
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const audio = audioRef.current;
+    if (audio) {
+      const newTime = parseFloat(e.target.value);
+      audio.currentTime = newTime;
+      setCurrentTime(newTime);
+    }
+  };
+
+  // تغییر حجم صدا
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const audio = audioRef.current;
+    if (audio) {
+      const newVolume = parseFloat(e.target.value);
+      setVolume(newVolume);
+      audio.volume = newVolume;
+      setIsMuted(newVolume === 0);
+      if (newVolume > 0) {
+        previousVolume.current = newVolume;
       }
     }
   };
 
-  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const newTime = parseFloat(e.target.value);
-    console.log("⏩ seek به زمان:", newTime);
-    audio.currentTime = newTime;
-    setCurrentTime(newTime);
-  };
-
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const audio = audioRef.current;
-    if (!audio) return;
-
-    const newVolume = parseFloat(e.target.value);
-    console.log("🔊 تغییر حجم صدا به:", newVolume);
-    setVolume(newVolume);
-    audio.volume = newVolume;
-    setIsMuted(newVolume === 0);
-  };
-
+  // قطع و وصل صدا
   const toggleMute = () => {
     const audio = audioRef.current;
-    if (!audio) return;
-
-    console.log("🔇 تغییر حالت mute:", !isMuted);
-    if (isMuted) {
-      audio.volume = volume;
-      setIsMuted(false);
-    } else {
-      audio.volume = 0;
-      setIsMuted(true);
+    if (audio) {
+      if (isMuted) {
+        // Unmute - برگشت به حجم قبلی
+        audio.volume = previousVolume.current;
+        setVolume(previousVolume.current);
+        setIsMuted(false);
+      } else {
+        // Mute - ذخیره حجم فعلی و صفر کردن
+        previousVolume.current = volume;
+        audio.volume = 0;
+        setVolume(0);
+        setIsMuted(true);
+      }
     }
   };
 
+  // وقتی audio پایان می‌یابد
+  const handleEnded = () => {
+    setIsPlaying(false);
+    setCurrentTime(0);
+  };
+
+  // فرمت زمان به دقیقه:ثانیه
   const formatTime = (time: number) => {
     if (isNaN(time)) return "0:00";
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
-    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
 
-  // تست دسترسی به فایل
-  const testAudioAccess = async () => {
-    if (!audioUrl) return;
-
-    try {
-      console.log("🧪 تست دسترسی به فایل صوتی...");
-      const response = await fetch(audioUrl, { method: "HEAD" });
-      console.log("📊 وضعیت HTTP:", response.status, response.ok);
-
-      if (response.ok) {
-        console.log("✅ فایل صوتی قابل دسترسی است");
-      } else {
-        console.error(
-          "❌ فایل صوتی قابل دسترسی نیست - وضعیت:",
-          response.status
-        );
-      }
-    } catch (error) {
-      console.error("❌ خطا در تست دسترسی:", error);
+  // بازنشانی پلیر
+  const resetPlayer = () => {
+    setAudioSrc(null);
+    setIsPlaying(false);
+    setCurrentTime(0);
+    setError(null);
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.src = '';
     }
   };
 
-  // وقتی audioUrl تغییر کرد، تست دسترسی را اجرا کن
-  useEffect(() => {
-    if (audioUrl) {
-      testAudioAccess();
-    }
-  }, [audioUrl]);
+  // محاسبه درصد پیشرفت
+  const progressPercentage = duration > 0 ? (currentTime / duration) * 100 : 0;
 
   return (
-    <div
-      className="w-full bg-white rounded-xl shadow-lg border border-gray-200 p-3 sm:p-4 mb-2!"
-      dir="rtl"
-    >
-      {/* Audio Element (مخفی) */}
-      <audio ref={audioRef} preload="auto">
-        مرورگر شما از پخش کننده صدا پشتیبانی نمی‌کند.
-      </audio>
-
-      {/* نمایش اطلاعات دیباگ */}
-      <div className="text-xs text-gray-500 mb-2 p-2 bg-gray-100 rounded">
-        <div>Audio URL: {audioUrl ? "✅ موجود" : "❌ ناموجود"}</div>
-        <div>Audio Loaded: {audioLoaded ? "✅" : "❌"}</div>
-        <div>isPlaying: {isPlaying ? "▶️" : "⏸️"}</div>
-        <div>isLoading: {isLoading ? "🔄" : "✅"}</div>
-        <div>Duration: {formatTime(duration)}</div>
-        <button
-          onClick={testAudioAccess}
-          className="mt-1 px-2 py-1 bg-blue-500 text-white rounded text-xs"
-        >
-          تست دسترسی
-        </button>
+    <div className="w-full bg-linear-to-br from-white to-gray-50 rounded-2xl shadow-lg border border-red-200 p-4 lg:p-6" dir="ltr">
+      
+      {/* هدر پلیر */}
+      <div className="flex items-start justify-between mb-4" dir="rtl">
+        <div className="flex-1 min-w-0">
+          <h3 className="font-bold text-gray-800 text-lg lg:text-xl line-clamp-2 leading-tight">
+            {podcast.title}
+          </h3>
+          <p className="text-gray-600 text-sm mt-1">
+            {podcast.categoryTitle}
+          </p>
+        </div>
       </div>
 
-      {/* دسکتاپ - چیدمان افقی */}
-      <div className="flex items-center gap-4">
-        {/* اطلاعات و کنترل‌ها - وسط */}
-        <div className="flex-1 min-w-0">
-          {/* عنوان و هنرمند */}
-          <div className="mb-2! text-right">
-            <h3 className="font-bold text-gray-800 text-xl line-clamp-2 mb-2!">
-              {podcast.title}
-            </h3>
-            <p className="text-gray-600 text-xs truncate">
-              {podcast.categoryTitle}
-            </p>
-          </div>
+     
 
-          <div className="flex flex-col items-end w-full">
-            {/* Progress Bar و زمان */}
-            <div className="flex items-center gap-3 w-full">
-              <span className="text-xs text-gray-500 w-8 shrink-0 text-left">
-                {formatTime(duration)}
-              </span>
-
-              <div className="flex-1">
-                <input
-                  dir="ltr"
-                  type="range"
-                  min="0"
-                  max={duration || 0}
-                  value={currentTime}
-                  onChange={handleSeek}
-                  disabled={!audioLoaded}
-                  className={`w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer slider ${
-                    !audioLoaded ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-                />
-              </div>
-
-              <span className="text-xs text-gray-500 w-8 shrink-0 text-right">
-                {formatTime(currentTime)}
-              </span>
-            </div>
-
-            {/* کنترل حجم صدا */}
-            <div className="flex items-center gap-2 shrink-0 mt-2">
-              <div className="w-20">
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value={isMuted ? 0 : volume}
-                  onChange={handleVolumeChange}
-                  disabled={!audioLoaded}
-                  className={`w-full h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer volume-slider ${
-                    !audioLoaded ? "opacity-50 cursor-not-allowed" : ""
-                  }`}
-                />
-              </div>
-
-              <button
-                onClick={toggleMute}
-                disabled={!audioLoaded}
-                className={`text-gray-600 hover:text-gray-800 transition-colors p-1 w-9 ${
-                  !audioLoaded ? "opacity-50 cursor-not-allowed" : ""
-                }`}
-              >
-                {isMuted ? (
-                  <FaVolumeMute className="text-sm" />
-                ) : (
-                  <FaVolumeUp className="text-sm" />
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* دکمه پلی - سمت چپ */}
-        <div className="flex items-center gap-3 shrink-0">
+      {/* کنترل‌های اصلی */}
+      <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6">
+        
+        {/* دکمه پلی/پاز */}
+        <div className="flex items-center justify-center lg:justify-start">
           <button
-            onClick={togglePlayPause}
-            disabled={isLoading || (audioUrl && !audioLoaded)}
-            className="w-10 h-10 bg-[#ce1a2a] cursor-pointer text-white rounded-full hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shrink-0"
+            onClick={handlePlayClick}
+            disabled={isLoading}
+            className="w-16 h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-[#ce1a2a] to-[#a01522] text-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105 active:scale-95"
           >
             {isLoading ? (
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+              <div className="w-6 h-6 lg:w-7 lg:h-7 border-2 border-white border-t-transparent rounded-full animate-spin" />
             ) : isPlaying ? (
-              <FaPause className="text-sm" />
+              <FaPause className="text-xl lg:text-2xl" />
             ) : (
-              <FaPlay className="text-sm" />
+              <FaPlay className="text-xl lg:text-2xl ml-1" />
             )}
           </button>
         </div>
+
+        {/* کنترل‌های پخش و صدا */}
+        <div className="flex-1 space-y-4">
+          
+          {/* نوار پیشرفت */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between text-xs text-gray-500">
+              <span>{formatTime(currentTime)}</span>
+              <span>{formatTime(duration)}</span>
+            </div>
+            
+            <div className="relative">
+              <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div 
+                  className="h-full bg-gradient-to-r from-[#ce1a2a] to-[#e53e3e] rounded-full transition-all duration-200"
+                  style={{ width: `${progressPercentage}%` }}
+                />
+              </div>
+              <input
+                type="range"
+                min="0"
+                max={duration || 0}
+                value={currentTime}
+                onChange={handleSeek}
+                disabled={!audioSrc || isLoading}
+                className="absolute top-0 left-0 w-full h-2 opacity-0 cursor-pointer disabled:cursor-not-allowed"
+              />
+            </div>
+          </div>
+
+          {/* کنترل حجم صدا */}
+          <div className="flex items-center justify-between lg:justify-start lg:gap-4">
+            
+            {/* کنترل حجم */}
+            <div className="flex items-center gap-3 order-2 lg:order-1">
+              <button
+                onClick={toggleMute}
+                disabled={!audioSrc || isLoading}
+                className="text-gray-600 hover:text-gray-800 transition-colors p-2 disabled:opacity-50"
+              >
+                {isMuted || volume === 0 ? (
+                  <FaVolumeMute className="text-lg" />
+                ) : volume > 0.5 ? (
+                  <FaVolumeUp className="text-lg" />
+                ) : (
+                  <FaVolumeUp className="text-lg" />
+                )}
+              </button>
+
+              <div className="w-24 lg:w-32">
+                <div className="relative">
+                  <div className="w-full h-1.5 bg-gray-200 rounded-full">
+                    <div 
+                      className="h-full bg-gradient-to-r from-gray-400 to-gray-600 rounded-full transition-all duration-200"
+                      style={{ width: `${isMuted ? 0 : volume * 100}%` }}
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.01"
+                    value={isMuted ? 0 : volume}
+                    onChange={handleVolumeChange}
+                    disabled={!audioSrc || isLoading}
+                    className="absolute top-0 left-0 w-full h-1.5 opacity-0 cursor-pointer disabled:cursor-not-allowed"
+                  />
+                </div>
+              </div>
+            </div>
+
+           
+          </div>
+        </div>
       </div>
 
+      {/* نمایش خطا */}
+      {error && (
+        <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm flex items-center justify-between" dir="rtl">
+          <span>{error}</span>
+          <button 
+            onClick={resetPlayer}
+            className="text-red-800 hover:text-red-900 font-medium text-xs bg-red-100 px-3 py-1 rounded-lg transition-colors"
+          >
+            تلاش مجدد
+          </button>
+        </div>
+      )}
+
+      {/* Audio Element */}
+      <audio
+        ref={audioRef}
+        src={audioSrc || undefined}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        onEnded={handleEnded}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onError={(e) => {
+          console.error('❌ خطای audio:', e);
+          setError("خطا در پخش فایل صوتی");
+        }}
+      />
+
       <style jsx>{`
-        .slider::-webkit-slider-thumb {
+        /* استایل‌های سفارشی برای اسلایدرها */
+        input[type="range"]::-webkit-slider-thumb {
           appearance: none;
-          height: 14px;
-          width: 14px;
+          height: 18px;
+          width: 18px;
           border-radius: 50%;
           background: #ce1a2a;
           cursor: pointer;
-          border: 2px solid white;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
-        .slider::-moz-range-thumb {
-          height: 14px;
-          width: 14px;
-          border-radius: 50%;
-          background: #ce1a2a;
-          cursor: pointer;
-          border: 2px solid white;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+          border: 3px solid white;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+          transition: all 0.2s ease;
         }
 
-        .volume-slider::-webkit-slider-thumb {
-          appearance: none;
-          height: 12px;
-          width: 12px;
-          border-radius: 50%;
-          background: #ce1a2a;
-          cursor: pointer;
-          border: 2px solid white;
-          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        input[type="range"]::-webkit-slider-thumb:hover {
+          transform: scale(1.1);
+          box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
         }
-        .volume-slider::-moz-range-thumb {
-          height: 12px;
-          width: 12px;
+
+        input[type="range"]::-moz-range-thumb {
+          height: 18px;
+          width: 18px;
           border-radius: 50%;
           background: #ce1a2a;
           cursor: pointer;
-          border: 2px solid white;
-          box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+          border: 3px solid white;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         }
       `}</style>
     </div>

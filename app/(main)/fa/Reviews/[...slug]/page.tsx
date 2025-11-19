@@ -12,9 +12,14 @@ async function pageReviews({ params }: { params: Promise<{ slug: string }> }) {
     PageIndex: 1,
     PageSize: 200,
   });
+
   
 
-  return <CarBrands carBrands={carBrands}/>;
+  if (carBrands.length > 0) {
+    return <CarBrands carBrands={carBrands} />;
+  } else {
+    return <>موجود نیست</>;
+  }
 }
 
 export default pageReviews;

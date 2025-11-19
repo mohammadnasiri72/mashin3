@@ -51,13 +51,19 @@ export async function middleware(request: Request) {
       const data: ItemsCategoryId = await getCategoryByUrl(decodedPathname);
       if (data.id > 0 && id !== data?.id) {
         return NextResponse.redirect(
-          new URL((pathname+`?id=${data?.id}`).toLowerCase(), request.url),
+          new URL((pathname + `?id=${data?.id}`).toLowerCase(), request.url),
           { status: 301 }
         );
       }
     } catch (error) {
       console.error("Error fetching item details:", error);
     }
+  } else if (pathname.startsWith("/AutoServices.html")) {
+    const decodedPathname = decodeURIComponent(pathname);
+    return NextResponse.redirect(
+      new URL(decodedPathname.toLowerCase(), request.url),
+      { status: 301 }
+    );
   } else {
     const decodedPathname = decodeURIComponent(pathname);
     try {

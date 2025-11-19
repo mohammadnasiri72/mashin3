@@ -39,16 +39,18 @@ const CarBrands = ({carBrands}:{carBrands:ItemsCategory[]}) => {
     },
   ];
 
+  const parentTitle = carBrands[0].parentId === 6059 ? 'موتور سیکلت' : carBrands[0].parentId === 6058 ? 'خودرو' : ''
+
   return (
     <div className="min-h-screen bg-[#f4f4f4] py-8">
       <div className="mx-auto px-4">
         {/* هدر صفحه */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 text-center mb-4">
-            <span className="text-red-600">برندهای خودرو</span> در بازار ایران
+            <span className="text-red-600">برند های  {parentTitle}</span> در بازار ایران
           </h1>
           <p className="text-gray-600 text-center max-w-2xl mx-auto">
-            بررسی کامل تمامی برندهای خودروی موجود در بازار ایران با جزئیات فنی،
+            بررسی کامل تمامی برند های  {parentTitle} موجود در بازار ایران با جزئیات فنی،
             قیمت و نظرات کاربران
           </p>
         </div>
@@ -75,7 +77,7 @@ const CarBrands = ({carBrands}:{carBrands:ItemsCategory[]}) => {
                   <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 hover:border-red-200">
                     {/* لوگو و نام برند */}
                     <div className="flex flex-col items-center text-center">
-                      <div className=" overflow-hidden flex items-center justify-center ">
+                      <div className=" overflow-hidden flex items-center justify-center w-28 h-28">
                         <img
                           src={mainDomainOld+ brand.image}
                           alt={brand.title}

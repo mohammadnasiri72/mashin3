@@ -27,6 +27,8 @@ async function page({
       )
     : [];
 
+    
+
   return (
     <>
       <HeroSection />
