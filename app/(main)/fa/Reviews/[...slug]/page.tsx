@@ -5,18 +5,28 @@ async function pageReviews({ params }: { params: Promise<{ slug: string }> }) {
   const param = await params;
   const id = Number(param.slug[0]);
 
-  const carBrands: ItemsCategory[] = await getCategory({
-    TypeId: 1042,
-    LangCode: "fa",
-    ParentIdArray: id,
-    PageIndex: 1,
-    PageSize: 200,
-  });
+  let brand: ItemsCategory[] = [];
 
-  
+  if (id === 6058) {
+    brand = await getCategory({
+      TypeId: 1042,
+      LangCode: "fa",
+      ParentIdArray: 6058,
+      PageIndex: 1,
+      PageSize: 200,
+    });
+  } else if (id === 6059) {
+    brand = await getCategory({
+      TypeId: 1052,
+      LangCode: "fa",
+      ParentIdArray: 6059,
+      PageIndex: 1,
+      PageSize: 200,
+    });
+  }
 
-  if (carBrands.length > 0) {
-    return <CarBrands carBrands={carBrands} />;
+  if (brand.length > 0) {
+    return <CarBrands carBrands={brand} />;
   } else {
     return <>موجود نیست</>;
   }

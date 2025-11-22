@@ -13,6 +13,7 @@ export default function NewsSection({
   saleNews: Items[];
   lastCompare: Items[];
 }) {
+  
   return (
     <div className="mb-12">
       <div className="mx-auto px-4">
@@ -101,7 +102,7 @@ export default function NewsSection({
           <div className="lg:w-1/4 w-full">
             <div className="mb-2! p-3 sm:bg-transparent bg-[#f6eced] rounded-xl flex sm:justify-start justify-center items-center">
               <h3 className="pb-0! mb-0! text-[#292929]! font-bold! inline-block relative pl-2.5 text-[22px] z-10 after:content-[''] after:absolute after:left-0 after:right-0 after:bottom-0 after:h-1/2 after:-z-10 sm:after:bg-[#ffd6db]">
-                فروش ویژه
+                شرایط فروش و پیش فروش
               </h3>
             </div>
             <div className="h-64 px-2">

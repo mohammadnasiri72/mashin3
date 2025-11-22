@@ -11,6 +11,7 @@ import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 const CarSpecsSection = ({ carSpecs }: { carSpecs: Items[] }) => {
+
   const swiperRef = useRef<any>(null);
 
   const handlePrev = () => {

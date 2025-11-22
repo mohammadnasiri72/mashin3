@@ -1,12 +1,8 @@
-import { createMarkup, formatPersianDate } from "@/utils/func";
+import { createMarkup, formatPersianDate, htmlToPlainText } from "@/utils/func";
 import { mainDomainOld } from "@/utils/mainDomain";
 import Link from "next/link";
 import { FaCalendar, FaComments } from "react-icons/fa";
 import { FaArrowLeftLong } from "react-icons/fa6";
-
-
-
-
 
 const NewsListSection = ({ news }: { news: Items[] }) => {
   return (
@@ -21,7 +17,7 @@ const NewsListSection = ({ news }: { news: Items[] }) => {
           </div>
 
           <Link
-            href="#"
+            href="/fa/news/اخبار-خودرو.html"
             className="text-[#ce1a2a]! text-sm flex items-center gap-1"
           >
             نمایش بیشتر
@@ -53,10 +49,9 @@ const NewsListSection = ({ news }: { news: Items[] }) => {
                         {item.title}
                       </h4>
                       {item.body && (
-                        <div
-                          className="text-gray-600 text-xs mb-3 line-clamp-3 mt-1 text-justify group-hover:text-white! duration-300"
-                          dangerouslySetInnerHTML={createMarkup(item.body)}
-                        />
+                        <div className="text-gray-600 text-xs mb-3 line-clamp-3 mt-1 text-justify group-hover:text-white! duration-300">
+                          {htmlToPlainText(item.body)}
+                        </div>
                       )}
                     </div>
                     <div className="flex justify-between text-xs text-gray-500  w-full group-hover:text-white! duration-300 sm:mt-0 mt-3 ">

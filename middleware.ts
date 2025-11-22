@@ -8,6 +8,29 @@ export async function middleware(request: Request) {
   const { pathname, searchParams } = url;
 
   // بررسی ریدایرکت محصولات
+  if (pathname.startsWith("/fa/")) {
+    if (pathname !== pathname.toLowerCase()) {
+      return NextResponse.redirect(
+        new URL(pathname.toLowerCase(), request.url),
+        { status: 301 }
+      );
+    }
+  }
+  if (pathname.startsWith("/motorcycles/")) {
+    const decodedPathname = decodeURIComponent(pathname);
+    const id = Number(searchParams.get("id"));
+    try {
+      const data: ItemsCategoryId = await getCategoryByUrl(decodedPathname);
+      if (data.id > 0 && id !== data?.id) {
+        return NextResponse.redirect(
+          new URL((pathname + `?id=${data?.id}`).toLowerCase(), request.url),
+          { status: 301 }
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching item details:", error);
+    }
+  }
   if (pathname.startsWith("/car/")) {
     const id = searchParams.get("id");
 
@@ -36,14 +59,8 @@ export async function middleware(request: Request) {
     } catch (error) {
       console.error("Error fetching item details:", error);
     }
-  } else if (pathname.startsWith("/fa/")) {
-    if (pathname !== pathname.toLowerCase()) {
-      return NextResponse.redirect(
-        new URL(pathname.toLowerCase(), request.url),
-        { status: 301 }
-      );
-    }
-  } else if (pathname.startsWith("/cars/")) {
+  }
+  if (pathname.startsWith("/cars/")) {
     const id = Number(searchParams.get("id"));
 
     const decodedPathname = decodeURIComponent(pathname);
@@ -58,13 +75,22 @@ export async function middleware(request: Request) {
     } catch (error) {
       console.error("Error fetching item details:", error);
     }
-  } else if (pathname.startsWith("/AutoServices.html")) {
+  }
+  if (pathname.startsWith("/AutoServices.html")) {
     const decodedPathname = decodeURIComponent(pathname);
     return NextResponse.redirect(
       new URL(decodedPathname.toLowerCase(), request.url),
       { status: 301 }
     );
-  } else {
+  }
+  if (pathname.startsWith("/WhichCars.html")) {
+    const decodedPathname = decodeURIComponent(pathname);
+    return NextResponse.redirect(
+      new URL(decodedPathname.toLowerCase(), request.url),
+      { status: 301 }
+    );
+  }
+  if (true) {
     const decodedPathname = decodeURIComponent(pathname);
     try {
       const data: ItemsId = await getItemByUrl(decodedPathname);

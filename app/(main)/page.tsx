@@ -12,6 +12,7 @@ import NewsSection from "../components/NewsSection";
 import PopularCarsSection from "../components/PopularCarsSection";
 import ServicesSection from "../components/ServicesSection";
 import VideoBannerSection from "../components/VideoBannerSection";
+import { getCategory } from "@/services/Category/Category";
 
 export default async function Home() {
   const slider: Items[] = await getItem({ TypeId: 6, langCode: "fa" });
@@ -21,6 +22,13 @@ export default async function Home() {
     langCode: "fa",
     PageIndex: 1,
     PageSize: 6,
+  });
+  const newsCar: Items[] = await getItem({
+    TypeId: 5,
+    langCode: "fa",
+    CategoryIdArray: "6323",
+    PageIndex: 1,
+    PageSize: 2,
   });
   const saleNews: Items[] = await getItem({
     TypeId: 5,
@@ -59,6 +67,14 @@ export default async function Home() {
     PageSize: 12,
   });
 
+  const brandMotor : ItemsCategory[] = await getCategory({
+    TypeId: 1052,
+    LangCode: "fa",
+    ParentIdArray: 6059,
+    PageIndex: 1,
+    PageSize: 200,
+  });
+
   return (
     <div className="page-wrapper min-h-screen bg-[#f4f4f4]">
       <div className="content-box pt-4">
@@ -67,7 +83,7 @@ export default async function Home() {
 
         {/* News and Comparison */}
         <NewsSection
-          news={news.slice(0, 2)}
+          news={newsCar}
           saleNews={saleNews}
           lastCompare={lastCompare}
         />
@@ -94,7 +110,7 @@ export default async function Home() {
         <CarBrandPricesSection />
 
         {/* Motorcycle Brands Section */}
-        <MotorcycleBrandsSection />
+        <MotorcycleBrandsSection brands={brandMotor}/>
 
         {/* Car Finder Section */}
         <CarFinderSection />

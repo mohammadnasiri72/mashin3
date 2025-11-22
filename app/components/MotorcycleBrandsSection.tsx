@@ -1,73 +1,13 @@
 "use client";
 
-import Image from "next/image";
+import { mainDomainOld } from "@/utils/mainDomain";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import "swiper/css";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-interface MotorcycleBrand {
-  id: number;
-  image: string;
-  alt: string;
-  name: string;
-}
-
-interface MotorcyclePriceItem {
-  id: number;
-  brand: string;
-  model: string;
-  price: string;
-  date: string;
-  brandId: number;
-}
-
-interface MotorcycleBrandsSectionProps {
-  brands?: MotorcycleBrand[];
-  priceItems?: MotorcyclePriceItem[];
-}
-
-const MotorcycleBrandsSection = ({
-  brands = [
-    {
-      id: 1,
-      image: "/images/icons/logo-brand-1.png",
-      alt: "آپریلیا",
-      name: "آپریلیا",
-    },
-    {
-      id: 2,
-      image: "/images/icons/logo-brand-2.png",
-      alt: "سوزوکی",
-      name: "سوزوکی",
-    },
-    {
-      id: 3,
-      image: "/images/icons/logo-brand-3.png",
-      alt: "باجاج",
-      name: "باجاج",
-    },
-    {
-      id: 4,
-      image: "/images/icons/logo-brand-4.png",
-      alt: "بنلی",
-      name: "بنلی",
-    },
-    {
-      id: 5,
-      image: "/images/icons/logo-brand-5.png",
-      alt: "کاوازاکی",
-      name: "کاوازاکی",
-    },
-    {
-      id: 6,
-      image: "/images/icons/logo-brand-4.png",
-      alt: "بنلی",
-      name: "بنلی",
-    },
-  ],
-}: MotorcycleBrandsSectionProps) => {
-  const [activeBrand, setActiveBrand] = useState<number>(2);
+const MotorcycleBrandsSection = ({ brands }: { brands: ItemsCategory[] }) => {
   const [currentGroup, setCurrentGroup] = useState<number>(0);
   const [currentSlidesPerView, setCurrentSlidesPerView] = useState<number>(5);
   const [totalGroups, setTotalGroups] = useState<number>(0);
@@ -83,9 +23,7 @@ const MotorcycleBrandsSection = ({
     }
   }, [brands.length, currentSlidesPerView]);
 
-  const handleBrandClick = (brandId: number) => {
-    setActiveBrand(brandId);
-  };
+ 
 
   const handleGroupClick = (groupIndex: number) => {
     if (swiperRef.current && swiperRef.current.swiper) {
@@ -98,7 +36,7 @@ const MotorcycleBrandsSection = ({
   const handleSlideChange = (swiper: any) => {
     // استفاده از realIndex برای حالت loop
     const realIndex = swiper.realIndex ?? swiper.activeIndex;
-    
+
     if (currentSlidesPerView > 0 && totalGroups > 0) {
       const newGroup = Math.floor(realIndex / currentSlidesPerView);
       setCurrentGroup(newGroup % totalGroups); // برای اطمینان از محدوده معتبر
@@ -113,7 +51,7 @@ const MotorcycleBrandsSection = ({
     const realIndex = swiper.realIndex ?? swiper.activeIndex;
     const actualBrandsCount = brands.length;
     const newTotalGroups = Math.ceil(actualBrandsCount / slidesPerView);
-    
+
     if (newTotalGroups > 0) {
       const newGroup = Math.floor(realIndex / slidesPerView) % newTotalGroups;
       setCurrentGroup(newGroup);
@@ -124,11 +62,14 @@ const MotorcycleBrandsSection = ({
   // مقداردهی اولیه
   useEffect(() => {
     if (swiperRef.current && swiperRef.current.swiper) {
-      const initialSlidesPerView = swiperRef.current.swiper.params.slidesPerView;
+      const initialSlidesPerView =
+        swiperRef.current.swiper.params.slidesPerView;
       setCurrentSlidesPerView(initialSlidesPerView);
-      
+
       const actualBrandsCount = brands.length;
-      const initialTotalGroups = Math.ceil(actualBrandsCount / initialSlidesPerView);
+      const initialTotalGroups = Math.ceil(
+        actualBrandsCount / initialSlidesPerView
+      );
       setTotalGroups(initialTotalGroups);
     }
   }, [brands.length]);
@@ -179,7 +120,9 @@ const MotorcycleBrandsSection = ({
                     <button
                       key={index}
                       className={`custom-group-bullet ${
-                        currentGroup === index ? "custom-group-bullet-active" : ""
+                        currentGroup === index
+                          ? "custom-group-bullet-active"
+                          : ""
                       }`}
                       onClick={() => handleGroupClick(index)}
                       aria-label={`گروه ${index + 1}`}
@@ -226,17 +169,14 @@ const MotorcycleBrandsSection = ({
               >
                 {brands.map((brand) => (
                   <SwiperSlide key={brand.id}>
-                    <div
+                    <Link href={brand.url}
                       className={`brand-box flex flex-col items-center justify-between text-center p-5 h-52! border border-gray-200 rounded-2xl relative bg-white cursor-pointer transition-all duration-300 hover:shadow-md hover:border-gray-300 `}
-                      onClick={() => handleBrandClick(brand.id)}
                     >
                       <div className="w-full h-28 flex items-start justify-center">
                         <div className="h-20 flex items-center justify-center">
-                          <Image
-                            src={brand.image}
-                            alt={brand.alt}
-                            width={150}
-                            height={150}
+                          <img
+                            src={mainDomainOld + brand.image}
+                            alt={brand.title}
                             className="max-w-full max-h-full object-contain"
                           />
                         </div>
@@ -244,9 +184,9 @@ const MotorcycleBrandsSection = ({
                       <h4
                         className={`text-sm font-bold absolute bottom-5 left-0 right-0 text-center text-[#656565]! `}
                       >
-                        {brand.name}
+                        {brand.title}
                       </h4>
-                    </div>
+                    </Link>
                   </SwiperSlide>
                 ))}
               </Swiper>

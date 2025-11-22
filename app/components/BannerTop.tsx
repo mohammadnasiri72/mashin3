@@ -1,6 +1,8 @@
 import { mainDomainOld } from "@/utils/mainDomain";
+import Link from "next/link";
 
 function BannerTop({ banner }: { banner: Items[] }) {
+
   return (
     <>
       <div className="bannerTop_wrap my-8">
@@ -11,13 +13,13 @@ function BannerTop({ banner }: { banner: Items[] }) {
                 key={ban.id}
                 className="banner_box rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-shadow"
               >
-                <a href={ban.sourceLink}>
+                <Link href={ban.url || "#"}>
                   <img
                     src={mainDomainOld + ban.image}
                     alt={ban.title}
                     className="w-full h-auto rounded-2xl transition-transform hover:scale-105"
                   />
-                </a>
+                </Link>
               </div>
             ))}
           </div>

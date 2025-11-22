@@ -1,6 +1,9 @@
 import { getItem } from "@/services/Item/Item";
+import { getItemByIds } from "@/services/Item/ItemByIds";
 import { getItemId } from "@/services/Item/ItemId";
 import React from "react";
+import CompareCars from "./components/CompareCars";
+import SideBarCompareCars from "./components/SideBarCompareCars";
 
 async function pageWhichcarsDainamic({
   params,
@@ -19,10 +22,23 @@ async function pageWhichcarsDainamic({
   }
 
   const whichcars: ItemsId = await getItemId(id);
+  const ids = whichcars.properties.find((w) => w.propertyId === 22664)?.value;
 
-  console.log(whichcars);
-
-  return <div></div>;
+  const dataCompare: ItemsId[] = await getItemByIds(String(ids));
+  const popularComparisons: Items[] = await getItem({
+    TypeId: 1045,
+    langCode: "fa",
+    PageSize: 15,
+  });
+  return (
+    <>
+      <CompareCars
+        whichcars={whichcars}
+        dataCompare={dataCompare}
+        popularComparisons={popularComparisons}
+      />
+    </>
+  );
 }
 
 export default pageWhichcarsDainamic;
